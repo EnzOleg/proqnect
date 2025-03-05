@@ -55,7 +55,7 @@ body::before {
 
 .form-container {
   background: linear-gradient(135deg, #ffffff, #f8f9fd);
-  border-radius: 10px;
+  border-radius: 15px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   display: flex;
@@ -150,4 +150,36 @@ body::before {
 
 .switch-link a:hover {
   text-decoration: underline;
+}
+
+
+.form-errors {
+  color: #ff2a3f;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Если вы выводите ошибки через Django messages */
+.messages {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  max-width: 100%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.messages li {
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+.messages li.error {
+  color: #ff2a3f;
+  border: 1px solid #f5c6cb;
+}
+.messages li.success {
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }

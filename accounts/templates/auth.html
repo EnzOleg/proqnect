@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход и Регистрация</title>
+    <title>Аутентификация</title>
     <link rel="icon" type="image/png" href="{% static 'images/PROQNECT.png' %}" />
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
@@ -16,10 +16,17 @@
         </div>
         <div class="form-content" id="login-form">
             <h1>Вход</h1>
+            {% if messages %}
+              <div class="form-errors">
+                  {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                  {% endfor %}
+              </div>
+            {% endif %}
             <form action="{% url 'login' %}" method="POST">
                 {% csrf_token %}
                 <div class="input-container">
-                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="email" name="email" placeholder="Email" value="{{ request.POST.email|default:'' }}" required>
                 </div>
                 <div class="input-container">
                     <input type="password" name="password" placeholder="Пароль" required>
@@ -27,18 +34,26 @@
                 <button type="submit" class="submit-button">Войти</button>
             </form>
         </div>
+        
         <div class="form-content hidden" id="register-form">
             <h1>Регистрация</h1>
+            {% if messages %}
+              <div class="form-errors">
+                  {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                  {% endfor %}
+              </div>
+            {% endif %}
             <form action="{% url 'register' %}" method="POST">
                 {% csrf_token %}
                 <div class="input-container">
-                    <input type="text" name="first_name" placeholder="Имя" required>
+                    <input type="text" name="first_name" placeholder="Имя" value="{{ request.POST.first_name|default:'' }}" required>
                 </div>
                 <div class="input-container">
-                    <input type="text" name="last_name" placeholder="Фамилия" required>
+                    <input type="text" name="last_name" placeholder="Фамилия" value="{{ request.POST.last_name|default:'' }}" required>
                 </div>
                 <div class="input-container">
-                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="email" name="email" placeholder="Email" value="{{ request.POST.email|default:'' }}"required>
                 </div>
                 <div class="input-container">
                     <input type="password" name="password" placeholder="Пароль" required>
@@ -49,6 +64,7 @@
                 <button type="submit" class="submit-button">Зарегистрироваться</button>
             </form>
         </div>
+        
     </div>
     <script>
         const switchButton = document.getElementById('switch-button');
@@ -56,13 +72,27 @@
         const registerForm = document.getElementById('register-form');
         const switchMessage = document.getElementById('switch-message');
 
-        switchButton.addEventListener('click', () => {
-            const showRegister = registerForm.classList.contains('hidden');
-            loginForm.classList.toggle('hidden', showRegister);
-            registerForm.classList.toggle('hidden', !showRegister);
-            switchMessage.textContent = showRegister ? 'Уже зарегистрированы? Войдите!' : 'Нет аккаунта? Зарегистрируйтесь!';
-            switchButton.textContent = showRegister ? 'Войти' : 'Зарегистрироваться';
-        });
+        let showRegister = {{ show_register|default:"false"|lower }};
+            
+            if (showRegister) {
+                loginForm.classList.add("hidden");
+                registerForm.classList.remove("hidden");
+                switchMessage.textContent = "Уже зарегистрированы? Войдите!";
+                switchButton.textContent = "Войти";
+            }
+
+            switchButton.addEventListener('click', () => {
+                // Очищаем содержимое блоков с ошибками
+                const errorElements = document.querySelectorAll('.form-errors');
+                errorElements.forEach(el => el.innerHTML = '');
+        
+                // Переключаем видимость форм
+                const showRegister = registerForm.classList.contains('hidden');
+                loginForm.classList.toggle('hidden', showRegister);
+                registerForm.classList.toggle('hidden', !showRegister);
+                switchMessage.textContent = showRegister ? 'Уже зарегистрированы? Войдите!' : 'Нет аккаунта? Зарегистрируйтесь!';
+                switchButton.textContent = showRegister ? 'Войти' : 'Зарегистрироваться';
+            });
     </script>
 </body>
 </html>
