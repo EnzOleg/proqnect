@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Мои чаты{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat_home.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="chat-home-container">
+  <h1>Мои чаты</h1>
+  {% if chats %}
+    <ul class="chat-list">
+      {% for chat in chats %}
+        <li class="chat-item">
+          <a href="{% url 'chat:chat_room' chat.id %}">
+            {% if chat.chat_type == "consultation" %}
+              Консультативный чат
+            {% else %}
+              Социальный чат
+            {% endif %}
+            <span class="chat-updated">{{ chat.updated_at|date:"d M Y H:i" }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Чатов пока нет. Начните новый чат, выбрав пользователя для общения.</p>
+  {% endif %}
+</div>
+{% endblock %}

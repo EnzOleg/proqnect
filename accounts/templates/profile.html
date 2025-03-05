@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <script href="{% static 'js/like.js' %}"></script>
+{% endblock %}
+{% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
+
+{% block main_content %}
+<div class="profile-container">
+    <!-- Обложка и аватар -->
+    <div class="profile-header" style="background-image: url('{% if user.cover_photo %}{{ user.cover_photo.url }}{% else %}{% static 'images/default_cover.png' %}{% endif %}');">
+        <div class="profile-info">
+            <div class="avatar">
+                <img src="{{ user.profile_picture.url }}" alt="Аватарка" class="profile-avatar">
+            </div>
+            <div class="profile-name-status">
+                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                <p class="status">{{ user.status|default_if_none:'' }}</p>
+                {% if request.user == user %}
+                    <a href="{% url 'settings' %}" class="btn-edit-profile">Редактировать</a>
+                {% else %}
+                    <a href="{% url 'chat' user.id %}" class="btn-message">Написать</a>
+                    <form method="post" action="{% url 'add_friend' user.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-add-friend">Добавить в друзья</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Меню навигации профиля -->
+    <div class="profile-menu">
+        <a href="#">Публикации</a>
+        <a href="#">Друзья</a>
+        <a href="#">Фото</a>
+        <a href="#">Видео</a>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="profile-content">
+        <!-- Левая колонка -->
+        <div class="profile-sidebar">
+            <h2>Информация</h2>
+            <p>{{ user.bio|default_if_none:'Нет информации' }}</p>
+            <h2>Друзья</h2>
+            <ul>
+                {% for friend in friends %}
+                    <li>
+                        <img src="{{ friend.profile_picture.url }}" alt="Аватар">
+                        <p>{{ friend.first_name }} {{ friend.last_name }}</p>
+                        <a href="{% url 'profile' friend.id %}">Перейти</a>
+                    </li>
+                {% empty %}
+                    <p>Нет друзей.</p>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Центральная колонка (Лента) -->
+        <div class="profile-feed">
+            <div class="new-post">
+                <form action="{% url 'add_post' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <textarea name="content" placeholder="Что у вас нового?" required></textarea>
+                    <input type="file" name="image" accept="image/*">
+                    <button type="submit">Опубликовать</button>
+                </form>
+            </div>
+
+            {% for post in posts %}
+            <div class="post">
+                <div class="post-header">
+                    <img src="{{ post.user.profile_picture.url }}" alt="Аватар" class="post-avatar">
+                    <div>
+                        <p>{{ post.user.first_name }} {{ post.user.last_name }}</p>
+                        <span class="post-date">{{ post.created_at|date:"d M Y H:i" }}</span>
+                    </div>
+                </div>
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="post-image" alt="Изображение">
+                {% endif %}
+                <div class="post-actions">
+                    <form action="{% url 'feed:like_post' post.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">👍 {{ post.likes.count }}</button>
+                    </form>
+                    <a href="{% url 'feed:comment_post' post.id %}" class="btn-comment">💬 Комментарии</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

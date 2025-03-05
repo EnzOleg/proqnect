@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>История платежей</h2>
+    <ul>
+        {% for payment in payments %}
+            <li>{{ payment.created_at }} - {{ payment.amount }} - {{ payment.get_status_display }}</li>
+        {% empty %}
+            <li>Нет платежей</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

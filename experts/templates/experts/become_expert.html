@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Стать экспертом{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/experts.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="become-expert-container">
+    <h1>Стать экспертом</h1>
+    <p>Заполните форму, чтобы ваш профиль был преобразован в экспертный.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить профиль</button>
+    </form>
+</div>
+{% endblock %}

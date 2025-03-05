@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Записи клиентов</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .booking { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        button { margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Ваши записи</h1>
+    
+    {% for booking in bookings %}
+        <div class="booking">
+            <p><strong>Клиент:</strong> {{ booking.user.name }} {{ booking.user.last_name }}</p>
+            <p><strong>Дата и время:</strong> {{ booking.date_time }}</p>
+            <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
+            
+            {% if booking.status == "pending" %}
+                <button onclick="handleBooking({{ booking.id }}, 'confirm')">Принять</button>
+                <button onclick="handleBooking({{ booking.id }}, 'decline')">Отклонить</button>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>У вас пока нет записей.</p>
+    {% endfor %}
+    
+    <script>
+        function handleBooking(bookingId, action) {
+            fetch(`/booking/${bookingId}/${action}/`, {
+                method: "POST",
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => alert("Ошибка"));
+        }
+    </script>
+</body>
+</html>

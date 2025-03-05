@@ -1,0 +1,42 @@
+/* chat_home.css */
+.chat-home-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.chat-home-container h1 {
+    font-size: 2rem;
+    color: #4a148c;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.chat-list {
+    list-style: none;
+    padding: 0;
+}
+
+.chat-item {
+    margin-bottom: 10px;
+}
+
+.chat-item a {
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    color: #333;
+}
+
+.chat-item a:hover {
+    background-color: #f0f0f0;
+}
+
+.chat-updated {
+    float: right;
+    font-size: 0.9rem;
+    color: #666;
+}

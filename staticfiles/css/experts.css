@@ -1,0 +1,96 @@
+/* experts.css */
+
+/* Переменные цветов */
+:root {
+  --primary-dark: #4a148c;       /* Глубокий фиолетовый/индиго */
+  --primary-light: #7b1fa2;      /* Светлый индиго */
+  --accent: #ffd600;             /* Яркий акцент */
+  --background: #f3f2ef;         /* Фон страницы (светлая тема) */
+  --text-color: #2c2c54;         /* Основной текст */
+  --border-color: #e0e0e0;       /* Цвет границ */
+}
+
+/* Темная тема */
+[data-theme="dark"] {
+  --background: #121212;
+  --text-color: #e0e0e0;
+  --border-color: #333;
+  --card-background: #1e1e1e;
+  --hover-shadow: rgba(255, 255, 255, 0.1);
+}
+
+/* Контейнер страницы "Стать экспертом" */
+.become-expert-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: var(--background);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Заголовок и описание */
+.become-expert-container h1 {
+  text-align: center;
+  color: var(--primary-dark);
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.become-expert-container p {
+  text-align: center;
+  color: var(--text-color);
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+/* Форма регистрации экспертного профиля */
+.become-expert-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.become-expert-container form input[type="text"],
+.become-expert-container form input[type="number"],
+.become-expert-container form input[type="email"],
+.become-expert-container form textarea,
+.become-expert-container form select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: var(--text-color);
+  background: var(--background);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Если поле "специализация" отрендерено с классом .specialization-field */
+.specialization-field {
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+/* Стили для кнопки отправки формы */
+.become-expert-container form button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.become-expert-container form button:hover {
+  background: var(--primary-light);
+}

@@ -1,0 +1,152 @@
+/* experts_search.css */
+
+/* Переменные цветов (светлая тема) */
+:root {
+    --primary-dark: #4a148c;
+    --primary-light: #7b1fa2;
+    --accent: #ffd600;
+    --background: #f3f2ef;
+    --text-color: #2c2c54;
+    --border-color: #e0e0e0;
+    --card-bg: #f9f9f9;
+    --header-bg: #fff;
+}
+
+/* Тёмная тема */
+[data-theme="dark"] {
+    --background: #121212;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --card-bg: #1e1e1e;
+    --header-bg: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+}
+
+/* Контейнер страницы поиска */
+.search-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовок страницы */
+.search-title {
+    text-align: center;
+    color: var(--primary-dark);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Форма поиска */
+.search-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.search-form input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    color: var(--text-color);
+    background: var(--background);
+}
+
+/* Кнопка поиска */
+.search-form button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.search-form button:hover {
+    background: var(--primary-light);
+}
+
+/* Заголовок результатов */
+.results-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+}
+
+/* Список экспертов */
+.experts-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Карточка эксперта */
+.expert-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.expert-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Аватар эксперта */
+.expert-avatar img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-dark);
+}
+
+/* Информация об эксперте */
+.expert-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+}
+
+.expert-info p {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    margin: 5px 0;
+}
+
+/* Кнопка просмотра профиля */
+.btn-view {
+    display: inline-block;
+    padding: 5px 10px;
+    background: var(--primary-dark);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-view:hover {
+    background: var(--primary-light);
+}
+
+/* Сообщение, если результатов нет */
+.no-results {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-top: 20px;
+}

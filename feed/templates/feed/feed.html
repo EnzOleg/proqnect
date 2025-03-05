@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Лента новостей{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/feed.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="feed-container">
+    <h1 class="feed-title">Лента новостей</h1>
+    <div class="posts-grid">
+        {% for post in posts %}
+            <div class="post-card">
+                <div class="post-header">
+                    <img src="{% if post.user.profile_picture %}{{ post.user.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}" alt="Аватар" class="post-avatar">
+                    <span class="post-author">{{ post.user.first_name }} {{ post.user.last_name }}</span>
+                    <span class="post-date">{{ post.created_at|date:"d M Y H:i" }}</span>
+                </div>
+                <div class="post-content">
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="Изображение поста" class="post-image">
+                    {% endif %}
+                    <p>{{ post.content }}</p>
+                </div>
+                
+            </div>
+        {% empty %}
+            <p>Нет постов для отображения.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

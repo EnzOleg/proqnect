@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Подтверждение записи{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/confirm_booking.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="confirm-container">
+  <h1>Подтверждение записи</h1>
+  
+  <div class="booking-details">
+    <h2>Детали записи</h2>
+    <p><strong>Клиент:</strong> {{ booking.user.email }}</p>
+    {% if booking.problem_description %}
+      <p><strong>Описание проблемы:</strong> {{ booking.problem_description }}</p>
+    {% endif %}
+    {% if booking.available_times %}
+      <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times }}</p>
+    {% endif %}
+    <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>
+    <p><strong>Текущий статус:</strong> {{ booking.get_status_display }}</p>
+  </div>
+  
+  <div class="confirm-form">
+    <h2>Назначить время консультации</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-confirm">Подтвердить запись</button>
+        <a href="{% url 'booking:handle_booking' booking.id 'decline' %}" class="btn btn-decline">Отклонить запись</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

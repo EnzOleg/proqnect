@@ -1,0 +1,95 @@
+/* Переменные цветов */
+:root {
+    --primary-dark: #4a148c;
+    --primary-light: #7b1fa2;
+    --accent: #ffd600;
+    --background: #f3f2ef;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+}
+
+/* Тёмная тема */
+[data-theme="dark"] {
+    --background: #121212;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --primary-dark: #4a148c;
+    --primary-light: #7b1fa2;
+}
+
+/* Контейнер страницы "Настройки" */
+.settings-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: var(--background);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Вкладки */
+.settings-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 15px;
+}
+
+.settings-tabs .tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: var(--background);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.settings-tabs .tab-btn.active {
+    background: var(--primary-dark);
+    color: #fff;
+}
+
+/* Контент настроек */
+.settings-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Скрытый контент вкладок */
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* Общие стили форм */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, select, button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background: var(--background);
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+button {
+    background: var(--primary-dark);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: var(--primary-light);
+}

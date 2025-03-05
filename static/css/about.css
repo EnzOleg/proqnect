@@ -1,0 +1,215 @@
+/* about.css */
+:root {
+    --indigo-dark: #4a148c;      /* Глубокий фиолетовый / индиго */
+    --indigo-light: #7b1fa2;     /* Светлый индиго */
+    --accent: #ffd600;           /* Яркий акцент */
+    --background: #f4f5fa;       /* Светлый фон страницы */
+    --text-color: #2c2c54;       /* Тёмный текст */
+    --border-color: #dcdcdc;     /* Цвет границ */
+
+
+    --background-2: #f4f5fa;
+
+    --dark-g: var(--indigo-dark);     
+    --light-g: var(--indigo-light);    
+
+    --header: linear-gradient(135deg, var(--dark-g), var(--light-g));
+}
+
+/* Тёмная тема */
+[data-theme="dark"] {
+    --background: #121212;
+    --background-2: #1a1a1a;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --header: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+}
+
+/* Контейнер страницы "О проекте" */
+.about-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 25px;
+    background: var(--background-2);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.about-container section {
+    scroll-margin-top: 140px; /* Учитываем высоту header */
+}
+
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.about-nav {
+    position: fixed;
+    top: 120px;
+    left: 3px;
+    width: auto;
+    background: var(--header);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0; /* Изначально скрываем */
+}
+
+.about-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.about-nav ul li {
+    margin-bottom: 10px;
+}
+
+.about-nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.about-nav ul li a:hover {
+    color: var(--accent);
+}
+
+/* Плавная прокрутка */
+html {
+    scroll-behavior: smooth;
+}
+
+.about-banner {
+    text-align: center;
+    padding: 50px 20px;
+    background: var(--header);
+    color: #fff;
+    border-radius: 12px;
+    margin-bottom: 35px;
+}
+
+.about-banner h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--accent);
+}
+
+.about-banner p {
+    font-size: 1.1rem;
+    color: white !important;
+}
+
+/* Общий стиль секций */
+.about-container section {
+    margin-bottom: 35px;
+    padding: 10px 20px;
+}
+
+.about-container section h2 {
+    font-size: 1.8rem;
+    color: var(--indigo-dark);
+    margin-bottom: 12px;
+    border-left: 5px solid var(--indigo-light);
+    padding-left: 12px;
+}
+
+.about-container section p {
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Списки в секциях */
+.about-container section ul {
+    list-style-type: none;
+    padding: 0;
+}
+.about-container section ul li {
+    margin-bottom: 12px;
+    padding-left: 25px;
+    position: relative;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+.about-container section ul li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    color: var(--indigo-dark);
+    font-size: 1.2rem;
+}
+
+.about-cta {
+    text-align: center;
+    background: var(--header);
+    color: #fff;
+    padding: 35px 25px;
+    border-radius: 12px;
+    margin-top: 40px;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.about-cta h2 {
+    color: var(--accent) !important;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.about-cta p {
+    color: white !important;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+    color: #dcdcdc;
+    background: var(--accent2);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .about-banner h1 {
+        font-size: 2rem;
+    }
+    .about-container section h2 {
+        font-size: 1.6rem;
+    }
+    .about-nav {
+        position: static;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .about-nav ul {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .about-nav ul li {
+        margin: 0 10px;
+    }
+}

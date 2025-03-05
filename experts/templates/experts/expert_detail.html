@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Профиль эксперта – {{ expert.user.first_name }} {{ expert.user.last_name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/expert_detail.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="expert-detail-container">
+  <div class="expert-header">
+    <div class="expert-avatar">
+      <img src="{% if expert.user.profile_picture %}{{ expert.user.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}" alt="Аватар">
+    </div>
+    <div class="expert-info">
+      <h1>{{ expert.user.first_name }} {{ expert.user.last_name }}</h1>
+      {% if expert.is_verified %}
+      <span class="verified-badge">Верифицирован</span>
+      {% endif %}
+      <p class="expert-bio">{{ expert.bio|default:"Нет описания" }}</p>
+      <div class="expert-stats">
+         <span>Опыт: {{ expert.experience }} лет</span>
+         <span>Цена за час: {{ expert.price_per_hour }} руб.</span>
+      </div>
+      <div class="expert-field">
+         <span>Сфера: {{ expert.specialization|default:"Не указано" }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="expert-skills">
+    <h2>Навыки</h2>
+    {% if expert.skills.all %}
+      <ul>
+        {% for skill in expert.skills.all %}
+          <li>{{ skill.name }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Нет информации о навыках.</p>
+    {% endif %}
+  </div>
+  
+  <div class="expert-reviews">
+    <h2>Отзывы</h2>
+    {% if expert.reviews.all %}
+      {% for review in expert.reviews.all %}
+        <div class="review">
+          <div class="review-header">
+            <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
+            <span class="review-rating">Оценка: {{ review.rating }}/5</span>
+          </div>
+          <p class="review-text">{{ review.review_text|default:"Нет комментариев" }}</p>
+          <div class="review-date">{{ review.created_at|date:"d M Y" }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Пока отзывов нет.</p>
+    {% endif %}
+  </div>
+  
+  <div class="contact-expert">
+    <a href="{% url 'chat:consultation_chat_with_expert' expert.user.id %}" class="contact-btn">Чат с экспертом</a>
+    <!-- Кнопка для открытия модального окна -->
+    <button id="book-expert" class="btn">Записаться</button>
+  </div>
+</div>
+
+<!-- Модальное окно для запроса бронирования -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Запрос на консультацию</h2>
+    <!-- 
+      1) Указываем method="POST"
+      2) Указываем action="/booking/request/<expert_id>/"
+         или используем тег {% url 'booking:request_booking' expert.user.id %}
+    -->
+    <form 
+      id="bookingForm"
+      method="POST" 
+      action="{% url 'booking:request_booking' expert.user.id %}"
+    >
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_problem_description">Описание проблемы</label>
+        <textarea 
+          id="id_problem_description" 
+          name="problem_description" 
+          rows="4" 
+          placeholder="Опишите вашу проблему" 
+          class="form-control"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="id_available_times">Предпочтительные временные интервалы</label>
+        <input 
+          type="text" 
+          id="id_available_times" 
+          name="available_times" 
+          placeholder="Например: 2025-03-10 14:00, 2025-03-11 10:00" 
+          class="form-control"
+        >
+      </div>
+      <button type="submit" class="btn">Отправить запрос</button>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Модальное окно
+    const modal = document.getElementById("bookingModal");
+    const bookButton = document.getElementById("book-expert");
+    const closeSpan = modal.querySelector(".close");
+
+    // Открытие модального окна
+    bookButton.addEventListener("click", function() {
+        modal.style.display = "block";
+    });
+
+    // Закрытие при клике на крестик
+    closeSpan.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+    // Закрытие при клике вне окна
+    window.addEventListener("click", function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Найти Эксперта{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/experts_search.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="search-container">
+    <h1 class="search-title">Найти Эксперта</h1>
+    <form method="get" action="{% url 'experts:search_experts' %}" class="search-form">
+        <input type="text" name="q" placeholder="Введите имя, специальность или навык..." value="{{ query }}">
+        <button type="submit">Поиск</button>
+    </form>
+    
+    {% if query %}
+        <h2 class="results-title">Результаты поиска для "{{ query }}"</h2>
+    {% endif %}
+    
+    <div class="experts-list">
+        {% for expert in experts %}
+            <div class="expert-card">
+                <div class="expert-avatar">
+                    <img src="{% if expert.user.profile_picture %}{{ expert.user.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}" alt="Аватар">
+                </div>
+                <div class="expert-info">
+                    <h3>{{ expert.user.first_name }} {{ expert.user.last_name }}</h3>
+                    <p>{{ expert.bio|truncatewords:20 }}</p>
+                    <a href="{% url 'experts:detail' expert.id %}" class="btn-view">Посмотреть профиль</a>                    
+                </div>
+            </div>
+        {% empty %}
+            <p class="no-results">Ничего не найдено.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

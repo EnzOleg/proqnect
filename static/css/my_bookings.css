@@ -1,0 +1,155 @@
+/* my_bookings.css */
+
+/* Контейнер для страницы */
+.my-bookings-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+  
+  /* Заголовок */
+  .my-bookings-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--indigo-dark);
+    margin-bottom: 20px;
+  }
+  
+  /* Фильтр-бар */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .filter-bar input[type="text"],
+  .filter-bar select {
+    padding: 8px;
+    font-size: 0.95rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--background);
+    color: var(--text-color);
+    outline: none;
+  }
+  
+  .filter-bar input[type="text"]::placeholder {
+    color: #888;
+  }
+  
+  .filter-bar .btn-export {
+    background: var(--indigo-dark, #4a148c);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 0.95rem;
+  }
+  
+  .filter-bar .btn-export:hover {
+    background: var(--indigo-light, #7b1fa2);
+  }
+  
+  /* Таблица */
+  .bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    margin: 0 auto;
+    font-size: 0.95rem;
+  }
+  
+  /* Заголовок таблицы */
+  .bookings-table thead {
+    background: var(--header, linear-gradient(135deg, var(--indigo-dark, #4a148c), var(--indigo-light, #7b1fa2)));
+    color: #fff !important;
+  }
+  
+  .bookings-table th {
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+  }
+  
+  /* Тело таблицы */
+  .bookings-table td {
+    border-bottom: 1px solid var(--border-color, #dcdcdc);
+    padding: 10px 8px;
+    color: var(--text-color, #2c2c54);
+    vertical-align: middle;
+  }
+  
+  /* Зебра-полосы */
+  .bookings-table tbody tr:nth-child(even) {
+    background-color: var(--review-bg);
+  }
+  
+  /* Блок действий */
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* Кнопки */
+  .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-confirm {
+    background: var(--indigo-dark, #4a148c);
+  }
+  .btn-confirm:hover {
+    background: var(--indigo-light, #7b1fa2);
+    color: #fff;
+  }
+  
+  .btn-decline {
+    background: #d32f2f;
+  }
+  .btn-decline:hover {
+    background: #ff584c;
+    color: #fff;
+  }
+  
+  .btn-complete {
+    background: #2e7d32;
+  }
+  .btn-complete:hover {
+    background: #43a047;
+  }
+  
+  /* Отображение времени консультации */
+  .scheduled {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--indigo-dark, #4a148c);
+  }
+  
+  /* Статус «Выполнено» */
+  .completed {
+    font-weight: 600;
+    color: #388e3c;
+  }
+  
+  /* Если нет записей */
+  .no-bookings {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-color, #2c2c54);
+    margin-top: 30px;
+  }
+  

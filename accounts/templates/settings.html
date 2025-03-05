@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
+{% block title %}Настройки{% endblock %}
+
+{% block main_content %}
+<div class="settings-container">
+    <h2>Настройки</h2>
+    
+    <div class="settings-tabs">
+        <button class="tab-btn active" data-tab="general">Общие</button>
+        <button class="tab-btn" data-tab="privacy">Приватность</button>
+        <button class="tab-btn" data-tab="notifications">Уведомления</button>
+        <button class="tab-btn" data-tab="security">Безопасность</button>
+        <button class="tab-btn" data-tab="appearance">Интерфейс</button>
+    </div>
+    <div class="settings-content">
+        <div class="tab-content active" id="general">
+            <h3>Общие настройки</h3>
+            <form action="{% url 'settings' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>Имя:</label>
+                <input type="text" name="first_name" value="{{ user.first_name }}" required>
+                
+                <label>Фамилия:</label>
+                <input type="text" name="last_name" value="{{ user.last_name|default_if_none:'' }}">
+
+                <label>Статус:</label>
+                <input type="text" name="status" value="{{ user.status|default_if_none:'' }}" maxlength="255">
+
+                <label>Email:</label>
+                <input type="email" name="email" value="{{ user.email }}" readonly>
+
+                <label>Аватар:</label>
+                <input type="file" name="profile_picture">
+
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+
+        <div class="tab-content" id="privacy">
+            <h3>Приватность</h3>
+            <form>
+                <label><input type="checkbox" name="hide_email"> Скрывать Email</label>
+                <label><input type="checkbox" name="hide_profile"> Скрывать профиль</label>
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+
+        <div class="tab-content" id="notifications">
+            <h3>Уведомления</h3>
+            <form>
+                <label><input type="checkbox" name="email_notifications"> Email-уведомления</label>
+                <label><input type="checkbox" name="push_notifications"> Push-уведомления</label>
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+
+        <div class="tab-content" id="security">
+            <h3>Безопасность</h3>
+            <form>
+                <label>Сменить пароль:</label>
+                <input type="password" name="new_password">
+                <button type="submit">Обновить пароль</button>
+            </form>
+        </div>
+
+        <div class="tab-content" id="appearance">
+            <h3>Интерфейс</h3>
+            <form action="{% url 'set_theme' %}" method="get">
+                <label for="theme-select">Тема:</label>
+                <select id="theme-select" name="theme" onchange="this.form.submit()">
+                    <option value="light" {% if request.COOKIES.theme == 'light' %}selected{% endif %}>Светлая</option>
+                    <option value="dark" {% if request.COOKIES.theme == 'dark' %}selected{% endif %}>Тёмная</option>
+                </select>
+            </form>            
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/settings.js' %}"></script>
+{% endblock %}

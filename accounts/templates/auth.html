@@ -1,0 +1,68 @@
+{% load static %}
+<html lang="ru" data-theme="{{ request.COOKIES.theme|default:'light' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход и Регистрация</title>
+    <link rel="icon" type="image/png" href="{% static 'images/PROQNECT.png' %}" />
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-switcher">
+            <h2>Добро пожаловать!</h2>
+            <p id="switch-message">Нет аккаунта? Зарегистрируйтесь!</p>
+            <button id="switch-button">Зарегистрироваться</button>
+        </div>
+        <div class="form-content" id="login-form">
+            <h1>Вход</h1>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <div class="input-container">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-container">
+                    <input type="password" name="password" placeholder="Пароль" required>
+                </div>
+                <button type="submit" class="submit-button">Войти</button>
+            </form>
+        </div>
+        <div class="form-content hidden" id="register-form">
+            <h1>Регистрация</h1>
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                <div class="input-container">
+                    <input type="text" name="first_name" placeholder="Имя" required>
+                </div>
+                <div class="input-container">
+                    <input type="text" name="last_name" placeholder="Фамилия" required>
+                </div>
+                <div class="input-container">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-container">
+                    <input type="password" name="password" placeholder="Пароль" required>
+                </div>
+                <div class="input-container">
+                    <input type="password" name="confirm_password" placeholder="Подтвердите пароль" required>
+                </div>
+                <button type="submit" class="submit-button">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const switchButton = document.getElementById('switch-button');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const switchMessage = document.getElementById('switch-message');
+
+        switchButton.addEventListener('click', () => {
+            const showRegister = registerForm.classList.contains('hidden');
+            loginForm.classList.toggle('hidden', showRegister);
+            registerForm.classList.toggle('hidden', !showRegister);
+            switchMessage.textContent = showRegister ? 'Уже зарегистрированы? Войдите!' : 'Нет аккаунта? Зарегистрируйтесь!';
+            switchButton.textContent = showRegister ? 'Войти' : 'Зарегистрироваться';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}О проекте - Proqnect{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="about-container">
+
+  <nav class="about-nav">
+    <ul>
+      <li><a href="#mission">Миссия</a></li>
+      <li><a href="#target">Целевая аудитория</a></li>
+      <li><a href="#features">Функции</a></li>
+      <li><a href="#tech">Технологии</a></li>
+      <li><a href="#advantages">Преимущества</a></li>
+      <li><a href="#future">Будущее</a></li>
+      <li><a href="#reviews">Отзывы</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Баннер страницы -->
+  <section class="about-banner">
+    <h1>О Proqnect</h1>
+    <p>Платформа для связи между пользователями и экспертами</p>
+  </section>
+  
+  <!-- Миссия проекта -->
+  <section id="mission" class="about-mission">
+    <h2>Наша миссия</h2>
+    <p>
+      Основная цель Proqnect — быть эффективной площадкой, которая соединяет обычных пользователей с экспертами из различных областей. Мы стремимся сделать поиск профессиональных консультаций простым и доступным.
+    </p>
+  </section>
+  
+  <!-- Целевая аудитория -->
+  <section id="target" class="about-target">
+    <h2>Целевая аудитория</h2>
+    <p>
+      Proqnect предназначена для тех, кто нуждается в профессиональной экспертизе — от предпринимателей до специалистов, которым важны быстрые и качественные советы.
+    </p>
+  </section>
+  
+  <!-- Ключевые функции -->
+  <section id="features" class="about-features">
+    <h2>Ключевые функции</h2>
+    <ul>
+      <li>Поиск экспертов по различным областям</li>
+      <li>Онлайн-консультации в режиме реального времени</li>
+      <li>Бронирование консультаций</li>
+      <li>Интеграция в формате социальной сети</li>
+      <li>Гибкая система рейтингов и отзывов</li>
+    </ul>
+  </section>
+  
+  <!-- Технологический стек -->
+  <section id="tech" class="about-tech">
+    <h2>Наш технологический стек</h2>
+    <p>
+      Proqnect построен с использованием современных технологий: <strong>Django</strong> для серверной логики, <strong>Channels</strong> для реального времени, <strong>PostgreSQL</strong> для надёжного хранения данных, <strong>Redis</strong> для кеширования и <strong>Jitsi</strong> для видеозвонков.
+    </p>
+  </section>
+  
+  <!-- Преимущества платформы -->
+  <section id="advantages" class="about-advantages">
+    <h2>Почему Proqnect?</h2>
+    <ul>
+      <li>Простой и удобный интерфейс для поиска экспертов</li>
+      <li>Мгновенные онлайн-консультации</li>
+      <li>Надёжная система бронирования</li>
+      <li>Инновационный подход к социальной коммуникации</li>
+      <li>Безопасность и конфиденциальность данных</li>
+    </ul>
+  </section>
+  
+  <!-- Планы на будущее -->
+  <section id="future" class="about-future">
+    <h2>Планы на будущее</h2>
+    <p>
+      Мы планируем добавить поддержку искусственного интеллекта для подбора экспертов, улучшить систему аналитики консультаций и расширить список интеграций с внешними сервисами.
+    </p>
+  </section>
+  
+  <!-- Отзывы пользователей -->
+  <section id="reviews" class="about-reviews">
+    <h2>Отзывы пользователей</h2>
+    <p>
+      Пока отзывов нет, но мы уверены, что первые отклики будут только положительными. Следите за обновлениями!
+    </p>
+  </section>
+  
+  <!-- Призыв к действию -->
+  <section class="about-cta">
+    <h2>Присоединяйтесь к нам!</h2>
+    <p>
+      Начните получать качественные консультации уже сегодня. Регистрируйтесь и будьте на шаг впереди!
+    </p>
+    <a href="{% url 'register' %}" class="cta-button">Зарегистрироваться</a>
+  </section>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let nav = document.querySelector(".about-nav");
+    
+    // Устанавливаем прозрачность и плавное появление
+    nav.style.opacity = "0";
+    nav.style.transition = "opacity 0.5s ease-in-out";
+
+    setTimeout(() => {
+        nav.style.opacity = "1";
+    }, 600); // Небольшая задержка, чтобы браузер успел применить стили
+});
+
+</script>
+{% endblock %}
