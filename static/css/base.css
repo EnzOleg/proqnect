@@ -1,4 +1,3 @@
-/* base.css */
 :root {
     --indigo-dark: #4a148c;      /* Глубокий фиолетовый / индиго */
     --indigo-light: #7b1fa2;     /* Светлый индиго */
@@ -22,7 +21,6 @@
     --header: linear-gradient(135deg, #2c2c2c, #1a1a1a);
     --footer: linear-gradient(135deg, #1a1a1a, #2c2c2c);
 }
-
 
 /* Основные стили */
 body {
@@ -71,7 +69,6 @@ header {
     gap: 20px;
 }
 
-/* Логотип: изображение и заголовок */
 .logo-container img {
     width: 200px;
     height: 40px;
@@ -103,10 +100,13 @@ header {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Правый блок в header */
 .button-container {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние между элементами, можно настроить по вкусу */
 }
+
 
 .profile-icon {
     width: 40px;
@@ -124,7 +124,6 @@ header {
 }
 
 /* Dropdown меню */
-
 [data-theme="dark"] .dropdown-menu {
     background-color: #1e1e1e;
     border-color: #333;
@@ -168,6 +167,7 @@ header {
     color: var(--indigo-light);
 }
 
+/* При наличии класса "show" отображаем dropdown */
 .dropdown-menu.show {
     display: block;
 }
@@ -228,10 +228,14 @@ button:hover {
 
 /* Анимации */
 @keyframes fadeInFooter {
-    from { opacity: 0; transform: translateY(20px); }        to { opacity: 1; transform: translateY(0); }}
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }        to { opacity: 1; transform: translateY(0); }}
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 @media (max-width: 768px) {
     .logo-container {
@@ -248,4 +252,3 @@ button:hover {
         margin-left: 0;
     }
 }
-    

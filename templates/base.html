@@ -14,7 +14,7 @@
     <header>
         <div class="logo-container">
             <a href="{% url 'index' %}">
-            <img src="{% static 'images/logo.svg' %}" alt="Логотип">
+                <img src="{% static 'images/logo.svg' %}" alt="Логотип">
             </a>
             <h1><a href="/">Главная</a></h1>
             <h1><a href="{% url 'feed:feed' %}">Новости</a></h1>
@@ -25,13 +25,19 @@
             {% if user.is_authenticated and user.role == "expert" %}
             <h1><a href="{% url 'booking:my_bookings' %}">Мои записи</a></h1>
             {% endif %}
-
             <h1><a href="/about">О проекте</a></h1>
         </div>
 
         <div class="button-container">
             {% if user.is_authenticated %}
-            
+                <div id="notification-bell" class="relative" onclick="toggleNotifications(event)">
+                    <i class="fas fa-bell"></i>
+                    <span id="notification-count" class="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded-full">🔔</span>
+                    <!-- Изначально dropdown скрыт через CSS (display: none) -->
+                    <div id="notification-dropdown" class="dropdown-menu">
+                        <p class="text-gray-500 text-sm">Нет новых уведомлений</p>
+                    </div>  
+                </div>
                 <div class="profile-icon" onclick="toggleMenu(event)">
                     <img src="{{ user.profile_picture.url }}" alt="Аватарка" class="avatar">
                 </div>
@@ -72,14 +78,84 @@
     </footer>
     {% endblock %}
     
-
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchNotifications();
+        });
+        
+        function fetchNotifications() {
+            fetch("/notifications/get/")
+                .then(response => response.json())
+                .then(data => {
+                    const countElem = document.getElementById("notification-count");
+                    const dropdown = document.getElementById("notification-dropdown");
+            
+                    if (data.length > 0) {
+                        countElem.textContent = data.length;
+                        countElem.style.display = 'block';
+                        dropdown.innerHTML = data.map(n => 
+                            `<a href="${n.link}" class="block px-4 py-2 hover:bg-gray-100">${n.description}</a>`
+                        ).join("");
+                    } else {
+                        countElem.textContent = '🔔';
+                        countElem.style.display = 'block';
+                        dropdown.innerHTML = `<p class="text-gray-500 text-sm">Нет новых уведомлений</p>`;
+                    }
+                })
+                .catch(error => console.error("Ошибка загрузки уведомлений:", error));
+        }
+        
+        function toggleNotifications(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById("notification-dropdown");
+            dropdown.classList.toggle("show");
+        
+            if (dropdown.classList.contains("show")) {
+                markNotificationsAsRead();
+            }
+        }
+        
+        document.addEventListener("click", function(event) {
+            const dropdown = document.getElementById("notification-dropdown");
+            const bell = document.getElementById("notification-bell");
+        
+            if (!bell.contains(event.target)) {
+                dropdown.classList.remove("show");
+            }
+        });
+        
+        function markNotificationsAsRead() {
+            fetch("/notifications/read/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json"
+                }
+            }).then(() => {
+                document.getElementById("notification-count").textContent = '🔔';
+                document.getElementById("notification-count").style.display = 'block';
+            }).catch(error => console.error("Ошибка при отметке уведомлений:", error));
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                document.cookie.split(";").forEach(cookie => {
+                    let [key, value] = cookie.trim().split("=");
+                    if (key === name) {
+                        cookieValue = decodeURIComponent(value);
+                    }
+                });
+            }
+            return cookieValue;
+        }
+        
         function toggleMenu(event) {
             const menu = document.getElementById('profile-menu');
             menu.classList.toggle('show');
             event.stopPropagation();
         }
-
+        
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('profile-menu');
             const profileIcon = document.querySelector('.profile-icon');

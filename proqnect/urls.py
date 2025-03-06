@@ -12,6 +12,7 @@ urlpatterns = [
     path('experts/', include('experts.urls')),
     path('payments/', include('payments.urls')),
     path('feed/', include('feed.urls')),
+    path('notifications/', include('notifications.urls')),
     path('', TemplateView.as_view(template_name="index.html"), name='index'),
     path('about/', TemplateView.as_view(template_name="about.html"), name='about')
 ]

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'experts',
     'payments',
     'feed',
+    'notifications',
 ]
 
 MIDDLEWARE = [
