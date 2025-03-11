@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
+from .views import *
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     
@@ -13,8 +14,8 @@ urlpatterns = [
     path('payments/', include('payments.urls')),
     path('feed/', include('feed.urls')),
     path('notifications/', include('notifications.urls')),
-    path('', TemplateView.as_view(template_name="index.html"), name='index'),
-    path('about/', TemplateView.as_view(template_name="about.html"), name='about')
+    path('', index, name='index'),
+    path('about/', about, name='about')
 ]
 
 if settings.DEBUG:

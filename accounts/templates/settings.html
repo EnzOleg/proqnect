@@ -36,6 +36,14 @@
                 <label>Аватар:</label>
                 <input type="file" name="profile_picture">
 
+                <label>Часовой пояс:</label>
+                <select name="timezone">
+                    <option value="UTC" {% if user.timezone == "UTC" %}selected{% endif %}>UTC</option>
+                    <option value="Asia/Almaty" {% if user.timezone == "Asia/Almaty" %}selected{% endif %}>Алматы</option>
+                    <option value="Europe/Moscow" {% if user.timezone == "Europe/Moscow" %}selected{% endif %}>Москва</option>
+                    <!-- Добавьте другие часовые пояса по необходимости -->
+                </select>
+
                 <button type="submit">Сохранить</button>
             </form>
         </div>

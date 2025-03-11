@@ -35,12 +35,6 @@ def request_booking(request, expert_id):
 
 @login_required
 def confirm_booking(request, booking_id):
-    """
-    Представление для подтверждения записи экспертом.
-    Эксперт через форму назначает точное время консультации.
-    После успешного подтверждения статус меняется на 'confirmed',
-    создается консультационный чат (если его нет), и происходит редирект в комнату чата.
-    """
     booking = get_object_or_404(Booking, id=booking_id, expert=request.user)
     if request.method == "POST":
         form = ConfirmBookingForm(request.POST, instance=booking)
@@ -62,24 +56,22 @@ def confirm_booking(request, booking_id):
 
 @login_required
 def handle_booking(request, booking_id, action):
-    """
-    Представление для обработки действий эксперта по заявке, например, отклонения.
-    Здесь можно оставить логику для отклонения заявки.
-    """
     booking = get_object_or_404(Booking, id=booking_id, expert=request.user)
     if action == "decline":
         booking.status = "canceled"
         booking.save()
-        return JsonResponse({"message": "Заявка отклонена."})
+        return redirect('booking:my_bookings')
+    elif action == "complete":
+        booking.status = "completed"
+        booking.save()
+        return redirect('booking:my_bookings')
     else:
         return JsonResponse({"error": "Недопустимое действие"}, status=400)
 
 
+
 @login_required
 def my_bookings(request):
-    """
-    Представление для отображения всех бронирований (запросов) для эксперта.
-    """
     # Выбираем бронирования, где эксперт – залогиненный пользователь
     bookings = Booking.objects.filter(expert=request.user).order_by("-created_at")
     return render(request, "booking/my_bookings.html", {"bookings": bookings})

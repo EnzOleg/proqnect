@@ -24,8 +24,10 @@
          <span>Цена за час: {{ expert.price_per_hour }} руб.</span>
       </div>
       <div class="expert-field">
-         <span>Сфера: {{ expert.specialization|default:"Не указано" }}</span>
+         <span>Специализация: {{ expert.specialization|default:"Не указано" }}</span>
       </div>
+      <a href="{% url 'accounts:profile_detail' expert.user.id %}" class="profile-link">Перейти в профиль</a>
+
     </div>
   </div>
   

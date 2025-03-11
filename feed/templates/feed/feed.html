@@ -5,6 +5,9 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/feed.css' %}">
+<link rel="stylesheet" href="{% static 'css/comments.css' %}">
+<script src="{% static 'js/like.js' %}"></script>
+<script src="{% static 'js/comments.js' %}"></script>
 {% endblock %}
 
 {% block main_content %}
@@ -24,7 +27,7 @@
                     {% endif %}
                     <p>{{ post.content }}</p>
                 </div>
-                
+                {% include 'partials/post_comments.html' with post=post %}
             </div>
         {% empty %}
             <p>Нет постов для отображения.</p>

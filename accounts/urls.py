@@ -1,11 +1,14 @@
 from django.urls import path
 from .views import *
 
+app_name = 'accounts'
+
 urlpatterns = [
     path('auth/', auth_view, name='auth'),
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
-    path('profile/', profile_view, name='profile'),
+    path('profile/', profile_view, name='profile'),  # Твой профиль
+    path('profile/<int:user_id>/', profile_view, name='profile_detail'),  # Просмотр чужого профиля
     path('profile/update_status/', update_status, name='update_status'),
     path('logout/', logout_view, name='logout'),
     path('settings/', settings_view, name='settings'),

@@ -4,16 +4,23 @@
 {% block title %}Стать экспертом{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/experts.css' %}">
+<link rel="stylesheet" href="{% static 'css/become_expert.css' %}">
 {% endblock %}
 
 {% block main_content %}
 <div class="become-expert-container">
     <h1>Стать экспертом</h1>
     <p>Заполните форму, чтобы ваш профиль был преобразован в экспертный.</p>
+
     <form method="post">
         {% csrf_token %}
+
+        <!-- Основная форма Expert -->
         {{ form.as_p }}
+
+        <!-- Важно: formset управляется management_form -->
+        {{ formset.management_form }}
+
         <button type="submit">Сохранить профиль</button>
     </form>
 </div>

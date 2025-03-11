@@ -112,37 +112,44 @@ body {
     font-size: 1rem;
     color: var(--card-color);
 }
-
 .call-to-action {
     background: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
     color: #ffffff;
     text-align: center;
-    padding: 40px 20px;
+    padding: 80px 20px; /* увеличены внутренние отступы */
+    margin: 40px auto;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
 
 .call-to-action h2 {
     color: var(--accent);
-    font-size: 2.2rem;
-    margin-bottom: 20px;
+    font-size: 2.8rem;
+    margin-bottom: 30px;
     font-weight: 700;
 }
 
-.call-to-action button {
+.call-to-action p {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+}
+
+.call-to-action a button {
     background-color: #ffffff;
     color: var(--accent);
-    padding: 14px 28px;
+    padding: 16px 32px;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.call-to-action button:hover {
+.call-to-action a button:hover {
     background-color: #eaeaff;
     transform: scale(1.05);
 }
+
 
 .additional-content {
     background-color: var(--background);
@@ -170,6 +177,57 @@ body {
 
 .additional-content a:hover {
     color: var(--text-color);
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    margin: 20px 0;
+    flex-wrap: wrap; /* для адаптивности, если места мало – карточки переносятся */
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--background-card));
+    padding: 25px 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    min-width: 180px;
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background-color: var(--background-card);
+}
+
+.stat-card h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+/* Анимация появления карточек */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 768px) {

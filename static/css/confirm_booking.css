@@ -1,41 +1,61 @@
 /* booking_confirm.css */
 
+/* Определяем переменные по умолчанию */
+:root {
+  --card-bg: #fff;
+  --primary-dark: #4a148c;
+  --primary-light: #7b1fa2;
+  --border-color: #e0e0e0;
+  --review-bg: #f9f9f9;
+  --text-color: #2c2c54;
+}
+
+/* Темная тема: переопределяем переменные, если установлен атрибут data-theme="dark" */
+[data-theme="dark"] {
+  --card-bg: #1e1e1e;
+  --primary-dark: #7b1fa2; /* Можно настроить под свой вкус */
+  --primary-light: #9c27b0;
+  --border-color: #444;
+  --review-bg: #2a2a2a;
+  --text-color: #ddd;
+}
+
 /* Контейнер страницы подтверждения записи */
 .confirm-container {
-    max-width: 700px;
-    margin: 40px auto;
-    background-color: var(--card-bg, #fff);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-  }
-  
+  max-width: 700px;
+  margin: 40px auto;
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
 /* Заголовки */
 .confirm-container h1 {
   text-align: center;
   font-size: 2rem;
-  color: var(--primary-dark, #4a148c);
+  color: var(--primary-dark);
   margin-bottom: 20px;
 }
 
 .confirm-container h2 {
   font-size: 1.5rem;
-  color: var(--primary-dark, #4a148c);
+  color: var(--primary-dark);
   margin-bottom: 10px;
 }
 
 /* Секция деталей записи */
 .booking-details {
-  border: 1px solid var(--border-color, #e0e0e0);
+  border: 1px solid var(--border-color);
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 30px;
-  background-color: var(--review-bg, #f9f9f9);
+  background-color: var(--review-bg);
 }
 
 .booking-details p {
   font-size: 1rem;
-  color: var(--text-color, #2c2c54);
+  color: var(--text-color);
   margin: 8px 0;
 }
 
@@ -66,12 +86,12 @@
 }
 
 .btn-confirm {
-  background-color: var(--primary-dark, #4a148c);
+  background-color: var(--primary-dark);
   color: #fff;
 }
 
 .btn-confirm:hover {
-  background-color: var(--primary-light, #7b1fa2);
+  background-color: var(--primary-light);
 }
 
 .btn-decline {

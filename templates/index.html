@@ -60,15 +60,28 @@
         Присоединяйтесь к тысячам пользователей, которые уже воспользовались Proqnect для решения своих задач.
         Зарегистрируйтесь, чтобы получить доступ к лучшим экспертам и качественным консультациям.
     </p>
-    <a href="{% url 'register' %}"><button type="submit">Зарегистрироваться</button></a>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'register' %}"><button type="submit">Зарегистрироваться</button></a>
+    {% endif %}
 </section>
+
 
 <section class="additional-content">
     <h2>Что нового на платформе?</h2>
-    <p>
-        Мы постоянно работаем над улучшением функциональности и дизайна Proqnect. 
-        Следите за обновлениями, чтобы первыми узнавать о новых сервисах, эксклюзивных консультациях и специальных предложениях.
-    </p>
-    <a href="/about">Узнать больше</a>
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>{{ post_count }}</h3>
+            <p>новых постов</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ user_count }}</h3>
+            <p>новых пользователей</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ expert_count }}</h3>
+            <p>новых экспертов</p>
+        </div>
+    </div>
 </section>
+
 {% endblock %}

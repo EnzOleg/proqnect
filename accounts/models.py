@@ -34,6 +34,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30)
     password = models.CharField(max_length=128)  
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
+    timezone = models.CharField(max_length=50, default='Asia/Almaty')
+    date_joined = models.DateTimeField(auto_now_add=True)
     profile_picture = models.ImageField(
     upload_to='profile_pics', 
     blank=True, 

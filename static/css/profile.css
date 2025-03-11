@@ -28,6 +28,10 @@ body {
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Контейнер профиля */
 .profile-container {
   max-width: 1100px;
@@ -196,61 +200,71 @@ body {
 }
 
 .post {
-  padding: 15px;
-  margin-top: 15px;
-  background: rgba(72, 52, 212, 0.1);
-  border-radius: 6px;
-  box-shadow: var(--box-shadow-light);
-}
-
-.post-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid white;
+  background-color: var(--background); /* белый фон, как в ВК */
+  padding: 15px 20px;
+  margin: 15px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .post-header {
   display: flex;
-  align-items: center; /* выравниваем по центру по вертикали */
-  gap: 10px;         /* отступ между аватаркой и контентом */
-  margin-bottom: 15px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-avatar {
+  display: block !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  margin-right: 10px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+
+
+.post-header .post-author {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #999;
+  margin-left: auto;
 }
 
 .post img {
-  max-width: 600px;
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 10px;
+  object-fit: cover;
+  /* Если нужно ограничить высоту */
   max-height: 400px;
 }
 
-[data-theme="dark"] .post {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Комментарии и лайки */
 .post-actions {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 15px;
   margin-top: 10px;
+  font-size: 0.9rem;
 }
 
 .post-actions button {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  color: var(--indigo-dark);
-  transition: 0.3s;
+  color: #606770;
+  transition: color 0.2s ease;
 }
 
 .post-actions button:hover {
-  color: var(--indigo-light);
-}
-
-.post-date {
-  font-size: 12px;
-  color: gray;
+  color: #1d2129;
 }
 
 /* Адаптивность */

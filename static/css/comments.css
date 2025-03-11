@@ -1,0 +1,153 @@
+.post-comments {
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+/* Треугольник */
+.comments-toggle {
+    text-align: right;
+    position: relative;
+}
+
+.toggle-comments-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--accent);
+    transition: color 0.3s ease;
+    position: absolute;
+    right: 0; /* Выровнен с лайками */
+    top: -15px; /* Подогнать к нужной высоте */
+}
+.toggle-comments-btn:hover {
+    color: var(--indigo-light);
+}
+
+.comments-section {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Основной комментарий */
+.comment {
+    padding: 8px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 6px;
+}
+.comment:last-child {
+    border-bottom: none;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+}
+
+.comment-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+}
+.comment-author {
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: var(--text-color);
+}
+
+.comment-date {
+    font-size: 0.75rem;
+    color: #777;
+    margin-left: auto;
+}
+
+.comment-content {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin: 0 0 3px 0;
+}
+
+/* Кнопка "Ответить" */
+.reply-btn {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 3px;
+}
+
+/* Форма ответа */
+.reply-form {
+    display: none;
+    margin-top: 6px;
+    flex-direction: column;
+    gap: 4px;
+}
+.reply-form textarea {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 0.85rem;
+}
+.btn-submit-reply {
+    align-self: flex-end;
+    padding: 5px 10px;
+    background-color: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-submit-reply:hover {
+    background-color: darkorange;
+}
+
+/* Форма для нового комментария */
+.add-comment {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.add-comment textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 0.9rem;
+}
+.btn-submit-comment {
+    align-self: flex-end;
+    padding: 6px 14px;
+    background-color: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-submit-comment:hover {
+    background-color: darkorange;
+}
+
+/* Ветка комментариев (все ответы в одном уровне) */
+.nested-replies {
+    margin-left: 20px;
+    margin-top: 6px;
+    border-left: 2px solid var(--border-color);
+    padding-left: 6px;
+}

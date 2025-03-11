@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     document.querySelectorAll(".like-btn").forEach(button => {
         button.addEventListener("click", function (event) {
             event.preventDefault();
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(likeUrl, {
                 method: "POST",
                 headers: {
-                    "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value,
+                    "X-CSRFToken": csrfToken,
                     "Content-Type": "application/json",
                 },
             })
@@ -24,4 +25,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-

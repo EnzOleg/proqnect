@@ -30,57 +30,33 @@
   </div>
 
   {% if bookings %}
-    <table class="bookings-table" id="bookingsTable">
-      <thead>
-        <tr>
-          <th>Клиент</th>
-          <th>Описание проблемы</th>
-          <th>Предпочтительные интервалы</th>
-          <th>Дата создания</th>
-          <th>Статус</th>
-          <th>Действия</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for booking in bookings %}
-          <tr 
-            data-status="{{ booking.status }}" 
-            data-client="{{ booking.user.email|lower }}" 
-            data-problem="{{ booking.problem_description|default:''|lower }}"
-          >
-            <td>{{ booking.user.email }}</td>
-            <td>{{ booking.problem_description|default:"—" }}</td>
-            <td>{{ booking.available_times|default:"—" }}</td>
-            <td>{{ booking.created_at|date:"d M Y H:i" }}</td>
-            <td>{{ booking.get_status_display }}</td>
-            <td>
-              {% if booking.status == "pending" %}
-                <div class="actions">
-                  <a href="{% url 'booking:confirm_booking' booking.id %}" class="btn btn-confirm">Подтвердить</a>
-                  <a href="{% url 'booking:handle_booking' booking.id 'decline' %}" class="btn btn-decline">Отклонить</a>
-                </div>
-              {% elif booking.status == "confirmed" %}
-                <div class="actions">
-                  <span class="scheduled">Назначено: {{ booking.scheduled_time|date:"d M Y H:i" }}</span>
-                  <!-- Доп. функционал: Пометить как выполнено -->
-                  <a 
-                    href="{% url 'booking:handle_booking' booking.id 'complete' %}" 
-                    class="btn btn-complete"
-                    title="Пометить как выполнено"
-                  >
-                    Завершить
-                  </a>
-                </div>
-              {% elif booking.status == "completed" %}
-                <span class="completed">Выполнено</span>
-              {% else %}
-                {{ booking.get_status_display }}
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div id="bookingsCards">
+      {% for booking in bookings %}
+        <div class="booking-card"
+             data-status="{{ booking.status }}"
+             data-client="{{ booking.user.email|lower }}"
+             data-problem="{{ booking.problem_description|default:''|lower }}">
+          <h3>{{ booking.user.email }}</h3>
+          <p><strong>Описание проблемы:</strong> {{ booking.problem_description|default:"—" }}</p>
+          <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times|default:"—" }}</p>
+          <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>
+          <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
+          <div class="actions">
+            {% if booking.status == "pending" %}
+              <a href="{% url 'booking:confirm_booking' booking.id %}" class="btn btn-confirm">Подтвердить</a>
+              <a href="{% url 'booking:handle_booking' booking.id 'decline' %}" class="btn btn-decline">Отклонить</a>
+            {% elif booking.status == "confirmed" %}
+              <p class="scheduled"><strong>Назначено:</strong> {{ booking.scheduled_time|date:"d M Y H:i" }}</p>
+              <a href="{% url 'booking:handle_booking' booking.id 'complete' %}" class="btn btn-complete" title="Пометить как выполнено">Завершить</a>
+            {% elif booking.status == "completed" %}
+              <span class="completed">Выполнено</span>
+            {% else %}
+              {{ booking.get_status_display }}
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   {% else %}
     <p class="no-bookings">Нет входящих записей.</p>
   {% endif %}
@@ -90,55 +66,44 @@
 document.addEventListener("DOMContentLoaded", function() {
   const searchInput = document.getElementById("search-input");
   const statusFilter = document.getElementById("status-filter");
-  const tableRows = document.querySelectorAll("#bookingsTable tbody tr");
+  const bookingCards = document.querySelectorAll("#bookingsCards .booking-card");
   const exportBtn = document.getElementById("export-btn");
 
-  // Функция фильтрации по статусу и поиску
-  function filterRows() {
+  // Фильтрация карточек
+  function filterCards() {
     const query = searchInput.value.toLowerCase().trim();
     const statusValue = statusFilter.value;
 
-    tableRows.forEach(row => {
-      const rowStatus = row.getAttribute("data-status");
-      const rowClient = row.getAttribute("data-client");
-      const rowProblem = row.getAttribute("data-problem");
+    bookingCards.forEach(card => {
+      const cardStatus = card.getAttribute("data-status");
+      const cardClient = card.getAttribute("data-client");
+      const cardProblem = card.getAttribute("data-problem");
 
-      // Проверка статуса
-      const statusMatch = !statusValue || (rowStatus === statusValue);
-      // Проверка поиска (email клиента или текст проблемы)
-      const searchMatch =
-        rowClient.includes(query) ||
-        rowProblem.includes(query);
+      const statusMatch = !statusValue || (cardStatus === statusValue);
+      const searchMatch = cardClient.includes(query) || cardProblem.includes(query);
 
-      // Если оба совпадают - показываем, иначе скрываем
-      if (statusMatch && searchMatch) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
+      card.style.display = (statusMatch && searchMatch) ? "" : "none";
     });
   }
 
-  // Слушатели для поиска и фильтра
-  searchInput.addEventListener("input", filterRows);
-  statusFilter.addEventListener("change", filterRows);
+  searchInput.addEventListener("input", filterCards);
+  statusFilter.addEventListener("change", filterCards);
 
   // Экспорт в CSV
   exportBtn.addEventListener("click", function() {
     let csvContent = "data:text/csv;charset=utf-8," 
       + "Клиент;Описание;Интервалы;Дата создания;Статус\n";
 
-    tableRows.forEach(row => {
-      if (row.style.display !== "none") {
-        const cells = row.querySelectorAll("td");
-        const rowData = [];
-        cells.forEach((cell, idx) => {
-          // Пропустим последний столбец "Действия" при экспорте
-          if (idx < 5) {
-            rowData.push(cell.innerText.replace(";", ","));
-          }
-        });
-        csvContent += rowData.join(";") + "\n";
+    bookingCards.forEach(card => {
+      if (card.style.display !== "none") {
+        const client = card.getAttribute("data-client");
+        const problem = card.getAttribute("data-problem");
+        // Извлекаем текст из абзацев (предполагается фиксированный порядок)
+        const paragraphs = card.querySelectorAll("p");
+        const intervals = paragraphs[1].innerText.replace("Предпочтительные интервалы:", "").trim();
+        const createdAt = paragraphs[2].innerText.replace("Дата создания:", "").trim();
+        const status = paragraphs[3].innerText.replace("Статус:", "").trim();
+        csvContent += [client, problem, intervals, createdAt, status].join(";") + "\n";
       }
     });
     

@@ -55,6 +55,7 @@ def settings_view(request):
         user.status = request.POST.get("status", user.status)
         if request.FILES.get("profile_picture"):
             user.profile_picture = request.FILES.get("profile_picture")
+        user.timezone = request.POST.get("timezone", user.timezone)
         user.save()
         messages.success(request, "Настройки обновлены!")
         return redirect("settings")
@@ -66,16 +67,37 @@ def logout_view(request):
     return redirect("auth")
 
 @login_required
-def profile_view(request):
-    posts = request.user.posts.all().order_by("-created_at")
-    friends = []  
-    return render(request, "profile.html", {"user": request.user, "posts": posts, "friends": friends})
+def profile_view(request, user_id=None):
+    # Если передан user_id, получаем пользователя или 404
+    if user_id:
+        user = get_object_or_404(CustomUser, id=user_id)
+    else:
+        user = request.user  # Если user_id не передан, показываем свой профиль
+
+    posts = user.posts.all().order_by("-created_at")
+    for post in posts:
+        post.is_liked = post.likes.filter(user=request.user).exists()
+        post.top_comments = post.comments.filter(parent__isnull=True).order_by("created_at")
+        for top_comment in post.top_comments:
+            branch = []
+            for comment in post.comments.all():
+                if comment.parent is not None and comment.top_parent.id == top_comment.id:
+                    branch.append(comment)
+            branch.sort(key=lambda x: x.created_at)
+            top_comment.branch_replies = branch
+
+    friends = ['Олегжа', 'Олежа', 'Олег']  # Позже можно добавить список друзей
+
+    return render(request, "profile.html", {"user": user, "posts": posts, "friends": friends})
+
+
 
 @login_required
 def add_post(request):
     if request.method == "POST":
         content = request.POST.get("content")
         image = request.FILES.get("image")
+        
         if content or image:
             Post.objects.create(user=request.user, content=content, image=image)
             messages.success(request, "Запись опубликована!")

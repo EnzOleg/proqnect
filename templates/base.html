@@ -6,6 +6,7 @@
     <script src="{% static 'js/theme.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="icon" type="image/png" href="{% static 'images/PROQNECT.png' %}" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
     {% block extra_css %}{% endblock %}
     <title>{% block title %}ProQnect{% endblock %}</title>
 </head>
@@ -16,6 +17,7 @@
             <a href="{% url 'index' %}">
                 <img src="{% static 'images/logo.svg' %}" alt="Логотип">
             </a>
+  
             <h1><a href="/">Главная</a></h1>
             <h1><a href="{% url 'feed:feed' %}">Новости</a></h1>
             <h1><a href="{% url 'experts:search_experts' %}">Найти Эксперта</a></h1>
@@ -42,9 +44,9 @@
                     <img src="{{ user.profile_picture.url }}" alt="Аватарка" class="avatar">
                 </div>
                 <div id="profile-menu" class="dropdown-menu">
-                    <a href="{% url 'profile' %}">Профиль</a>
-                    <a href="{% url 'settings' %}">Настройки</a>
-                    <form action="{% url 'logout' %}" method="post">
+                    <a href="{% url 'accounts:profile' %}">Профиль</a>
+                    <a href="{% url 'accounts:settings' %}">Настройки</a>
+                    <form action="{% url 'accounts:logout' %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="dropdown-menu-link">Выход</button>
                     </form>                    
@@ -79,6 +81,8 @@
     {% endblock %}
     
     <script>
+
+        
         document.addEventListener("DOMContentLoaded", function() {
             fetchNotifications();
         });

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import ExpertProfileForm
+from .forms import ExpertProfileForm, ExpertSkillFormSet
 from .models import Expert
 from booking.models import Booking
 
@@ -26,23 +26,38 @@ def experts_search(request):
 
 @login_required
 def become_expert(request):
+    # Если у пользователя уже есть профиль эксперта — редиректим
     if hasattr(request.user, 'expert_profile'):
         return redirect('experts:detail', pk=request.user.expert_profile.id)
 
     if request.method == 'POST':
         form = ExpertProfileForm(request.POST)
-        if form.is_valid():
+        formset = ExpertSkillFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            # Сохраняем Expert
             expert = form.save(commit=False)
             expert.user = request.user
             expert.save()
-            
+
+            # Привязываем formset к созданному Expert
+            skill_forms = formset.save(commit=False)
+            for skill_form in skill_forms:
+                skill_form.expert = expert
+                skill_form.save()
+
+            # Сохраняем роль пользователя
             request.user.role = 'expert'
             request.user.save()
+
             return redirect('experts:detail', pk=expert.id)
     else:
         form = ExpertProfileForm()
-    
-    return render(request, 'experts/become_expert.html', {'form': form})
+        formset = ExpertSkillFormSet()
+
+    return render(request, 'experts/become_expert.html', {
+        'form': form,
+        'formset': formset
+    })
 
 def expert_detail(request, pk):
     expert = get_object_or_404(Expert, pk=pk)
