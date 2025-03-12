@@ -44,7 +44,7 @@
                     <img src="{{ user.profile_picture.url }}" alt="Аватарка" class="avatar">
                 </div>
                 <div id="profile-menu" class="dropdown-menu">
-                    <a href="{% url 'accounts:profile' %}">Профиль</a>
+                    <a href="{% url 'accounts:profile' user.id %}">Профиль</a>
                     <a href="{% url 'accounts:settings' %}">Настройки</a>
                     <form action="{% url 'accounts:logout' %}" method="post">
                         {% csrf_token %}
@@ -52,8 +52,8 @@
                     </form>                    
                 </div>
             {% else %}
-                <a href="{% url 'register' %}"><button type="submit">Зарегистрироваться</button></a>
-                <a href="{% url 'login' %}"><button type="submit">Войти</button></a>
+                <a href="{% url 'accounts:register' %}"><button type="submit">Зарегистрироваться</button></a>
+                <a href="{% url 'accounts:login' %}"><button type="submit">Войти</button></a>
             {% endif %}
         </div>
     </header>

@@ -5,6 +5,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/chat_room.css' %}">
+<link rel="stylesheet" href="{% static 'css/chat_room_2.css' %}">
 {% endblock %}
 
 {% block main_content %}
@@ -16,12 +17,10 @@
             {% if sidebar %}
             <ul class="chat-list">
                 {% for past_chat, partner in sidebar %}
-                    <li class="chat-item {% if chat.id == past_chat.id %}active{% endif %}">
-                        <a href="{% url 'chat:chat_room' past_chat.id %}">
-                            <img src="{% if partner.profile_picture %}{{ partner.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}" class="chat-avatar" alt="Avatar">
-                            <span>{{ partner.first_name }} {{ partner.last_name }}</span>
-                        </a>
-                    </li>
+                <li class="chat-item {% if chat.id == past_chat.id %}active{% endif %}" onclick="window.location.href='{% url 'chat:chat_room' past_chat.id %}'">
+                    <img src="{% if partner.profile_picture %}{{ partner.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}" class="chat-avatar" alt="Avatar">
+                    <span>{{ partner.first_name }} {{ partner.last_name }}</span>
+                </li>                              
                 {% endfor %}
             </ul>
             {% endif %}
@@ -61,75 +60,78 @@
 </div>
 
 <script>
-    const chatId = "{{ chat.id }}";
-    const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-    const wsUrl = `${wsProtocol}${window.location.host}/ws/chat/${chatId}/`;
-    const chatMessages = document.getElementById('chat-messages');
-    let chatSocket;
-
-    function connectWebSocket() {
-        chatSocket = new WebSocket(wsUrl);
-
-        chatSocket.onopen = () => console.log("✅ WebSocket открыт");
-
-        chatSocket.onmessage = (e) => {
-            console.log("Получено сообщение:", e.data);
-            try {
-                const data = JSON.parse(e.data);
-                if (data.message) {
-                    addMessageToChat(data);
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".chat-item").forEach((item) => {
+            item.addEventListener("click", async function (event) {
+                event.preventDefault(); // Отключаем стандартный переход по ссылке
+    
+                const url = this.querySelector("a") ? this.querySelector("a").href : null;
+                if (!url) {
+                    console.error("❌ Ошибка: не найден URL для чата");
+                    return;
                 }
-            } catch (error) {
-                console.error("Ошибка парсинга JSON:", error);
-            }
-        };
-
-        chatSocket.onclose = () => {
-            console.warn("⚠️ WebSocket закрыт, пытаемся переподключиться...");
-            setTimeout(connectWebSocket, 2000);
-        };
-
-        chatSocket.onerror = (error) => {
-            console.error("WebSocket ошибка:", error);
-        };
-    }
-
-    function addMessageToChat(data) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add(
-            'chat-message',
-            data.sender_id.toString() === "{{ request.user.id }}" ? 'sent' : 'received'
-        );
-
-        const timestamp = data.timestamp ? new Date(data.timestamp) : new Date();
-        const timeString = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        messageDiv.innerHTML = `
-            <img src="${data.avatar || "{% static 'avatars/def_icon.png' %}"}" class="message-avatar" alt="Avatar">
-            <div class="message-content">
-                <span class="message-sender"><a href="${data.profile_url || '#'}">${data.sender}</a></span>
-                <span class="message-text">${data.message}</span>
-                <span class="message-time">${timeString}</span>
-            </div>
-        `;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    document.getElementById('chat-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const input = document.getElementById('message-input');
-        if (!input.value.trim()) return;
-        chatSocket.send(JSON.stringify({ message: input.value }));
-        input.value = '';
+    
+                await switchChat(url, this);
+            });
+        });
     });
-
-    window.onload = function() {
-        var chatContainer = document.getElementById('chat-messages');
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-    };
-
-    connectWebSocket();
+    
+    async function switchChat(url, clickedItem) {
+        try {
+            const chatMain = document.querySelector(".chat-main");
+            if (!chatMain) {
+                console.error("❌ Ошибка: .chat-main не найден!");
+                return;
+            }
+    
+            // Убираем активный класс у всех чатов, добавляем к текущему
+            document.querySelectorAll(".chat-item").forEach((el) => el.classList.remove("active"));
+            clickedItem.classList.add("active");
+    
+            // Анимация исчезновения (плавное скрытие)
+            chatMain.style.opacity = "0";
+            chatMain.style.transform = "translateY(20px)";
+            await new Promise((resolve) => setTimeout(resolve, 300)); // Ждём 300мс
+    
+            // Загружаем новый чат через fetch (без перезагрузки страницы)
+            const response = await fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } });
+            if (!response.ok) throw new Error(`Ошибка загрузки чата: ${response.status}`);
+    
+            const newChatHTML = await response.text();
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = newChatHTML;
+    
+            // Заменяем содержимое чата
+            const newChatMain = tempDiv.querySelector(".chat-main");
+            if (!newChatMain) {
+                console.error("❌ Ошибка: Новый чат не найден в загруженной странице!");
+                return;
+            }
+    
+            chatMain.innerHTML = newChatMain.innerHTML;
+    
+            // Плавное появление
+            chatMain.style.opacity = "0";
+            chatMain.style.transform = "translateY(10px)";
+            setTimeout(() => {
+                chatMain.style.opacity = "1";
+                chatMain.style.transform = "translateY(0)";
+            }, 50);
+    
+            // Переподключаем WebSocket
+            reconnectWebSocket();
+        } catch (error) {
+            console.error("❌ Ошибка при переключении чата:", error);
+        }
+    }
+    
+    // Функция переподключения WebSocket при смене чата
+    function reconnectWebSocket() {
+        if (chatSocket) {
+            chatSocket.close();
+        }
+        connectWebSocket();
+    }
 </script>
 {% endblock %}
 

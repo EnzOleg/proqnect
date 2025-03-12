@@ -23,10 +23,10 @@
                     <a href="{% url 'accounts:settings' %}" class="btn-edit-profile">Редактировать</a>
                 {% else %}
                     <a href="{% url 'chat:chat_with_user' user.id %}" class="btn-message">Написать</a>
-                    <form method="post" action="#">
+                    <form method="post" action="{% url 'friends:add_friend' user.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn-add-friend">Добавить в друзья</button>
-                    </form>
+                    </form>                    
                 {% endif %}
             </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="profile-sidebar">
             <h2>Информация</h2>
             <p>{{ user.bio|default_if_none:'Нет информации' }}</p>
-            <h2>Друзья</h2>
+            <h2><a href="{% url 'friends:friend_requests' %}">Друзья</a></h2>
             <ul>
                 {% for friend in friends %}
                     <li>

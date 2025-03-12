@@ -61,7 +61,7 @@
         Зарегистрируйтесь, чтобы получить доступ к лучшим экспертам и качественным консультациям.
     </p>
     {% if not user.is_authenticated %}
-        <a href="{% url 'register' %}"><button type="submit">Зарегистрироваться</button></a>
+        <a href="{% url 'accounts:register' %}"><button type="submit">Зарегистрироваться</button></a>
     {% endif %}
 </section>
 

@@ -30,7 +30,7 @@ def register_view(request):
                     else:
                         messages.error(request, error)
             return render(request, "auth.html", {"form": form, "show_register": True})
-    return redirect("auth")
+    return redirect("accounts:auth")
 
 
 def login_view(request):
@@ -44,7 +44,7 @@ def login_view(request):
         else:
             messages.error(request, "Неправильный email или пароль")
             return render(request, "auth.html", {"show_login": True})
-    return redirect("auth")
+    return redirect("accounts:auth")
 
 @login_required
 def settings_view(request):
@@ -64,7 +64,7 @@ def settings_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("auth")
+    return redirect("accounts:auth")
 
 @login_required
 def profile_view(request, user_id=None):
