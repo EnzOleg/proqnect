@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from booking.models import Booking
+from django.utils.timezone import now
 
 User = get_user_model()
 
@@ -42,3 +43,10 @@ class Message(models.Model):
     
     class Meta:
         ordering = ['timestamp']
+
+
+class Call(models.Model):
+    chat = models.OneToOneField('Chat', on_delete=models.CASCADE, related_name='active_call')
+    room_url = models.URLField()
+    created_at = models.DateTimeField(default=now)
+    is_active = models.BooleanField(default=True)

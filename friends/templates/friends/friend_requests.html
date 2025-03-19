@@ -12,7 +12,7 @@
     <ul>
         {% for request in requests %}
             <li>
-                {{ request.sender.username }} 
+                {{ request.from_user.first_name }} {{ request.from_user.last_name }} 
                 <form action="{% url 'friends:accept_friend' request.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Accept</button>

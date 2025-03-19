@@ -41,6 +41,7 @@
           <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times|default:"—" }}</p>
           <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>
           <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
+          <button class="btn btn-delete" data-id="{{ booking.id }}">Удалить</button>
           <div class="actions">
             {% if booking.status == "pending" %}
               <a href="{% url 'booking:confirm_booking' booking.id %}" class="btn btn-confirm">Подтвердить</a>
@@ -88,8 +89,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
   searchInput.addEventListener("input", filterCards);
   statusFilter.addEventListener("change", filterCards);
-
-  // Экспорт в CSV
   exportBtn.addEventListener("click", function() {
     let csvContent = "data:text/csv;charset=utf-8," 
       + "Клиент;Описание;Интервалы;Дата создания;Статус\n";
@@ -98,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function() {
       if (card.style.display !== "none") {
         const client = card.getAttribute("data-client");
         const problem = card.getAttribute("data-problem");
-        // Извлекаем текст из абзацев (предполагается фиксированный порядок)
         const paragraphs = card.querySelectorAll("p");
         const intervals = paragraphs[1].innerText.replace("Предпочтительные интервалы:", "").trim();
         const createdAt = paragraphs[2].innerText.replace("Дата создания:", "").trim();
@@ -115,6 +113,33 @@ document.addEventListener("DOMContentLoaded", function() {
     link.click();
     document.body.removeChild(link);
   });
+  document.querySelectorAll(".btn-delete").forEach(button => {
+    button.addEventListener("click", async function() {
+        if (!confirm("Вы уверены, что хотите удалить запись?")) return;
+        const bookingId = this.getAttribute("data-id");
+        const url = `/booking/${bookingId}/delete/`;
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCsrfToken(),
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!response.ok) throw new Error("Ошибка удаления!");
+
+            this.closest(".booking-card").remove();
+        } catch (error) {
+            console.error("❌ Ошибка при удалении:", error);
+        }
+    });
+});
+
+function getCsrfToken() {
+    return document.querySelector("[name=csrfmiddlewaretoken]").value;
+}
+
 });
 </script>
 {% endblock %}

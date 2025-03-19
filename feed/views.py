@@ -4,10 +4,26 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from .models import Post, Like, Comment
 
+@login_required
 def feed(request):
-    """Выводит случайный список постов."""
     posts = Post.objects.all().order_by("?")
-    return render(request, "feed/feed.html", {"posts": posts})
+    
+    liked_posts = set()
+    if request.user.is_authenticated:
+        liked_posts = set(Like.objects.filter(user=request.user).values_list("post_id", flat=True))
+    
+    for post in posts:
+        post.is_liked = post.likes.filter(user=request.user).exists()
+        post.top_comments = post.comments.filter(parent__isnull=True).order_by("created_at")
+        
+        for top_comment in post.top_comments:
+            branch = [comment for comment in post.comments.all() if comment.parent and comment.top_parent.id == top_comment.id]
+            branch.sort(key=lambda x: x.created_at)
+            top_comment.branch_replies = branch
+    
+    return render(request, "feed/feed.html", {"posts": posts, "liked_posts": liked_posts})
+
+
 
 @login_required
 @require_POST

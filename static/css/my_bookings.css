@@ -128,6 +128,7 @@
 
 .btn-confirm:hover {
   background: var(--primary-light);
+  color: white;
 }
 
 .btn-decline {
@@ -136,6 +137,7 @@
 
 .btn-decline:hover {
   background: #ff584c;
+  color: white;
 }
 
 .btn-complete {
@@ -145,8 +147,33 @@
 .btn-complete:hover {
   background: #43a047;
 }
+.btn-delete {
+  background: transparent; /* Убираем фон */
+  color: #d32f2f; /* Красный текст */
+  border: 1px solid #d32f2f; /* Красная рамка */
+  padding: 6px 12px; /* Уменьшаем отступы */
+  font-size: 12px; /* Делаем текст маленьким */
+  font-weight: normal; /* Обычный вес */
+  border-radius: 4px; /* Чуть скругляем */
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
 
-/* --- Дополнительное оформление --- */
+.btn-delete:hover {
+  background: #d32f2f;
+  color: white; /* Инверсия цветов при наведении */
+}
+
+.btn-delete:active {
+  background: #b71c1c;
+  color: white;
+}
+
+.btn-delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .scheduled {
   font-weight: 600;
   color: var(--primary-dark);
@@ -165,7 +192,6 @@
   margin-top: 30px;
 }
 
-/* --- Адаптивность --- */
 @media (max-width: 768px) {
   .filter-bar {
     flex-direction: column;

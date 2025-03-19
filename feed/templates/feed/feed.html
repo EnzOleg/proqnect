@@ -26,6 +26,16 @@
                         <img src="{{ post.image.url }}" alt="Изображение поста" class="post-image">
                     {% endif %}
                     <p>{{ post.content }}</p>
+
+                    <div class="post-actions">
+                        <button class="like-btn" data-post-id="{{ post.id }}">
+                            {% if post.id in liked_posts %}
+                                ❤️ {{ post.like_count }}
+                            {% else %}
+                                🤍 {{ post.like_count }}
+                            {% endif %}
+                        </button>                                              
+                    </div>
                 </div>
                 {% include 'partials/post_comments.html' with post=post %}
             </div>

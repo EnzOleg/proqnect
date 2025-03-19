@@ -141,6 +141,7 @@
 
 .btn-view:hover {
     background: var(--primary-light);
+    color: white;
 }
 
 /* Сообщение, если результатов нет */

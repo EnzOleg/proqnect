@@ -6,6 +6,8 @@
     --background: #f3f2ef;
     --text-color: #333;
     --border-color: #e0e0e0;
+    --input-bg: #fff;
+    --input-border: #ccc;
 }
 
 /* Тёмная тема */
@@ -13,83 +15,127 @@
     --background: #121212;
     --text-color: #e0e0e0;
     --border-color: #333;
-    --primary-dark: #4a148c;
-    --primary-light: #7b1fa2;
+    --primary-dark: #6a1b9a;
+    --primary-light: #9c27b0;
+    --input-bg: #1e1e1e;
+    --input-border: #555;
 }
 
-/* Контейнер страницы "Настройки" */
+/* Основной контейнер настроек */
 .settings-container {
-    max-width: 700px;
+    max-width: 900px;
     margin: 40px auto;
     background: var(--background);
     color: var(--text-color);
-    padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Вкладки */
 .settings-tabs {
     display: flex;
+    gap: 10px;
     border-bottom: 2px solid var(--border-color);
-    margin-bottom: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .settings-tabs .tab-btn {
-    flex: 1;
-    padding: 10px;
+    padding: 10px 15px;
     border: none;
-    background: var(--background);
+    background: transparent;
     color: var(--text-color);
-    cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.settings-tabs .tab-btn:hover {
+    background: var(--primary-light);
+    color: #fff;
+    transform: scale(1.05);
 }
 
 .settings-tabs .tab-btn.active {
-    background: var(--primary-dark);
-    color: #fff;
+    background: var(--accent);
+    color: #333;
+    font-weight: bold;
 }
 
 /* Контент настроек */
 .settings-content {
-    display: flex;
-    flex-direction: column;
+    padding: 15px;
 }
 
 /* Скрытый контент вкладок */
 .tab-content {
     display: none;
 }
+
 .tab-content.active {
     display: block;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Общие стили форм */
+/* Анимация появления */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Формы */
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
-input, select, button {
+label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input, select {
     padding: 10px;
-    font-size: 16px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    transition: border 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-light);
+    outline: none;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    background: var(--background);
+    resize: vertical;
+    font-size: 14px;
+    background: var(--background-color);
     color: var(--text-color);
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: border 0.3s ease;
 }
 
 button {
     background: var(--primary-dark);
-    color: #fff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
     background: var(--primary-light);
+    transform: scale(1.05);
 }

@@ -1,14 +1,19 @@
+import json
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .forms import CustomUserRegistrationForm
 from .models import CustomUser, Post
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden
+from friends.models import Friendship
+
 
 def auth_view(request):
     form = CustomUserRegistrationForm()
-    return render(request, "auth.html", {"form": form})
+    return render(request, "accounts/auth.html", {"form": form})
+
 
 def register_view(request):
     if request.method == "POST":
@@ -20,16 +25,15 @@ def register_view(request):
             login(request, user)
             messages.success(request, "Регистрация успешна! Добро пожаловать!")
             return redirect("index")
-        else:
-            for field, errors in form.errors.items():
-                field_obj = form.fields.get(field)
-                field_label = field_obj.label if field_obj and field_obj.label is not None else ""
-                for error in errors:
-                    if field_label:
-                        messages.error(request, f"{field_label}: {error}")
-                    else:
-                        messages.error(request, error)
-            return render(request, "auth.html", {"form": form, "show_register": True})
+
+        for field, errors in form.errors.items():
+            field_obj = form.fields.get(field)
+            field_label = field_obj.label if field_obj and field_obj.label is not None else ""
+            for error in errors:
+                messages.error(request, f"{field_label}: {error}" if field_label else error)
+
+        return render(request, "accounts/auth.html", {"form": form, "show_register": True})
+
     return redirect("accounts:auth")
 
 
@@ -41,55 +45,66 @@ def login_view(request):
         if user is not None:
             login(request, user)
             return redirect("index")
-        else:
-            messages.error(request, "Неправильный email или пароль")
-            return render(request, "auth.html", {"show_login": True})
+
+        messages.error(request, "Неправильный email или пароль")
+        return render(request, "accounts/auth.html", {"show_login": True})
+
     return redirect("accounts:auth")
+
 
 @login_required
 def settings_view(request):
     if request.method == "POST":
         user = request.user
-        user.first_name = request.POST.get("first_name")
-        user.last_name = request.POST.get("last_name")
-        user.status = request.POST.get("status", user.status)
-        if request.FILES.get("profile_picture"):
-            user.profile_picture = request.FILES.get("profile_picture")
+        user.first_name = request.POST.get("first_name", user.first_name)
+        user.last_name = request.POST.get("last_name", user.last_name)
+
+        status = request.POST.get("status")
+        if status is not None:
+            user.status = status
+
         user.timezone = request.POST.get("timezone", user.timezone)
+        user.bio = request.POST.get("bio", user.bio)
+        if request.FILES.get("profile_picture"):
+            user.profile_picture = request.FILES["profile_picture"]
         user.save()
         messages.success(request, "Настройки обновлены!")
-        return redirect("settings")
-    
-    return render(request, "settings.html")
+        return redirect("accounts:settings")
+
+    return render(request, "accounts/settings.html", {"user": request.user})
+
 
 def logout_view(request):
     logout(request)
     return redirect("accounts:auth")
 
+
 @login_required
 def profile_view(request, user_id=None):
-    # Если передан user_id, получаем пользователя или 404
     if user_id:
         user = get_object_or_404(CustomUser, id=user_id)
     else:
-        user = request.user  # Если user_id не передан, показываем свой профиль
+        user = request.user 
 
     posts = user.posts.all().order_by("-created_at")
     for post in posts:
         post.is_liked = post.likes.filter(user=request.user).exists()
         post.top_comments = post.comments.filter(parent__isnull=True).order_by("created_at")
+
         for top_comment in post.top_comments:
-            branch = []
-            for comment in post.comments.all():
-                if comment.parent is not None and comment.top_parent.id == top_comment.id:
-                    branch.append(comment)
+            branch = [comment for comment in post.comments.all() if comment.parent and comment.top_parent.id == top_comment.id]
             branch.sort(key=lambda x: x.created_at)
             top_comment.branch_replies = branch
 
-    friends = ['Олегжа', 'Олежа', 'Олег']  # Позже можно добавить список друзей
+    friends = Friendship.objects.filter(user=user).values_list("friend", flat=True)
+    is_friend = request.user.id in friends
 
-    return render(request, "profile.html", {"user": user, "posts": posts, "friends": friends})
-
+    return render(request, "accounts/profile.html", {
+        "user": user,
+        "posts": posts,
+        "friends": CustomUser.objects.filter(id__in=friends),
+        "is_friend": is_friend
+    })
 
 
 @login_required
@@ -97,30 +112,28 @@ def add_post(request):
     if request.method == "POST":
         content = request.POST.get("content")
         image = request.FILES.get("image")
-        
+
         if content or image:
             Post.objects.create(user=request.user, content=content, image=image)
             messages.success(request, "Запись опубликована!")
         else:
             messages.error(request, "Заполните текст поста или добавьте изображение!")
-    return redirect("profile")
+
+    return redirect("accounts:profile", user_id=request.user.id)
 
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if post.user == request.user:
-        post.delete()
-    return redirect('profile')
+    if post.user != request.user:
+        return HttpResponseForbidden("Вы не можете удалить этот пост.")
 
-@login_required
-def update_status(request):
-    if request.method == "POST":
-        request.user.status = request.POST.get("status", "").strip()
-        request.user.save()
-    return redirect('profile')
+    post.delete()
+    messages.success(request, "Пост удалён!")
+    return redirect("accounts:profile")
+
 
 def set_theme(request):
     theme = request.GET.get("theme", "light")
-    response = HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    response = HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse("accounts:settings")))
     response.set_cookie("theme", theme, max_age=31536000)
     return response

@@ -8,4 +8,7 @@ urlpatterns = [
     path('<int:chat_id>/', views.chat_room, name='chat_room'),
     path('with/<int:user_id>/', views.chat_with_user, name='chat_with_user'),
     path('consultation/<int:user_id>/', views.consultation_chat_with_expert, name='consultation_chat_with_expert'),
+    path("create-or-get-call/<int:chat_id>/", views.create_or_get_call, name="create_or_get_call"),
+    path("check-call/<int:chat_id>/", views.check_active_call, name="check_active_call"),
+
 ]

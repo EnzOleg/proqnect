@@ -29,7 +29,6 @@
     background: var(--background);
     color: var(--text-color);
     border-radius: 8px;
-    box-shadow: 0 4px 10px var(--hover-shadow);
     transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -74,12 +73,16 @@
   
 
 .post-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid white;
-  }
+  display: block !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  margin-right: 10px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
 
   
 .post-image {

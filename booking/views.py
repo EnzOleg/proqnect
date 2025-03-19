@@ -53,20 +53,26 @@ def confirm_booking(request, booking_id):
         form = ConfirmBookingForm(instance=booking)
     return render(request, "booking/confirm_booking.html", {"form": form, "booking": booking})
 
-
 @login_required
 def handle_booking(request, booking_id, action):
     booking = get_object_or_404(Booking, id=booking_id, expert=request.user)
-    if action == "decline":
-        booking.status = "canceled"
-        booking.save()
+    
+    if request.method == "POST":
+        if action == "decline":
+            booking.status = "canceled"
+            booking.save()
+        elif action == "complete":
+            booking.status = "completed"
+            booking.save()
+        elif action == "delete":
+            booking.delete()
+            return JsonResponse({"message": "Запись удалена"}, status=200)
+        else:
+            return JsonResponse({"error": "Недопустимое действие"}, status=400)
+
         return redirect('booking:my_bookings')
-    elif action == "complete":
-        booking.status = "completed"
-        booking.save()
-        return redirect('booking:my_bookings')
-    else:
-        return JsonResponse({"error": "Недопустимое действие"}, status=400)
+    
+    return JsonResponse({"error": "Метод не разрешён"}, status=405)
 
 
 

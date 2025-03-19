@@ -11,6 +11,10 @@ class Post(models.Model):
     def update_like_count(self):
         self.like_count = self.likes.count()
         self.save(update_fields=["like_count"])  
+
+    def is_liked_by(self, user):
+        return self.likes.filter(user=user).exists()
+
     def __str__(self):
         return f"Пост {self.user.email} от {self.created_at:%d.%m.%Y %H:%M}"
 

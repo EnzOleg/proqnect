@@ -28,6 +28,7 @@ class Booking(models.Model):
         null=True, 
         blank=True
     )
+    room_url = models.URLField(blank=True, null=True)
     status = models.CharField(
         max_length=20, 
         choices=STATUS_CHOICES, 

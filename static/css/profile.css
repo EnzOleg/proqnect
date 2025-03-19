@@ -149,17 +149,58 @@ html {
   gap: 20px;
   margin-top: 20px;
 }
-
-.profile-sidebar {
-  padding: 15px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: var(--box-shadow-light);
+.profile-sidebar h2 {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin-bottom: 10px;
 }
 
-[data-theme="dark"] .profile-sidebar {
-  background: #1e1e1e;
-  box-shadow: var(--box-shadow-dark);
+.profile-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-sidebar li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background 0.3s ease-in-out;
+}
+
+.profile-sidebar li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.profile-sidebar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-sidebar p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.profile-sidebar a {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.profile-sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* Темная тема */
+[data-theme="dark"] .profile-sidebar li:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* Посты */
@@ -174,29 +215,94 @@ html {
   background: #1e1e1e;
   box-shadow: var(--box-shadow-dark);
 }
+.new-post {
+  background: var(--background-light);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.new-post:hover {
+  transform: scale(1.02);
+}
+
+.new-post-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.new-post-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 .new-post textarea {
   width: 100%;
   min-height: 80px;
   padding: 10px;
   border: 1px solid var(--border-color);
-  border-radius: 5px;
+  border-radius: 8px;
   resize: none;
+  font-size: 16px;
+  transition: border 0.3s ease-in-out;
+}
+
+.new-post textarea:focus {
+  border-color: var(--indigo-light);
+}
+
+.new-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gray-dark);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.file-label:hover {
+  background: var(--gray-light);
+}
+
+.file-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+#fileName {
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .new-post button {
-  margin-top: 10px;
   padding: 10px 15px;
   background: var(--indigo-dark);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .new-post button:hover {
   background: var(--indigo-light);
+  transform: translateY(-2px);
 }
 
 .post {
@@ -225,6 +331,17 @@ html {
   object-fit: cover;
 }
 
+li img {
+  display: block !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  margin-right: 10px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
 
 .post-header .post-author {
   font-weight: bold;
@@ -284,4 +401,54 @@ html {
       flex-direction: column;
       align-items: center;
   }
+}
+
+/* Кнопка-иконка в углу */
+.btn-details-toggle {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.btn-details-toggle img {
+  width: 30px;
+  height: 30px;
+  opacity: 0.8;
+}
+
+.btn-details-toggle:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+/* Подробная информация (справа) */
+.profile-details {
+  position: absolute;
+  top: 15px;
+  right: -160px; /* Начальное положение за пределами экрана */
+  width: 300px;
+  background: var(--background);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: right 0.5s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+/* Когда блок открыт */
+.profile-details.open {
+  right: 20px; /* Появляется справа */
+  opacity: 1;
+  background-color: var(--background);
+  color: var(--text-color);
+}
+
+input[type="file"] {
+  display: none;
 }
