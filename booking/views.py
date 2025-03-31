@@ -78,6 +78,12 @@ def handle_booking(request, booking_id, action):
 
 @login_required
 def my_bookings(request):
-    # Выбираем бронирования, где эксперт – залогиненный пользователь
-    bookings = Booking.objects.filter(expert=request.user).order_by("-created_at")
-    return render(request, "booking/my_bookings.html", {"bookings": bookings})
+    incoming_bookings = Booking.objects.filter(expert=request.user).order_by("-created_at")  # Записи К ТЕБЕ
+    outgoing_bookings = Booking.objects.filter(user=request.user).order_by("-created_at")  # Записи ОТ ТЕБЯ
+
+    return render(request, "booking/my_bookings.html", {
+        "incoming_bookings": incoming_bookings,
+        "outgoing_bookings": outgoing_bookings
+    })
+
+

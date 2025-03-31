@@ -1,141 +1,167 @@
-/* Переменные цветов */
 :root {
-    --primary-dark: #4a148c;
-    --primary-light: #7b1fa2;
+    --indigo-dark: #4a148c;
+    --indigo-light: #7b1fa2;
     --accent: #ffd600;
-    --background: #f3f2ef;
-    --text-color: #333;
-    --border-color: #e0e0e0;
-    --input-bg: #fff;
-    --input-border: #ccc;
-}
-
-/* Тёмная тема */
-[data-theme="dark"] {
+    --background: #f4f5fa;
+    --text-color: #2c2c54;
+    --text-color2: #e0e0e0;
+    --border-color: #dcdcdc;
+    --header: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
+    --footer: linear-gradient(135deg, var(--indigo-light), var(--indigo-dark));
+  }
+  
+  [data-theme="dark"] {
     --background: #121212;
     --text-color: #e0e0e0;
     --border-color: #333;
-    --primary-dark: #6a1b9a;
-    --primary-light: #9c27b0;
-    --input-bg: #1e1e1e;
-    --input-border: #555;
-}
-
-/* Основной контейнер настроек */
-.settings-container {
-    max-width: 900px;
-    margin: 40px auto;
-    background: var(--background);
-    color: var(--text-color);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-/* Вкладки */
-.settings-tabs {
-    display: flex;
-    gap: 10px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-.settings-tabs .tab-btn {
-    padding: 10px 15px;
-    border: none;
-    background: transparent;
-    color: var(--text-color);
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.settings-tabs .tab-btn:hover {
-    background: var(--primary-light);
-    color: #fff;
-    transform: scale(1.05);
-}
-
-.settings-tabs .tab-btn.active {
-    background: var(--accent);
-    color: #333;
-    font-weight: bold;
-}
-
-/* Контент настроек */
-.settings-content {
-    padding: 15px;
-}
-
-/* Скрытый контент вкладок */
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Анимация появления */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Формы */
-form {
+    --header: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+    --footer: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+  }
+  
+  /* Обнуление и базовые стили */
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  body {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-label {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-input, select {
-    padding: 10px;
-    border: 1px solid var(--input-border);
-    border-radius: 6px;
-    background: var(--input-bg);
+    background-color: var(--background);
     color: var(--text-color);
-    transition: border 0.3s ease;
-}
-
-input:focus, select:focus, textarea:focus {
-    border-color: var(--primary-light);
-    outline: none;
-}
-
-textarea {
+    font-family: Arial, sans-serif;
+  }
+  
+  .main-content {
+    flex: 1 0 auto;
+  }
+  
+  footer {
+    flex-shrink: 0;
+  }
+  
+  /* Контейнер настроек */
+  .settings-container {
+    max-width: 1000px; /* чуть пошире, чтобы уместить сайдбар и контент */
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  [data-theme="dark"] .settings-container {
+    background: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Вёрстка: навигация слева и контент справа */
+  .settings-layout {
+    display: flex;
+  }
+  
+  /* Сайдбар */
+  .settings-nav {
+    width: 200px;
+    margin-right: 20px;
+    border-right: 2px solid var(--border-color);
+    padding-right: 20px;
+  }
+  
+  .settings-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .settings-nav .nav-item {
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    color: var(--text-color);
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  
+  .settings-nav .nav-item.active,
+  .settings-nav .nav-item:hover {
+    background: var(--indigo-light);
+    color: #fff;
+  }
+  
+  /* Контент */
+  .settings-content {
+    flex: 1;
+    padding: 0;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  /* Заголовки внутри контента */
+  .tab-content h3 {
+    margin-top: 0;
+  }
+  
+  /* Формы */
+  label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: bold;
+  }
+  
+  input,
+  textarea,
+  select {
     width: 100%;
     padding: 10px;
+    margin-bottom: 12px;
     border: 1px solid var(--border-color);
-    border-radius: 5px;
-    resize: vertical;
+    border-radius: 4px;
     font-size: 14px;
-    background: var(--background-color);
+    background: #fff;
     color: var(--text-color);
-    transition: border 0.3s ease;
-}
-
-button {
-    background: var(--primary-dark);
-    color: white;
-    padding: 10px 15px;
+  }
+  
+  [data-theme="dark"] input,
+  [data-theme="dark"] textarea,
+  [data-theme="dark"] select {
+    background: #2c2c2c;
+    color: var(--text-color2);
+    border: 1px solid var(--border-color);
+  }
+  
+  /* Чекбоксы рядом с текстом */
+  .checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+  }
+  
+  /* Кнопки */
+  button {
+    background: var(--indigo-dark);
+    color: #fff;
     border: none;
-    border-radius: 6px;
+    padding: 10px 15px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-    background: var(--primary-light);
-    transform: scale(1.05);
-}
+    transition: background 0.3s;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background: var(--indigo-light);
+  }
+  

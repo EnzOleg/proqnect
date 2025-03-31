@@ -8,7 +8,9 @@
     <link rel="icon" type="image/png" href="{% static 'images/PROQNECT.png' %}" />
     <meta name="csrf-token" content="{{ csrf_token }}">
     {% block extra_css %}{% endblock %}
-    {% block extra_js %} {% endblock %}
+    {% block extra_js %}
+    <script src="{% static 'js/base.js' %}" ></script>
+    {% endblock %}
     <title>{% block title %}ProQnect{% endblock %}</title>
 </head>
 <body>
@@ -25,9 +27,7 @@
             {% if not request.user.expert_profile %}
             <h1><a href="{% url 'experts:become_expert' %}" class="profile-btn btn-secondary">Вы эксперт</a></h1>
             {% endif %}
-            {% if user.is_authenticated and user.role == "expert" %}
             <h1><a href="{% url 'booking:my_bookings' %}">Мои записи</a></h1>
-            {% endif %}
             <h1><a href="/about">О проекте</a></h1>
         </div>
 
@@ -90,117 +90,5 @@
         </div>
     </footer>
     {% endblock %}
-    
-    
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        fetchNotifications();
-    });
-    
-    // Запрос на получение уведомлений
-    function fetchNotifications() {
-        fetch("/notifications/get/")
-            .then(response => response.json())
-            .then(data => {
-                const bellImg = document.getElementById("notification-bell-img");
-                const dropdown = document.getElementById("notification-dropdown");
-    
-                if (data.length > 0) {
-                    bellImg.src = "/static/images/notifications_.png"; // Изменяем на активный значок
-                    renderNotifications(data);
-                } else {
-                    bellImg.src = "/static/images/notifications.png"; // Обычный значок
-                    dropdown.innerHTML = `<p class="text-gray-500 text-sm">Нет новых уведомлений</p>`;
-                }
-            })
-            .catch(error => console.error("Ошибка загрузки уведомлений:", error));
-    }
-    
-    // Отрисовка списка уведомлений
-    function renderNotifications(notifications) {
-        const dropdown = document.getElementById("notification-dropdown");
-        dropdown.innerHTML = ""; // Очищаем список перед отрисовкой
-    
-        notifications.forEach(notification => {
-            let notifItem = document.createElement("a");
-            notifItem.href = notification.link;
-            notifItem.innerText = notification.message;
-            notifItem.classList.add("notification-item");
-    
-            notifItem.addEventListener("click", function() {
-                markNotificationsAsRead();
-            });
-    
-            dropdown.appendChild(notifItem);
-        });
-    }
-    
-    // Открытие/закрытие списка уведомлений
-    function toggleNotifications(event) {
-        event.stopPropagation();
-        const dropdown = document.getElementById("notification-dropdown");
-        dropdown.classList.toggle("show");
-    
-        if (dropdown.classList.contains("show")) {
-            markNotificationsAsRead();
-        }
-    }
-    
-    // Закрытие списка уведомлений при клике вне него
-    document.addEventListener("click", function(event) {
-        const dropdown = document.getElementById("notification-dropdown");
-        const bell = document.getElementById("notification-bell");
-    
-        if (!bell.contains(event.target)) {
-            dropdown.classList.remove("show");
-        }
-    });
-    
-    // Пометка уведомлений как прочитанных
-    function markNotificationsAsRead() {
-        fetch("/notifications/read/", {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken"),
-                "Content-Type": "application/json"
-            }
-        }).then(() => {
-            document.getElementById("notification-bell-img").src = "/static/images/notifications.png";
-            fetchNotifications(); // Обновляем список после прочтения
-        }).catch(error => console.error("Ошибка при отметке уведомлений:", error));
-    }
-    
-    // Открытие/закрытие меню профиля
-    function toggleMenu(event) {
-        const menu = document.getElementById('profile-menu');
-        menu.classList.toggle('show');
-        event.stopPropagation();
-    }
-    
-    // Закрытие меню профиля при клике вне него
-    document.addEventListener('click', function(event) {
-        const menu = document.getElementById('profile-menu');
-        const profileIcon = document.querySelector('.profile-icon');
-    
-        if (!profileIcon.contains(event.target) && !menu.contains(event.target)) {
-            menu.classList.remove('show');
-        }
-    });
-    
-    // Получение CSRF-токена из cookie
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-            document.cookie.split(";").forEach(cookie => {
-                let [key, value] = cookie.trim().split("=");
-                if (key === name) {
-                    cookieValue = decodeURIComponent(value);
-                }
-            });
-        }
-        return cookieValue;
-    }
-    
-</script>
 </body>
 </html>

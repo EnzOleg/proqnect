@@ -1,4 +1,3 @@
-import json
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
@@ -9,11 +8,9 @@ from .models import CustomUser, Post
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden
 from friends.models import Friendship
 
-
 def auth_view(request):
     form = CustomUserRegistrationForm()
     return render(request, "accounts/auth.html", {"form": form})
-
 
 def register_view(request):
     if request.method == "POST":
@@ -36,7 +33,6 @@ def register_view(request):
 
     return redirect("accounts:auth")
 
-
 def login_view(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -50,7 +46,6 @@ def login_view(request):
         return render(request, "accounts/auth.html", {"show_login": True})
 
     return redirect("accounts:auth")
-
 
 @login_required
 def settings_view(request):
@@ -73,11 +68,9 @@ def settings_view(request):
 
     return render(request, "accounts/settings.html", {"user": request.user})
 
-
 def logout_view(request):
     logout(request)
     return redirect("accounts:auth")
-
 
 @login_required
 def profile_view(request, user_id=None):
@@ -106,7 +99,6 @@ def profile_view(request, user_id=None):
         "is_friend": is_friend
     })
 
-
 @login_required
 def add_post(request):
     if request.method == "POST":
@@ -130,7 +122,6 @@ def delete_post(request, post_id):
     post.delete()
     messages.success(request, "Пост удалён!")
     return redirect("accounts:profile")
-
 
 def set_theme(request):
     theme = request.GET.get("theme", "light")

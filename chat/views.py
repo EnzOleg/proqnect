@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from .models import Call, Chat
-from django.conf import settings
 from django.utils.timezone import now
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -36,40 +35,18 @@ def chat_room(request, chat_id):
     })
 
 
-
 @login_required
 def chat_with_user(request, user_id):
-    """
-    Создаёт или находит обычный (social) чат между текущим пользователем и пользователем с user_id.
-    """
     other_user = get_object_or_404(User, pk=user_id)
-    chat = Chat.objects.filter(chat_type='social', participants=request.user).filter(participants=other_user).first()
+
+    chat = Chat.objects.filter(participants=request.user).filter(participants=other_user).first()
 
     if not chat:
-        chat = Chat.objects.create(chat_type='social')
+        chat = Chat.objects.create()
         chat.participants.add(request.user, other_user)
     
     return redirect('chat:chat_room', chat_id=chat.id)
 
-
-@login_required
-def consultation_chat_with_expert(request, user_id):
-    """
-    Создаёт или находит консультационный (рабочий) чат между текущим пользователем и экспертом.
-    Если целевой пользователь не является экспертом, перенаправляет на обычный чат.
-    """
-    other_user = get_object_or_404(User, pk=user_id)
-
-    if not hasattr(other_user, 'expert_profile'):
-        return redirect('chat:chat_with_user', user_id=user_id)
-
-    chat = Chat.objects.filter(chat_type='consultation', participants=request.user).filter(participants=other_user).first()
-    
-    if not chat:
-        chat = Chat.objects.create(chat_type='consultation')
-        chat.participants.add(request.user, other_user)
-    
-    return redirect('chat:chat_room', chat_id=chat.id)
 
 API_KEY = "a7721152ea0406e1bc07f7db51bec80c3356f8066350db477500f2258a35da9e"
 BASE_URL = "https://api.daily.co/v1/rooms"

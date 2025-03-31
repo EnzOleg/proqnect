@@ -14,12 +14,10 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-
     def create_superuser(self, email, first_name, last_name, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, first_name, last_name, password, **extra_fields)
-
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [
@@ -45,7 +43,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     bio = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=255, blank=True, null=True, default="Статус Отсутствует!")  
 
-    
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  
     is_superuser = models.BooleanField(default=False) 
@@ -67,10 +64,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)  
 
-
     def __str__(self):
         return self.email
-
 
 def user_profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)

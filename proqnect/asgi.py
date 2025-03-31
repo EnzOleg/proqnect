@@ -1,6 +1,4 @@
 import os
-import logging
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proqnect.settings')
 
 from django.conf import settings
@@ -9,7 +7,6 @@ django_asgi_app = get_asgi_application()
 
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-print("Импортируем chat.routing...")
 import chat.routing
 
 
@@ -21,9 +18,6 @@ application = ProtocolTypeRouter({
         )
     ),
 })
-
-logger = logging.getLogger(__name__)
-logger.info("Запущено через ASGI: %s", application)
 
 if settings.DEBUG:
     from django.contrib.staticfiles.handlers import ASGIStaticFilesHandler

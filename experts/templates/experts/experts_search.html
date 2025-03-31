@@ -12,7 +12,7 @@
     <h1 class="search-title">Найти Эксперта</h1>
     <form method="get" action="{% url 'experts:search_experts' %}" class="search-form">
         <input type="text" name="q" placeholder="Введите имя, специальность или навык..." value="{{ query }}">
-        <button type="submit">Поиск</button>
+        <button type="submit" id="btn-search">Поиск</button>
     </form>
     
     {% if query %}

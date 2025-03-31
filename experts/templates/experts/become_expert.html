@@ -15,10 +15,8 @@
     <form method="post">
         {% csrf_token %}
 
-        <!-- Основная форма Expert -->
         {{ form.as_p }}
 
-        <!-- Важно: formset управляется management_form -->
         {{ formset.management_form }}
 
         <button type="submit">Сохранить профиль</button>

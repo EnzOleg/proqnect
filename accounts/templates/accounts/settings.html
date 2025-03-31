@@ -8,87 +8,102 @@
 {% block main_content %}
 <div class="settings-container">
     <h2>Настройки</h2>
-    
-    <nav class="settings-tabs">
-        <button class="tab-btn active" data-tab="general">Общие</button>
-        <button class="tab-btn" data-tab="privacy">Приватность</button>
-        <button class="tab-btn" data-tab="notifications">Уведомления</button>
-        <button class="tab-btn" data-tab="security">Безопасность</button>
-        <button class="tab-btn" data-tab="appearance">Интерфейс</button>
-    </nav>
-    
-    <section class="settings-content">
-        <article class="tab-content active" id="general">
-            <h3>Общие настройки</h3>
-            <form action="{% url 'accounts:settings' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <label>Имя:</label>
-                <input type="text" name="first_name" value="{{ user.first_name }}" required>
-                
-                <label>Фамилия:</label>
-                <input type="text" name="last_name" value="{{ user.last_name|default_if_none:'' }}">
+    <div class="settings-layout">
+        <aside class="settings-nav">
+            <ul>
+                <li class="nav-item active" data-tab="general">Общие</li>
+                <li class="nav-item" data-tab="privacy">Приватность</li>
+                <li class="nav-item" data-tab="notifications">Уведомления</li>
+                <li class="nav-item" data-tab="security">Безопасность</li>
+                <li class="nav-item" data-tab="appearance">Интерфейс</li>
+            </ul>
+        </aside>
 
-                <label>Статус:</label>
-                <input type="text" name="status" value="{{ user.status|default_if_none:'' }}" maxlength="255">
+        <section class="settings-content">
+            <article class="tab-content active" id="general">
+                <h3>Общие настройки</h3>
+                <form action="{% url 'accounts:settings' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>Имя:</label>
+                    <input type="text" name="first_name" value="{{ user.first_name }}" required>
 
-                <label>Email:</label>
-                <input type="email" name="email" value="{{ user.email }}" readonly>
+                    <label>Фамилия:</label>
+                    <input type="text" name="last_name" value="{{ user.last_name|default_if_none:'' }}">
 
-                <label>Биография:</label>
-                <textarea name="bio" rows="4" maxlength="500">{{ user.bio|default_if_none:'' }}</textarea>
+                    <label>Статус:</label>
+                    <input type="text" name="status" value="{{ user.status|default_if_none:'' }}" maxlength="255">
 
-                <label>Аватар:</label>
-                <input type="file" name="profile_picture">
+                    <label>Email:</label>
+                    <input type="email" name="email" value="{{ user.email }}" readonly>
 
-                <label>Часовой пояс:</label>
-                <select name="timezone">
-                    <option value="UTC" {% if user.timezone == "UTC" %}selected{% endif %}>UTC</option>
-                    <option value="Asia/Almaty" {% if user.timezone == "Asia/Almaty" %}selected{% endif %}>Алматы</option>
-                    <option value="Europe/Moscow" {% if user.timezone == "Europe/Moscow" %}selected{% endif %}>Москва</option>
-                </select>
+                    <label>Биография:</label>
+                    <textarea name="bio" rows="4" maxlength="500">{{ user.bio|default_if_none:'' }}</textarea>
 
-                <button type="submit">Сохранить</button>
-            </form>
-        </article>
+                    <label>Аватар:</label>
+                    <input type="file" name="profile_picture">
 
-        <article class="tab-content" id="privacy">
-            <h3>Приватность</h3>
-            <form>
-                <label><input type="checkbox" name="hide_email"> Скрывать Email</label>
-                <label><input type="checkbox" name="hide_profile"> Скрывать профиль</label>
-                <button type="submit">Сохранить</button>
-            </form>
-        </article>
+                    <label>Часовой пояс:</label>
+                    <select name="timezone">
+                        <option value="UTC" {% if user.timezone == "UTC" %}selected{% endif %}>UTC</option>
+                        <option value="Asia/Almaty" {% if user.timezone == "Asia/Almaty" %}selected{% endif %}>Алматы</option>
+                        <option value="Europe/Moscow" {% if user.timezone == "Europe/Moscow" %}selected{% endif %}>Москва</option>
+                    </select>
 
-        <article class="tab-content" id="notifications">
-            <h3>Уведомления</h3>
-            <form>
-                <label><input type="checkbox" name="email_notifications"> Email-уведомления</label>
-                <label><input type="checkbox" name="push_notifications"> Push-уведомления</label>
-                <button type="submit">Сохранить</button>
-            </form>
-        </article>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </article>
 
-        <article class="tab-content" id="security">
-            <h3>Безопасность</h3>
-            <form>
-                <label>Сменить пароль:</label>
-                <input type="password" name="new_password">
-                <button type="submit">Обновить пароль</button>
-            </form>
-        </article>
+            <article class="tab-content" id="privacy">
+                <h3>Приватность</h3>
+                <form>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="hide_email" />
+                        Скрывать Email
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="hide_profile" />
+                        Скрывать профиль
+                    </label>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </article>
 
-        <article class="tab-content" id="appearance">
-            <h3>Интерфейс</h3>
-            <form action="{% url 'accounts:set_theme' %}" method="get">
-                <label for="theme-select">Тема:</label>
-                <select id="theme-select" name="theme" onchange="this.form.submit()">
-                    <option value="light" {% if request.COOKIES.theme == 'light' %}selected{% endif %}>Светлая</option>
-                    <option value="dark" {% if request.COOKIES.theme == 'dark' %}selected{% endif %}>Тёмная</option>
-                </select>
-            </form>            
-        </article>
-    </section>
+            <article class="tab-content" id="notifications">
+                <h3>Уведомления</h3>
+                <form>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="email_notifications" />
+                        Email-уведомления
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="push_notifications" />
+                        Push-уведомления
+                    </label>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </article>
+
+            <article class="tab-content" id="security">
+                <h3>Безопасность</h3>
+                <form>
+                    <label>Сменить пароль:</label>
+                    <input type="password" name="new_password">
+                    <button type="submit">Обновить пароль</button>
+                </form>
+            </article>
+
+            <article class="tab-content" id="appearance">
+                <h3>Интерфейс</h3>
+                <form action="{% url 'accounts:set_theme' %}" method="get">
+                    <label for="theme-select">Тема:</label>
+                    <select id="theme-select" name="theme" onchange="this.form.submit()">
+                        <option value="light" {% if request.COOKIES.theme == 'light' %}selected{% endif %}>Светлая</option>
+                        <option value="dark" {% if request.COOKIES.theme == 'dark' %}selected{% endif %}>Тёмная</option>
+                    </select>
+                </form>
+            </article>
+        </section>
+    </div>
 </div>
 
 <script src="{% static 'js/settings.js' %}"></script>

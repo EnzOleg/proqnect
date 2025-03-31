@@ -63,7 +63,7 @@
   </div>
   
   <div class="contact-expert">
-    <a href="{% url 'chat:consultation_chat_with_expert' expert.user.id %}" class="contact-btn">Чат с экспертом</a>
+    <a href="{% url 'chat:chat_with_user' expert.user.id %}" class="contact-btn">Чат с экспертом</a>
     <!-- Кнопка для открытия модального окна -->
     <button id="book-expert" class="btn">Записаться</button>
   </div>
@@ -74,36 +74,15 @@
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>Запрос на консультацию</h2>
-    <!-- 
-      1) Указываем method="POST"
-      2) Указываем action="/booking/request/<expert_id>/"
-         или используем тег {% url 'booking:request_booking' expert.user.id %}
-    -->
-    <form 
-      id="bookingForm"
-      method="POST" 
-      action="{% url 'booking:request_booking' expert.user.id %}"
-    >
+    <form id="bookingForm" method="POST" action="{% url 'booking:request_booking' expert.user.id %}">
       {% csrf_token %}
       <div class="form-group">
         <label for="id_problem_description">Описание проблемы</label>
-        <textarea 
-          id="id_problem_description" 
-          name="problem_description" 
-          rows="4" 
-          placeholder="Опишите вашу проблему" 
-          class="form-control"
-        ></textarea>
+        <textarea id="id_problem_description" name="problem_description" rows="4" placeholder="Опишите вашу проблему" class="form-control"></textarea>
       </div>
       <div class="form-group">
         <label for="id_available_times">Предпочтительные временные интервалы</label>
-        <input 
-          type="text" 
-          id="id_available_times" 
-          name="available_times" 
-          placeholder="Например: 2025-03-10 14:00, 2025-03-11 10:00" 
-          class="form-control"
-        >
+        <input type="text" id="id_available_times" name="available_times" placeholder="Например: 2025-03-10 14:00, 2025-03-11 10:00" class="form-control">
       </div>
       <button type="submit" class="btn">Отправить запрос</button>
     </form>

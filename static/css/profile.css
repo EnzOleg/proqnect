@@ -208,7 +208,6 @@ html {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: var(--box-shadow-light);
 }
 
 [data-theme="dark"] .profile-feed {

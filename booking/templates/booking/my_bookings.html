@@ -7,139 +7,118 @@
 <link rel="stylesheet" href="{% static 'css/my_bookings.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'js/booking.js' %}"></script>
+{% endblock %}
+
 {% block main_content %}
 <div class="my-bookings-container">
   <h1>Мои записи</h1>
 
-  <!-- Фильтр и поиск -->
-  <div class="filter-bar">
-    <input 
-      type="text" 
-      id="search-input" 
-      placeholder="Поиск по клиенту или описанию проблемы..."
-      title="Введите email клиента или фрагмент описания проблемы"
-    >
-    <select id="status-filter" title="Фильтр по статусу">
-      <option value="">Все</option>
-      <option value="pending">Ожидает подтверждения</option>
-      <option value="confirmed">Подтверждено</option>
-      <option value="canceled">Отменено</option>
-      <option value="completed">Выполнено</option>
-    </select>
-    <button id="export-btn" class="btn btn-export">Экспорт в CSV</button>
+  <!-- Вкладки -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="incoming">Входящие</button>
+    <button class="tab-btn" data-tab="outgoing">Исходящие</button>
   </div>
 
-  {% if bookings %}
-    <div id="bookingsCards">
-      {% for booking in bookings %}
-        <div class="booking-card"
-             data-status="{{ booking.status }}"
-             data-client="{{ booking.user.email|lower }}"
-             data-problem="{{ booking.problem_description|default:''|lower }}">
-          <h3>{{ booking.user.email }}</h3>
-          <p><strong>Описание проблемы:</strong> {{ booking.problem_description|default:"—" }}</p>
-          <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times|default:"—" }}</p>
-          <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>
-          <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
-          <button class="btn btn-delete" data-id="{{ booking.id }}">Удалить</button>
-          <div class="actions">
-            {% if booking.status == "pending" %}
-              <a href="{% url 'booking:confirm_booking' booking.id %}" class="btn btn-confirm">Подтвердить</a>
-              <a href="{% url 'booking:handle_booking' booking.id 'decline' %}" class="btn btn-decline">Отклонить</a>
-            {% elif booking.status == "confirmed" %}
-              <p class="scheduled"><strong>Назначено:</strong> {{ booking.scheduled_time|date:"d M Y H:i" }}</p>
-              <a href="{% url 'booking:handle_booking' booking.id 'complete' %}" class="btn btn-complete" title="Пометить как выполнено">Завершить</a>
-            {% elif booking.status == "completed" %}
-              <span class="completed">Выполнено</span>
-            {% else %}
-              {{ booking.get_status_display }}
-            {% endif %}
-          </div>
-        </div>
-      {% endfor %}
+  <!-- Входящие записи (если ты эксперт: записи, которые к тебе поступили) -->
+  <div id="incoming" class="tab-content active">
+    <div class="filter-bar">
+      <input 
+        type="text" 
+        id="search-input-incoming" 
+        placeholder="Поиск по клиенту или описанию проблемы..."
+        title="Введите email клиента или фрагмент описания проблемы"
+      >
+      <select id="status-filter-incoming" title="Фильтр по статусу">
+        <option value="">Все</option>
+        <option value="pending">Ожидает подтверждения</option>
+        <option value="confirmed">Подтверждено</option>
+        <option value="canceled">Отменено</option>
+        <option value="completed">Выполнено</option>
+      </select>
+      <button id="export-btn-incoming" class="btn btn-export">Экспорт в CSV</button>
     </div>
-  {% else %}
-    <p class="no-bookings">Нет входящих записей.</p>
-  {% endif %}
+
+    {% if incoming_bookings %}
+      <div id="bookingsCards-incoming">
+        {% for booking in incoming_bookings %}
+          <div class="booking-card"
+               data-status="{{ booking.status }}"
+               data-client="{{ booking.user.email|lower }}"
+               data-problem="{{ booking.problem_description|default:''|lower }}">
+            <h3>{{ booking.user.email }}</h3>
+            <p><strong>Описание проблемы:</strong> {{ booking.problem_description|default:"—" }}</p>
+            <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times|default:"—" }}</p>
+            <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>
+            <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
+            <button class="btn btn-delete" data-id="{{ booking.id }}">Удалить</button>
+            <div class="actions">
+              {% if booking.status == "pending" %}
+                <a href="{% url 'booking:confirm_booking' booking.id %}" class="btn btn-confirm">Подтвердить</a>
+                <a href="{% url 'booking:handle_booking' booking.id 'decline' %}" class="btn btn-decline">Отклонить</a>
+              {% elif booking.status == "confirmed" %}
+                <p class="scheduled"><strong>Назначено:</strong> {{ booking.scheduled_time|date:"d M Y H:i" }}</p>
+                <a href="{% url 'booking:handle_booking' booking.id 'complete' %}" class="btn btn-complete" title="Пометить как выполнено">Завершить</a>
+              {% elif booking.status == "completed" %}
+                <span class="completed">Выполнено</span>
+              {% else %}
+                {{ booking.get_status_display }}
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <p id="no-results-incoming" class="no-bookings" style="display: none;">Ничего не найдено.</p>
+    {% else %}
+      <p class="no-bookings">Нет входящих записей.</p>
+    {% endif %}
+  </div>
+
+  <!-- Исходящие записи (если ты клиент: записи, созданные тобой) -->
+  <div id="outgoing" class="tab-content">
+    <div class="filter-bar">
+      <input 
+        type="text" 
+        id="search-input-outgoing" 
+        placeholder="Поиск по эксперту или описанию проблемы..."
+        title="Введите email эксперта или фрагмент описания проблемы"
+      >
+      <select id="status-filter-outgoing" title="Фильтр по статусу">
+        <option value="">Все</option>
+        <option value="pending">Ожидает подтверждения</option>
+        <option value="confirmed">Подтверждено</option>
+        <option value="canceled">Отменено</option>
+        <option value="completed">Выполнено</option>
+      </select>
+      <button id="export-btn-outgoing" class="btn btn-export">Экспорт в CSV</button>
+    </div>
+
+    {% if outgoing_bookings %}
+      <div id="bookingsCards-outgoing">
+        {% for booking in outgoing_bookings %}
+          <div class="booking-card"
+               data-status="{{ booking.status }}"
+               data-client="{{ booking.expert.email|lower }}"
+               data-problem="{{ booking.problem_description|default:''|lower }}">
+            <h3>{{ booking.expert.email }}</h3>
+            <p><strong>Описание проблемы:</strong> {{ booking.problem_description|default:"—" }}</p>
+            <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times|default:"—" }}</p>
+            <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>
+            <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
+            <button class="btn btn-delete" data-id="{{ booking.id }}">Удалить</button>
+            <div class="actions">
+              {# Для исходящих записей, как правило, не нужны кнопки подтверждения #}
+              {{ booking.get_status_display }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <p id="no-results-outgoing" class="no-bookings" style="display: none;">Ничего не найдено.</p>
+    {% else %}
+      <p class="no-bookings">Нет исходящих записей.</p>
+    {% endif %}
+  </div>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const searchInput = document.getElementById("search-input");
-  const statusFilter = document.getElementById("status-filter");
-  const bookingCards = document.querySelectorAll("#bookingsCards .booking-card");
-  const exportBtn = document.getElementById("export-btn");
-
-  // Фильтрация карточек
-  function filterCards() {
-    const query = searchInput.value.toLowerCase().trim();
-    const statusValue = statusFilter.value;
-
-    bookingCards.forEach(card => {
-      const cardStatus = card.getAttribute("data-status");
-      const cardClient = card.getAttribute("data-client");
-      const cardProblem = card.getAttribute("data-problem");
-
-      const statusMatch = !statusValue || (cardStatus === statusValue);
-      const searchMatch = cardClient.includes(query) || cardProblem.includes(query);
-
-      card.style.display = (statusMatch && searchMatch) ? "" : "none";
-    });
-  }
-
-  searchInput.addEventListener("input", filterCards);
-  statusFilter.addEventListener("change", filterCards);
-  exportBtn.addEventListener("click", function() {
-    let csvContent = "data:text/csv;charset=utf-8," 
-      + "Клиент;Описание;Интервалы;Дата создания;Статус\n";
-
-    bookingCards.forEach(card => {
-      if (card.style.display !== "none") {
-        const client = card.getAttribute("data-client");
-        const problem = card.getAttribute("data-problem");
-        const paragraphs = card.querySelectorAll("p");
-        const intervals = paragraphs[1].innerText.replace("Предпочтительные интервалы:", "").trim();
-        const createdAt = paragraphs[2].innerText.replace("Дата создания:", "").trim();
-        const status = paragraphs[3].innerText.replace("Статус:", "").trim();
-        csvContent += [client, problem, intervals, createdAt, status].join(";") + "\n";
-      }
-    });
-    
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "bookings_export.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  });
-  document.querySelectorAll(".btn-delete").forEach(button => {
-    button.addEventListener("click", async function() {
-        if (!confirm("Вы уверены, что хотите удалить запись?")) return;
-        const bookingId = this.getAttribute("data-id");
-        const url = `/booking/${bookingId}/delete/`;
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCsrfToken(),
-                    "Content-Type": "application/json"
-                }
-            });
-
-            if (!response.ok) throw new Error("Ошибка удаления!");
-
-            this.closest(".booking-card").remove();
-        } catch (error) {
-            console.error("❌ Ошибка при удалении:", error);
-        }
-    });
-});
-
-function getCsrfToken() {
-    return document.querySelector("[name=csrfmiddlewaretoken]").value;
-}
-
-});
-</script>
 {% endblock %}

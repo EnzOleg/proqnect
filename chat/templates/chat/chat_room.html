@@ -22,7 +22,6 @@
 {% block main_content %}
 <div class="main-wrapper">
     <div class="chat-container">
-        <!-- Левая панель: список чатов -->
         <div class="chat-sidebar">
             <h2>Ваши чаты</h2>
             {% if sidebar %}
@@ -39,12 +38,11 @@
             {% endif %}
         </div>
 
-        <!-- Центральная панель: чат -->
         <div class="chat-main">
             <div class="chat-header">
                 <img src="{% if chat_partner.profile_picture %}{{ chat_partner.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}"
                      class="header-avatar" alt="Avatar">
-                <h1><a href="{{ chat_partner.profile_url }}">{{ chat_partner.first_name }} {{ chat_partner.last_name }}</a></h1>
+                <h1><a href="{% url 'accounts:profile' chat_partner.id %}">{{ chat_partner.first_name }} {{ chat_partner.last_name }}</a></h1>
             </div>
 
             <div id="chat-messages" class="chat-messages">
@@ -70,7 +68,6 @@
             </form>
         </div>
 
-        <!-- Правая панель: информация о пользователе -->
         <div class="chat-right-sidebar">
             <div class="user-profile">
                 <img src="{% if chat_partner.profile_picture %}{{ chat_partner.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}"
@@ -79,13 +76,10 @@
                 <p>{{ chat_partner.bio }}</p> 
             </div>
             <div class="user-actions">
-                <button class="btn">Записаться на консультацию</button>
-                <button class="btn-danger">Заблокировать</button>
                 <button id="open-video-call" data-chat-id="{{ chat.id }}">Начать видеозвонок</button>
             </div>
         </div>
 
-        <!-- Модальное окно для видеозвонка -->
         <div id="video-call-modal" class="modal">
             <div class="modal-content">
               <span id="close-modal" class="close">&times;</span>

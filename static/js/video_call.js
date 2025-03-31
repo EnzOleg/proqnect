@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const chatId = openVideoCallBtn.dataset.chatId; 
 
-    // Проверяем, есть ли активный звонок
     fetch(`/chat/check-call/${chatId}/`)
         .then(response => response.json())
         .then(data => {

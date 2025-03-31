@@ -127,7 +127,22 @@
     margin: 5px 0;
 }
 
-/* Кнопка просмотра профиля */
+#btn-search {
+    display: inline-block;
+    padding: 5px 10px;
+    background: var(--primary-dark);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+#btn-search:hover {
+    background: var(--primary-light);
+    color: white;
+}
+
 .btn-view {
     display: inline-block;
     padding: 5px 10px;

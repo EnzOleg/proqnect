@@ -5,4 +5,3 @@ websocket_urlpatterns = [
     re_path(r'ws/chat/(?P<chat_id>\d+)/$', ChatConsumer.as_asgi()),
 
 ]
-print("Загружаются WebSocket маршруты:", websocket_urlpatterns)
