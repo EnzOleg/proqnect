@@ -1,6 +1,3 @@
-/* feed.css */
-
-/* Переменные цветов */
 :root {
     --primary-dark: #4a148c;
     --primary-light: #7b1fa2;
@@ -12,7 +9,6 @@
     --hover-shadow: rgba(0, 0, 0, 0.15);
 }
 
-/* Темная тема */
 [data-theme="dark"] {
     --background: #121212;
     --text-color: #e0e0e0;
@@ -21,7 +17,6 @@
     --hover-shadow: rgba(255, 255, 255, 0.1);
 }
 
-/* Основной контейнер ленты */
 .feed-container {
     max-width: 1200px;
     margin: 30px auto;
@@ -32,7 +27,6 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Заголовок ленты */
 .feed-title {
     text-align: center;
     color: var(--primary-dark);
@@ -40,37 +34,33 @@
     margin-bottom: 20px;
 }
 
-/* Сетка постов */
 .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    column-count: 3; 
+    column-gap: 20px;
 }
 
-/* Карточка поста */
 .post-card {
     background-color: var(--card-background);
     padding: 15px;
     border-radius: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    margin-bottom: 20px;
     box-shadow: 0 2px 5px var(--hover-shadow);
     overflow: hidden;
+    break-inside: avoid;
 }
 
-/* При наведении карточка удлиняется и появляется дополнительное выделение */
+
 .post-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 10px var(--hover-shadow);
 }
 
-/* Заголовок поста */
 .post-header {
     display: flex;
     align-items: center; 
     gap: 10px;      
     margin-bottom: 15px;
-  }
-  
+}
 
 .post-avatar {
   display: block !important;
@@ -84,7 +74,6 @@
   object-fit: cover;
 }
 
-  
 .post-image {
     max-width: 100%;
     height: auto;
@@ -103,7 +92,6 @@
     color: var(--text-color);
 }
 
-/* Контент поста */
 .post-content p {
     margin: 0;
     font-size: 1rem;

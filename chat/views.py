@@ -13,11 +13,17 @@ User = get_user_model()
 def chat_home(request):
     chats = Chat.objects.filter(participants=request.user).prefetch_related('participants').order_by("-updated_at")
 
-    chat_partners = {chat.id: chat.get_chat_partner(request.user) for chat in chats}
+    chats_with_partners = [
+        {
+            "chat": chat,
+            "partner": chat.get_chat_partner(request.user),
+            "avatar": chat.get_chat_partner(request.user).profile_picture.url if chat.get_chat_partner(request.user) else None
+        }
+        for chat in chats
+    ]
 
     return render(request, "chat/chat_home.html", {
-        "chats": chats,
-        "chat_partners": chat_partners,  
+        "chats_with_partners": chats_with_partners,
     })
 
 
@@ -33,7 +39,6 @@ def chat_room(request, chat_id):
         'chat_partner': chat_partner,
         'sidebar': sidebar,
     })
-
 
 @login_required
 def chat_with_user(request, user_id):

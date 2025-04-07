@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 from django.db.models import Q
-from .forms import ExpertProfileForm, ExpertSkillFormSet
-from .models import Expert
+from .forms import ExpertProfileForm, ExpertSkillFormSet, ReviewForm
+from .models import Expert, Review
 from booking.models import Booking
 
 def experts_search(request):
@@ -26,7 +27,6 @@ def experts_search(request):
 
 @login_required
 def become_expert(request):
-    # Если у пользователя уже есть профиль эксперта — редиректим
     if hasattr(request.user, 'expert_profile'):
         return redirect('experts:detail', pk=request.user.expert_profile.id)
 
@@ -34,18 +34,15 @@ def become_expert(request):
         form = ExpertProfileForm(request.POST)
         formset = ExpertSkillFormSet(request.POST)
         if form.is_valid() and formset.is_valid():
-            # Сохраняем Expert
             expert = form.save(commit=False)
             expert.user = request.user
             expert.save()
 
-            # Привязываем formset к созданному Expert
             skill_forms = formset.save(commit=False)
             for skill_form in skill_forms:
                 skill_form.expert = expert
                 skill_form.save()
 
-            # Сохраняем роль пользователя
             request.user.role = 'expert'
             request.user.save()
 
@@ -67,3 +64,33 @@ def expert_detail(request, pk):
 def expert_bookings(request):
     bookings = Booking.objects.filter(expert=request.user)
     return render(request, "experts/expert_dashboard.html", {"bookings": bookings})
+
+
+@login_required
+def add_review(request, expert_id):
+    expert = get_object_or_404(Expert, pk=expert_id)
+    if not Booking.objects.filter(user=request.user, expert=expert.user, status="completed").exists():
+        return HttpResponseForbidden("Нельзя оставить отзыв без завершенной консультации!")
+    form = ReviewForm(request.POST or None)
+    if form.is_valid():
+        rev = form.save(commit=False)
+        rev.reviewer = request.user
+        rev.expert = expert
+        rev.save()
+        update_expert_rating(expert)
+        return redirect("experts:detail", pk=expert_id)
+    return render(request, "experts/add_review.html", {"form": form, "expert": expert})
+    
+
+def update_expert_rating(expert):
+    reviews = Review.objects.filter(expert=expert)
+    
+    if reviews.exists():
+        total_rating = sum(review.rating for review in reviews)
+        review_count = reviews.count()
+        expert.rating = total_rating / review_count
+        print(f"New rating for expert {expert.id}: {expert.rating}")
+    else:
+        expert.rating = 0  
+    
+    expert.save()

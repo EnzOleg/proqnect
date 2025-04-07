@@ -1,99 +1,127 @@
-/* experts.css */
-
-/* Контейнер формы «Стать экспертом» */
 .become-expert-container {
-    max-width: 600px;
-    margin: 40px auto;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  
-  /* Заголовок и описание */
-  .become-expert-container h1 {
-    text-align: center;
-    font-size: 2rem;
-    color: var(--indigo-dark);
-    margin-bottom: 20px;
-  }
-  .become-expert-container p {
-    text-align: center;
-    font-size: 1rem;
-    color: var(--text-color);
-    margin-bottom: 20px;
-  }
-  
-  /* Форма: вертикальное расположение элементов */
-  .become-expert-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  /* Заголовок раздела для навыков */
-  .become-expert-container form h2 {
-    font-size: 1.2rem;
-    color: var(--indigo-dark, #4a148c);
-    margin-top: 20px;
-  }
-  
-  /* Стили для блока отдельной формы навыка */
-  .skill-form {
-    padding: 10px;
-    border: 1px solid var(--border-colorc);
-    border-radius: 5px;
-    background: var(--background);
-  }
-  
-  /* Стили для текстовых полей, textarea и select */
-  .become-expert-container form input,
-  .become-expert-container form textarea,
-  .become-expert-container form select {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 1rem;
-    color: var(--text-color);
-    background: var(--background);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .become-expert-container form input:focus,
-  .become-expert-container form textarea:focus,
-  .become-expert-container form select:focus {
-    outline: none;
-    border-color: var(--indigo-light);
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  }
-  
-  /* Стили для кнопки отправки */
-  .become-expert-container form button {
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .become-expert-container form button:hover {
-    background: linear-gradient(135deg, var(--indigo-light), var(--indigo-dark));
-  }
-  
-  /* Адаптивность для мобильных устройств */
-  @media (max-width: 600px) {
-    .become-expert-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.become-expert-container h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--indigo-dark);
+  margin-bottom: 20px;
+}
+.become-expert-container p {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.become-expert-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.become-expert-container form h2 {
+  font-size: 1.2rem;
+  color: var(--indigo-dark);
+  margin-top: 20px;
+}
+
+.skill-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background: var(--background);
+}
+
+.become-expert-container form input,
+.become-expert-container form textarea,
+.become-expert-container form select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  color: var(--text-color);
+  background: var(--background);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.become-expert-container form textarea {
+  max-height: 50px;
+  resize: vertical; 
+}
+
+.become-expert-container form input:focus,
+.become-expert-container form textarea:focus,
+.become-expert-container form select:focus {
+  outline: none;
+  border-color: var(--indigo-light);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.skill-form .delete-skill {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.skill-form .delete-skill:hover {
+  background: var(--error-hover);
+}
+
+.add-skill-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--indigo-light);
+  background: var(--indigo-dark);
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-skill-btn:hover {
+  background: var(--indigo-light);
+}
+
+.become-expert-container form button {
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.become-expert-container form button:hover {
+  background: linear-gradient(135deg, var(--indigo-light), var(--indigo-dark));
+}
+
+@media (max-width: 600px) {
+  .become-expert-container {
       margin: 20px;
       padding: 15px;
-    }
-    .become-expert-container h1 {
-      font-size: 1.5rem;
-    }
-    .become-expert-container form button {
-      font-size: 0.9rem;
-    }
   }
-  
+  .become-expert-container h1 {
+      font-size: 1.5rem;
+  }
+  .become-expert-container form button {
+      font-size: 0.9rem;
+  }
+}

@@ -27,7 +27,7 @@
                 </div>
                 <div class="expert-info">
                     <h3>{{ expert.user.first_name }} {{ expert.user.last_name }}</h3>
-                    <p>{{ expert.bio|truncatewords:20 }}</p>
+                    <p>{{ expert.get_specialization_display }}</p>
                     <a href="{% url 'experts:detail' expert.id %}" class="btn-view">Посмотреть профиль</a>                    
                 </div>
             </div>

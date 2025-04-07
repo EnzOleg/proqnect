@@ -62,6 +62,8 @@ def settings_view(request):
         user.bio = request.POST.get("bio", user.bio)
         if request.FILES.get("profile_picture"):
             user.profile_picture = request.FILES["profile_picture"]
+        if request.FILES.get("cover_photo"):
+            user.cover_photo = request.FILES["cover_photo"]    
         user.save()
         messages.success(request, "Настройки обновлены!")
         return redirect("accounts:settings")

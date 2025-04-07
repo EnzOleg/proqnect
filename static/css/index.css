@@ -9,7 +9,6 @@
     --card-color: rgb(53, 53, 53);
 }
 
-/* Темная тема */
 [data-theme="dark"] {
     --background: #121212;
     --text-color: #e0e0e0;
@@ -116,7 +115,7 @@ body {
     background: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
     color: #ffffff;
     text-align: center;
-    padding: 80px 20px; /* увеличены внутренние отступы */
+    padding: 80px 20px; 
     margin: 40px auto;
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
@@ -154,6 +153,7 @@ body {
 .additional-content {
     background-color: var(--background);
     padding: 30px 20px;
+    padding-bottom: 90px;
     text-align: center;
 }
 
@@ -186,7 +186,7 @@ body {
     align-items: stretch;
     gap: 30px;
     margin: 20px 0;
-    flex-wrap: wrap; /* для адаптивности, если места мало – карточки переносятся */
+    flex-wrap: wrap;
 }
 
 .stat-card {
@@ -218,7 +218,6 @@ body {
     color: var(--text-color);
 }
 
-/* Анимация появления карточек */
 @keyframes fadeInUp {
     from {
         opacity: 0;

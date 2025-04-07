@@ -12,9 +12,9 @@
         <aside class="settings-nav">
             <ul>
                 <li class="nav-item active" data-tab="general">Общие</li>
-                <li class="nav-item" data-tab="privacy">Приватность</li>
+                <!-- <li class="nav-item" data-tab="privacy">Приватность</li>
                 <li class="nav-item" data-tab="notifications">Уведомления</li>
-                <li class="nav-item" data-tab="security">Безопасность</li>
+                <li class="nav-item" data-tab="security">Безопасность</li> -->
                 <li class="nav-item" data-tab="appearance">Интерфейс</li>
             </ul>
         </aside>
@@ -42,6 +42,9 @@
                     <label>Аватар:</label>
                     <input type="file" name="profile_picture">
 
+                    <label>Баннер:</label>
+                    <input type="file" name="cover_photo">
+
                     <label>Часовой пояс:</label>
                     <select name="timezone">
                         <option value="UTC" {% if user.timezone == "UTC" %}selected{% endif %}>UTC</option>
@@ -53,7 +56,7 @@
                 </form>
             </article>
 
-            <article class="tab-content" id="privacy">
+            <!-- <article class="tab-content" id="privacy">
                 <h3>Приватность</h3>
                 <form>
                     <label class="checkbox-label">
@@ -66,9 +69,9 @@
                     </label>
                     <button type="submit">Сохранить</button>
                 </form>
-            </article>
+            </article> -->
 
-            <article class="tab-content" id="notifications">
+            <!-- <article class="tab-content" id="notifications">
                 <h3>Уведомления</h3>
                 <form>
                     <label class="checkbox-label">
@@ -81,16 +84,16 @@
                     </label>
                     <button type="submit">Сохранить</button>
                 </form>
-            </article>
+            </article> -->
 
-            <article class="tab-content" id="security">
+            <!-- <article class="tab-content" id="security">
                 <h3>Безопасность</h3>
                 <form>
                     <label>Сменить пароль:</label>
                     <input type="password" name="new_password">
                     <button type="submit">Обновить пароль</button>
                 </form>
-            </article>
+            </article> -->
 
             <article class="tab-content" id="appearance">
                 <h3>Интерфейс</h3>

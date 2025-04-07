@@ -59,7 +59,10 @@
                 <a href="{% url 'booking:handle_booking' booking.id 'decline' %}" class="btn btn-decline">Отклонить</a>
               {% elif booking.status == "confirmed" %}
                 <p class="scheduled"><strong>Назначено:</strong> {{ booking.scheduled_time|date:"d M Y H:i" }}</p>
-                <a href="{% url 'booking:handle_booking' booking.id 'complete' %}" class="btn btn-complete" title="Пометить как выполнено">Завершить</a>
+                <form action="{% url 'booking:handle_booking' booking.id 'complete' %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-complete" title="Пометить как выполнено">Завершить</button>
+                </form>                
               {% elif booking.status == "completed" %}
                 <span class="completed">Выполнено</span>
               {% else %}
@@ -108,7 +111,9 @@
             <p><strong>Статус:</strong> {{ booking.get_status_display }}</p>
             <button class="btn btn-delete" data-id="{{ booking.id }}">Удалить</button>
             <div class="actions">
-              {# Для исходящих записей, как правило, не нужны кнопки подтверждения #}
+              {% if booking.get_status_display == "Завершено" %}
+                <button class="review-btn" data-id="{{ booking.id }}">Оставить отзыв</button>
+              {% endif %}
               {{ booking.get_status_display }}
             </div>
           </div>

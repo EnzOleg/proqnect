@@ -1,7 +1,4 @@
-/* ------------------------------
-   Переменные цветов (светлая тема)
-   ------------------------------ */
-   :root {
+:root {
     --primary-dark: #4a148c;
     --primary-light: #7b1fa2;
     --background: #fff;
@@ -12,209 +9,344 @@
     --received-bg: #d1c4e9;
     --input-bg: #fff;
     --message-text: #000;
+    --accent: #ffd600;
 }
 
-/* ------------------------------
-   Тёмная тема
-   ------------------------------ */
 [data-theme="dark"] {
-    --background: #121212;
-    --text-color: #e0e0e0;
-    --border-color: #333;
-    --chat-bg: #1e1e1e;
-    --sent-bg: #4d29ae;
-    --received-bg: #5e35b1;
-    --input-bg: #242424;
-    --message-text: #fff;
+  --background: #121212;
+  --text-color: #e0e0e0;
+  --border-color: #333;
+  --chat-bg: #1e1e1e;
+  --sent-bg: #4d29ae;
+  --received-bg: #5e35b1;
+  --input-bg: #242424;
+  --message-text: #fff;
 }
 
-/* ------------------------------
-   Общие стили
-   ------------------------------ */
 body {
-    background-color: var(--background);
-    color: var(--text-color);
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
+  background-color: var(--background);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 14px; 
 }
 
 h1, h2, h3 {
-    margin: 0;
-    font-weight: normal;
+  margin: 0;
+  font-weight: normal;
 }
 
-/* Контейнер для центрального выравнивания и «воздуха» по бокам */
 .main-wrapper {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
-    box-sizing: border-box;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-/* Основной блок чата */
 .chat-container {
-    display: flex;
-    gap: 20px;
-    background-color: var(--chat-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 10px;
+  padding: 10px;
 }
 
-/* ------------------------------
-   Левая панель (Ваши чаты)
-   ------------------------------ */
-.chat-sidebar {
-    width: 20%;  /* уменьшено с 25% */
-    border-right: 1px solid var(--border-color);
-    background-color: var(--chat-bg);
-    border-radius: 8px;
-    overflow-y: auto;
-    padding: 10px;
+.chat-sidebar, .chat-right-sidebar {
+  width: 18%;
+  
+  border-radius: 6px;
+  padding: 8px;
+  overflow-y: auto;
 }
 
 .chat-sidebar h2 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: var(--primary-dark);
 }
 
 .chat-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .chat-item {
-    cursor: pointer;
-    padding: 10px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s ease;
+  cursor: pointer;
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+  font-size: 0.9rem;
 }
 
 .chat-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .chat-item:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0,0,0,0.05);
 }
 
 .chat-item.active {
-    background-color: var(--primary-light);
-    border-radius: 8px;
-    color: #fff;
+  background-color: var(--primary-light);
+  border-radius: 6px;
+  color: #fff;
 }
 
 .chat-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 6px;
 }
 
-/* ------------------------------
-   Центральная панель (Чат)
-   ------------------------------ */
 .chat-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--chat-bg);
-    border-radius: 8px;
-    padding: 15px;
-    /* ограничиваем высоту, чтобы чат не растягивался бесконечно */
-    width: 800px;    /* фиксированная ширина */
-    height: 600px;
-    max-height: 80vh;
-    overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  padding: 8px;
+  width: 600px;
+  height: 400px;  
+  max-height: 70vh;
+  overflow: hidden;
 }
 
-/* Заголовок чата */
 .chat-header {
-    display: flex;
-    align-items: center;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 8px;
 }
 
 .header-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 6px;
 }
 
-/* Область сообщений */
 .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    background-color: var(--background);
-    padding: 10px;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--background);
+  padding: 6px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-/* Модальное окно для видеозвонка */
+
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  max-width: 80%;
+  padding: 6px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--message-text);
+  transition: transform 0.2s;
+  position: relative;
+}
+
+.chat-message.sent {
+  align-self: flex-end;
+  background-color: var(--primary-dark);
+  border-bottom-right-radius: 4px;
+  color: white;
+}
+
+.chat-message.received {
+  align-self: flex-start;
+  background-color: var(--primary-light);
+  border-bottom-left-radius: 4px;
+  color: white;
+}
+
+.chat-message:hover {
+  transform: scale(1.02);
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 6px;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-bottom: 2px;
+  font-size: 0.85rem;
+}
+.message-sender a {
+  color: white;
+}
+
+.message-text {
+  margin: 2px 0;
+  font-size: 0.85rem;
+}
+
+.message-time {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+#chat-form {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--border-color);
+}
+
+#message-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+#message-input:focus {
+  box-shadow: 0 0 6px var(--primary-light);
+}
+
+#chat-form button {
+  padding: 8px 12px;
+  background-color: var(--primary-dark);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.85rem;
+}
+
+#chat-form button:hover {
+  background-color: var(--primary-light);
+}
+
+.user-profile {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+
+.user-profile h2 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.user-profile p {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.user-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn, .btn-danger {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s;
+}
+
+.btn {
+  background-color: var(--primary-dark);
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-danger {
+  background-color: #d32f2f;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c62828;
+}
+
 #video-call-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* полупрозрачный тёмный фон */
-  display: flex; /* вместо display: none; */
-  opacity: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1100;
-  pointer-events: none; /* блокируем взаимодействие, пока окно не видно */
+  opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease-out;
 }
 
 #video-call-modal.show {
   opacity: 1;
-  pointer-events: auto; /* включаем взаимодействие */
-  display: flex !important;
+  pointer-events: auto;
 }
 
 #video-call-modal .modal-content {
   background-color: var(--background);
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  width: 80%;
-  max-width: 800px;
-  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  padding: 15px;
   position: relative;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Контейнер для видеозвонка */
 #video-call-container {
   width: 100%;
-  height: 500px;
+  height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Кнопка закрытия модального окна */
 #video-call-modal .close {
   position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
+  top: 8px;
+  right: 12px;
+  font-size: 20px;
   color: var(--text-color);
   cursor: pointer;
   transition: color 0.3s;
@@ -224,35 +356,32 @@ h1, h2, h3 {
   color: var(--accent);
 }
 
-/* Анимация появления модального окна */
 @keyframes fadeIn {
-  from {
-      opacity: 0;
-      transform: translateY(-10px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Адаптивные настройки */
 @media (max-width: 768px) {
-  #video-call-modal .modal-content {
-      width: 90%;
-      padding: 15px;
+  .chat-container {
+    flex-direction: column;
   }
-  #video-call-container {
-      height: 400px;
+  .chat-sidebar, .chat-right-sidebar {
+    width: 100%;
+    max-height: 150px;
+    margin-bottom: 10px;
+  }
+  .chat-main {
+    width: 100%;
+    height: 350px;
   }
 }
 
-@media (max-width: 600px) {
-  #video-call-modal .modal-content {
-      width: 95%;
-      padding: 10px;
+@media (max-width: 576px) {
+  .chat-item, .chat-message, #message-input, #chat-form button {
+    font-size: 0.75rem;
   }
   #video-call-container {
-      height: 300px;
+    height: 250px;
   }
 }
+  

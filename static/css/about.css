@@ -1,11 +1,10 @@
-/* about.css */
 :root {
-    --indigo-dark: #4a148c;      /* Глубокий фиолетовый / индиго */
-    --indigo-light: #7b1fa2;     /* Светлый индиго */
-    --accent: #ffd600;           /* Яркий акцент */
-    --background: #f4f5fa;       /* Светлый фон страницы */
-    --text-color: #2c2c54;       /* Тёмный текст */
-    --border-color: #dcdcdc;     /* Цвет границ */
+    --indigo-dark: #4a148c;   
+    --indigo-light: #7b1fa2;    
+    --accent: #ffd600;          
+    --background: #f4f5fa;      
+    --text-color: #2c2c54;       
+    --border-color: #dcdcdc;     
 
 
     --background-2: #f4f5fa;
@@ -16,7 +15,6 @@
     --header: linear-gradient(135deg, var(--dark-g), var(--light-g));
 }
 
-/* Тёмная тема */
 [data-theme="dark"] {
     --background: #121212;
     --background-2: #1a1a1a;
@@ -25,7 +23,6 @@
     --header: linear-gradient(135deg, #2c2c2c, #1a1a1a);
 }
 
-/* Контейнер страницы "О проекте" */
 .about-container {
     max-width: 1100px;
     margin: 40px auto;
@@ -37,11 +34,9 @@
 }
 
 .about-container section {
-    scroll-margin-top: 140px; /* Учитываем высоту header */
+    scroll-margin-top: 140px; 
 }
 
-
-/* Анимация появления */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -57,7 +52,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    opacity: 0; /* Изначально скрываем */
+    opacity: 0; 
 }
 
 .about-nav ul {
@@ -81,7 +76,10 @@
     color: var(--accent);
 }
 
-/* Плавная прокрутка */
+.about-nav ul li a:active {
+    color: var(--accent);
+}
+
 html {
     scroll-behavior: smooth;
 }

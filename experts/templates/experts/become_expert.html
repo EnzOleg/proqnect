@@ -14,12 +14,50 @@
 
     <form method="post">
         {% csrf_token %}
+        
+        <label for="id_specialization">Специализация:</label>
+        {{ form.specialization }}
+    
+        <div id="custom-specialization-field" style="display: none;">
+            <label for="id_custom_specialization">Своя специализация:</label>
+            {{ form.custom_specialization }}
+        </div>
 
-        {{ form.as_p }}
+        <label for="id_bio">О себе:</label>
+        {{ form.bio }}
 
-        {{ formset.management_form }}
+        <label for="id_experience">Опыт работы (лет):</label>
+        {{ form.experience }}
 
+        <label for="id_price_per_hour">Цена за час (в тенге):</label>
+        {{ form.price_per_hour }}
+    
+        <h2>Навыки</h2>
+        <div id="skills-container">
+            {{ skill_formset.management_form }}
+            {% for skill_form in skill_formset %}
+                <div class="skill-form">{{ skill_form.as_p }}</div>
+            {% endfor %}
+        </div>
+    
         <button type="submit">Сохранить профиль</button>
     </form>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const specializationSelect = document.getElementById("id_specialization");
+        const customSpecializationField = document.getElementById("custom-specialization-field");
+        
+        function toggleCustomSpecialization() {
+            customSpecializationField.style.display = specializationSelect.value === "other" ? "block" : "none";
+            if (specializationSelect.value !== "other") {
+                document.getElementById("id_custom_specialization").value = "";
+            }
+        }
+    
+        specializationSelect.addEventListener("change", toggleCustomSpecialization);
+        toggleCustomSpecialization();
+    });
+</script>
 {% endblock %}

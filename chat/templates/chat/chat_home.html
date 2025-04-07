@@ -10,17 +10,14 @@
 {% block main_content %}
 <div class="chat-home-container">
   <h1>Мои чаты</h1>
-  {% if chats %}
+  {% if chats_with_partners %}
     <ul class="chat-list">
-      {% for chat in chats %}
+      {% for chat_data in chats_with_partners %}
         <li class="chat-item">
-          <a href="{% url 'chat:chat_room' chat.id %}">
-            {% if chat.chat_type == "consultation" %}
-              Консультативный чат
-            {% else %}
-              Социальный чат
-            {% endif %}
-            <span class="chat-updated">{{ chat.updated_at|date:"d M Y H:i" }}</span>
+          <a href="{% url 'chat:chat_room' chat_data.chat.id %}">
+            <img src="{{ chat_data.avatar }}" alt="Аватар" class="chat-avatar">
+            <h5>{{ chat_data.partner.first_name }} {{ chat_data.partner.last_name }}</h5>
+            <span class="chat-updated">{{ chat_data.chat.updated_at|date:"d M Y H:i" }}</span>
           </a>
         </li>
       {% endfor %}
@@ -29,4 +26,8 @@
     <p>Чатов пока нет. Начните новый чат, выбрав пользователя для общения.</p>
   {% endif %}
 </div>
+
+  {% block footer %}
+  {% endblock %}
+
 {% endblock %}

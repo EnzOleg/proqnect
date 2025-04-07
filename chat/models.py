@@ -5,12 +5,7 @@ from django.utils.timezone import now
 User = get_user_model()
 
 class Chat(models.Model):
-    participants = models.ManyToManyField(
-        User,
-        related_name="chats",
-        related_query_name="participants",
-        verbose_name="Участники"
-    )
+    participants = models.ManyToManyField(User, related_name="chats", related_query_name="participants", verbose_name="Участники")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлено") 
 
@@ -27,17 +22,8 @@ class Chat(models.Model):
 
 
 class Message(models.Model):
-    chat = models.ForeignKey(
-        Chat,
-        on_delete=models.CASCADE,
-        related_name="messages",
-        verbose_name="Чат"
-    )
-    sender = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name="Отправитель"
-    )
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages", verbose_name="Чат")
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Отправитель")
     text = models.TextField(verbose_name="Сообщение")
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Время отправки")
     read = models.BooleanField(default=False, verbose_name="Прочитано")
@@ -50,12 +36,7 @@ class Message(models.Model):
 
 
 class Call(models.Model):
-    chat = models.OneToOneField(
-        Chat,
-        on_delete=models.CASCADE,
-        related_name='active_call',
-        verbose_name="Чат"
-    )
+    chat = models.OneToOneField(Chat, on_delete=models.CASCADE, related_name='active_call', verbose_name="Чат")
     room_url = models.URLField(verbose_name="URL комнаты")
     created_at = models.DateTimeField(default=now, verbose_name="Создано")
     is_active = models.BooleanField(default=True, verbose_name="Активно")

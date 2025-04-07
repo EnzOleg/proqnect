@@ -8,26 +8,41 @@
 {% endblock %}
 
 {% block main_content %}
+
 <div class="expert-detail-container">
   <div class="expert-header">
     <div class="expert-avatar">
       <img src="{% if expert.user.profile_picture %}{{ expert.user.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}" alt="Аватар">
     </div>
     <div class="expert-info">
-      <h1>{{ expert.user.first_name }} {{ expert.user.last_name }}</h1>
+      <h1>{{ expert.user.first_name }} {{ expert.user.last_name }}</h1> 
+      <div class="back-link-container">
+        <a href="{% url 'experts:search_experts' %}" class="back-link">← Назад к поиску экспертов</a>
+      </div>
       {% if expert.is_verified %}
       <span class="verified-badge">Верифицирован</span>
       {% endif %}
       <p class="expert-bio">{{ expert.bio|default:"Нет описания" }}</p>
+      
       <div class="expert-stats">
          <span>Опыт: {{ expert.experience }} лет</span>
          <span>Цена за час: {{ expert.price_per_hour }} руб.</span>
+         {% if expert.reviews.all %}
+         <span>Рейтинг: {{ expert.average_rating|default:"-" }} / 5  (Всего отзывов: {{ expert.reviews.count }} {{ expert.reviews.count|pluralize:"отзыв,отзыва,отзывов" }})</span>
+         {% else %}
+         <span>Рейтинг: Нет отзывов</span>
+         {% endif %}
       </div>
+      
       <div class="expert-field">
-         <span>Специализация: {{ expert.specialization|default:"Не указано" }}</span>
+         <span>Специализация: {{ expert.get_specialization_display }}</span>
       </div>
+      
+      <div class="expert-contact">
+         <span>Email: <a href="mailto:{{ expert.user.email }}">{{ expert.user.email }}</a></span>
+      </div>
+      
       <a href="{% url 'accounts:profile_detail' expert.user.id %}" class="profile-link">Перейти в профиль</a>
-
     </div>
   </div>
   
@@ -45,31 +60,27 @@
   </div>
   
   <div class="expert-reviews">
-    <h2>Отзывы</h2>
-    {% if expert.reviews.all %}
-      {% for review in expert.reviews.all %}
+    <h3>Отзывы</h3>
+      {% for rev in expert.reviews.all|slice:":5" %}
         <div class="review">
-          <div class="review-header">
-            <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
-            <span class="review-rating">Оценка: {{ review.rating }}/5</span>
-          </div>
-          <p class="review-text">{{ review.review_text|default:"Нет комментариев" }}</p>
-          <div class="review-date">{{ review.created_at|date:"d M Y" }}</div>
+          <p>⭐️{{ rev.rating }} — {{ rev.comment }}</p>
+          <small>от {{ rev.reviewer.email }} ({{ rev.created_at|date:"d M Y" }})</small>
         </div>
+      {% empty %}
+        <p>Пока нет отзывов.</p>
       {% endfor %}
-    {% else %}
-      <p>Пока отзывов нет.</p>
-    {% endif %}
+      
+      {% if user.is_authenticated %}
+        <a href="{% url 'experts:add_review' expert.id %}" class="btn">Оставить отзыв</a>
+      {% endif %}
   </div>
   
   <div class="contact-expert">
     <a href="{% url 'chat:chat_with_user' expert.user.id %}" class="contact-btn">Чат с экспертом</a>
-    <!-- Кнопка для открытия модального окна -->
     <button id="book-expert" class="btn">Записаться</button>
   </div>
 </div>
 
-<!-- Модальное окно для запроса бронирования -->
 <div id="bookingModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
@@ -91,22 +102,18 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // Модальное окно
     const modal = document.getElementById("bookingModal");
     const bookButton = document.getElementById("book-expert");
     const closeSpan = modal.querySelector(".close");
 
-    // Открытие модального окна
     bookButton.addEventListener("click", function() {
         modal.style.display = "block";
     });
 
-    // Закрытие при клике на крестик
     closeSpan.addEventListener("click", function() {
         modal.style.display = "none";
     });
 
-    // Закрытие при клике вне окна
     window.addEventListener("click", function(event) {
         if (event.target === modal) {
             modal.style.display = "none";

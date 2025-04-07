@@ -2,11 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.utils.timezone import now
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
 from accounts.models import CustomUser
 from .models import Booking
 from .forms import BookingRequestForm, ConfirmBookingForm
 from experts.models import Expert
+from chat.models import Chat
 
 @login_required
 def request_booking(request, expert_id):
@@ -33,21 +33,30 @@ def request_booking(request, expert_id):
 
 
 
+
 @login_required
 def confirm_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, expert=request.user)
+
     if request.method == "POST":
         form = ConfirmBookingForm(request.POST, instance=booking)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.status = "confirmed"
             booking.save()
-            # Создаем консультационный чат, если он еще не создан
-            from chat.models import Chat
-            chat = Chat.objects.filter(chat_type='consultation', booking=booking).first()
+
+            user = booking.user
+            expert = booking.expert
+            chat = (
+                Chat.objects
+                    .filter(participants=user)
+                    .filter(participants=expert)
+                    .first()
+            )
             if not chat:
-                chat = Chat.objects.create(chat_type='consultation', booking=booking)
-                chat.participants.add(booking.user, booking.expert)
+                chat = Chat.objects.create()
+                chat.participants.add(user, expert)
+
             return redirect('chat:chat_room', chat_id=chat.id)
     else:
         form = ConfirmBookingForm(instance=booking)

@@ -34,12 +34,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
     timezone = models.CharField(max_length=50, default='Asia/Almaty')
     date_joined = models.DateTimeField(auto_now_add=True)
-    profile_picture = models.ImageField(
-    upload_to='profile_pics', 
-    blank=True, 
-    null=True, 
-    default='profile_pics/def_icon.png'
-    )
+    profile_picture = models.ImageField(upload_to='profile_pics', blank=True, null=True, default='profile_pics/def_icon.png')
+    cover_photo = models.ImageField(upload_to='profile_pics', blank=True, null=True, default='images/default_cover.png')
     bio = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=255, blank=True, null=True, default="Статус Отсутствует!")  
 

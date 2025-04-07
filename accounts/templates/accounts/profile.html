@@ -3,19 +3,19 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/comments.css' %}">
-    <script src="{% static 'js/like.js' %}"></script>
-    <script src="{% static 'js/comments.js' %}"></script>
-    <script src="{% static 'js/profile.js' %}"></script>
 {% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/like.js' %}"></script>
+<script src="{% static 'js/comments.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
+
 {% block title %}{{ user.first_name }} {{ user.last_name }}{% endblock %}
 
 {% block main_content %}
 <div class="profile-container">
-    <!-- Обложка и аватар -->
     <div class="profile-header" style="background-image: url('{% if user.cover_photo %}{{ user.cover_photo.url }}{% else %}{% static 'images/default_cover.png' %}{% endif %}');">
-        <button class="btn-details-toggle" onclick="toggleDetails()">
-            <img src="{% static 'images/frame1.png' %}" alt="Подробнее">
-        </button>
         <div class="profile-info">
             <div class="avatar">
                 <img src="{{ user.profile_picture.url }}" alt="Аватарка" class="profile-avatar">
@@ -36,31 +36,20 @@
                 {% endif %}
             </div>
         </div>
-        <!-- Подробная информация (справа) -->
-        <div class="profile-details" id="profileDetails">
-            <h2>Подробная информация</h2>
-            <p>{{ user.bio|default_if_none:'Нет информации' }}</p>
-            <p>Дата регистрации: {{ user.date_joined|date:"d M Y" }}</p>
-            <p>Email: {{ user.email }}</p>
-        </div>
     </div>
     
-    
-
-    <!-- Меню навигации профиля -->
     <div class="profile-menu">
         <a href="#profile-feed">Публикации</a>
-        <a href="{% url 'friends:friend_requests' %}">Друзья</a>
-        <a href="#">Фото</a>
-        <a href="#">Видео</a>
+        <a href="#friends">Друзья</a>
+        <a href="{% url 'chat:chat_home' %}">Сообщения</a>
     </div>
 
-    <!-- Основной контент -->
     <div class="profile-content">
-        <!-- Левая колонка -->
         <div class="profile-sidebar">
             <h2>Информация</h2>
             <p>{{ user.bio|default_if_none:'Нет информации' }}</p>
+            <br>
+            <p>Дата регистрации: {{ user.date_joined|date:"d M Y" }}</p>
             <h2>Друзья</h2>
             <ul>
                 {% for friend in friends %}
@@ -75,7 +64,6 @@
             </ul>
         </div>
 
-        <!-- Центральная колонка (Лента) -->
         <div class="profile-feed" id="profile-feed">
             <div class="new-post">
                 <form action="{% url 'accounts:add_post' %}" method="post" enctype="multipart/form-data">
@@ -97,7 +85,6 @@
                 </form>
             </div>
             
-
             {% for post in posts %}
             <div class="post">
                 <div class="post-header">

@@ -68,8 +68,8 @@ html, body {
   color: #888;
 }
 
-/* --- Вкладки --- */
 .tabs {
+  padding-left: 41%;
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
