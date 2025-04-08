@@ -15,7 +15,7 @@
 
 {% block main_content %}
 <div class="profile-container">
-    <div class="profile-header" style="background-image: url('{% if user.cover_photo %}{{ user.cover_photo.url }}{% else %}{% static 'images/default_cover.png' %}{% endif %}');">
+    <div class="profile-header" style="background-image: url('{% if user.cover_photo %}{{ user.cover_photo.url }}{% else %}{% static 'images/default_cover.svg' %}{% endif %}');">
         <div class="profile-info">
             <div class="avatar">
                 <img src="{{ user.profile_picture.url }}" alt="Аватарка" class="profile-avatar">

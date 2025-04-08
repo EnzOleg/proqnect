@@ -1,40 +1,73 @@
 :root {
-  --indigo-dark: #4a148c;
-  --indigo-light: #7b1fa2;  
   --accent: #ffd600;
-  --background: #f4f5fa;
-  --text-color: #2c2c54;
-  --text-color2: #e0e0e0;
-  --border-color: #dcdcdc;
-  --header: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
-  --footer: linear-gradient(135deg, var(--indigo-light), var(--indigo-dark));
+  --background: #ffffff;
+  --background-2: #ffffff;
+  --background-card: #ffffff;
+  --background-gradient: linear-gradient(135deg, #ffffff, #f0f0f0);
+  --background-image: url("/static/images/auth_bg.png");
+  --border-color: #e0e0e0;
+  --box-shadow-dark: 0 4px 12px rgba(255, 255, 255, 0.1);
+  --box-shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --card-background: #ffffff;
+  --card-bg: #ffffff;
+  --card-color: var(--text-color);
+  --chat-bg: #f9f9f9;
+  --dark-g: var(--indigo-dark);
+  --footer: linear-gradient(135deg, #e0e0e0, #ffffff);
+  --header: linear-gradient(135deg, #ffffff, #e0e0e0);
+  --header-bg: var(--header);
+  --hover-shadow: rgba(0, 0, 0, 0.15);
+  --indigo-dark: #000000;
+  --indigo-light: #ffffff;
+  --input-bg: #ffffff;
+  --light-g: var(--indigo-light);
+  --message-text: #000000;
+  --primary-dark: #000000;
+  --primary-light: #ffffff;
+  --received-bg: #cccccc;
+  --review-bg: #f9f9f9;
+  --sent-bg: #e0e0e0;
+  --text-color: #000000;
+  --text-color2: #666666;
+  --text-muted: #888888;
+  --border-color: #dddddd;
+  --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-  
+
 [data-theme="dark"] {
+  --accent: #ffd600;
   --background: #121212;
+  --background-2: #1e1e1e;
+  --background-card: #1e1e1e;
+  --background-gradient: linear-gradient(135deg, #000000, #202022);
+  --background-image: url("/static/images/auth_bg_dark.png");
+  --border-color: #333333;
+  --box-shadow-dark: 0 4px 12px rgba(255, 255, 255, 0.1);
+  --box-shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --card-background: #1e1e1e;
+  --card-bg: #1e1e1e;
+  --card-color: var(--text-color);
+  --chat-bg: #1a1a1a;
+  --dark-g: var(--indigo-dark);
+  --footer: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+  --header: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+  --header-bg: var(--header);
+  --hover-shadow: rgba(255, 255, 255, 0.1);
+  --indigo-dark: white;
+  --indigo-light: #2c2c2c;
+  --input-bg: #242424;
+  --light-g: var(--indigo-light);
+  --message-text: #ffffff;
+  --primary-dark: #1a1a1a;
+  --primary-light: #2c2c2c;
+  --received-bg: #2a2a2a;
+  --review-bg: #2a2a2a;
+  --sent-bg: #333333;
   --text-color: #e0e0e0;
-  --border-color: #333;
-  --header: linear-gradient(135deg, #2c2c2c, #1a1a1a);
-  --footer: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+  --text-color2: #aaaaaa;
 }
-[data-theme="dark"] .dropdown-menu {
-  background-color: #1e1e1e;
-  border-color: #333;
-}
-[data-theme="dark"] .dropdown-menu a {
-  color: #e0e0e0;
-}
-[data-theme="dark"] .dropdown-menu a:hover {
-  background-color: #333;
-  color: #ffd600;
-}
-[data-theme="dark"] .dropdown-menu .logout-btn {
-  color: #e0e0e0;
-}
-[data-theme="dark"] .dropdown-menu .logout-btn:hover {
-  background-color: #333;
-  color: #ffd600;
-}
+
 html {
   visibility: hidden;
   opacity: 0;
@@ -85,17 +118,15 @@ header {
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .logo-container {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 .logo-container img {
-  width: 200px;
+  width: 150px;
   height: 40px;
   object-fit: cover;
-  filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5));
 }
 .logo-container h1 {
   margin: 0;
@@ -106,11 +137,11 @@ header {
   transition: font-size 0.3s, background-color 0.3s, color 0.3s;
 }
 .logo-container h1 a {
-  color: var(--accent);
+  color: var(--indigo-dark);
   transition: color 0.3s, font-size 0.3s, background-color 0.3s;
 }
 .logo-container h1 a:hover {
-  color: var(--text-color);
+  color: var(--accent);
 }
 .logo-container h1 a.active,
 .nav-link.active {
@@ -128,10 +159,7 @@ header {
 #notification-bell {
   cursor: pointer;
 }
-#notification-count {
-  cursor: pointer;
-}
-#notification-dropdown p{
+#notification-dropdown p {
   padding: 5px;
   color: var(--text-color);
 }
@@ -148,20 +176,20 @@ header {
   object-fit: cover;
 }
 .logout-btn {
-    background: none;
-    border: none;
-    color: #6b21a8;
-    font-size: 16px;
-    padding: 12px;
-    cursor: pointer;
-    text-align: left;
-    display: block;
-    width: 100%;
+  background: none;
+  border: none;
+  color: #6b21a8;
+  font-size: 16px;
+  padding: 12px;
+  cursor: pointer;
+  text-align: left;
+  display: block;
+  width: 100%;
 }
 
 .logout-btn:hover {
-    text-decoration: none;
-    color: #4a148c; 
+  text-decoration: none;
+  color: #4a148c; 
 }
 
 .dropdown-menu {
@@ -183,28 +211,22 @@ header {
   transition: background-color 0.3s, color 0.3s;
 }
 .dropdown-menu a:hover {
-  background-color: #f0f0f0;
+  background-color: var(--accent);
   color: var(--indigo-light);
 }
 .dropdown-menu.show {
   display: block;
 }
-.dropdown-menu .logout-btn {
-  background: none;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  text-align: left;
-  font: inherit;
+.dropdown-menu button {
+  border-radius: 0;
   color: var(--indigo-dark);
-  cursor: pointer;
-  border-radius: 0%;
   transition: background-color 0.3s, color 0.3s;
 }
-.dropdown-menu .logout-btn:hover {
-  background-color: #f0f0f0;
+.dropdown-menu button:hover {
+  background-color: var(--accent);
+  border-radius: 0;
   color: var(--indigo-light);
-} 
+}
 
 button {
   height: 40px;
@@ -212,12 +234,13 @@ button {
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
-  background: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
+  background: var(--primary-dark);
   color: #fff;
   transition: background 0.3s, transform 0.3s;
 }
 button:hover {
   opacity: 0.9;
+  background: var(--accent);
 }
 
 .footer {
@@ -293,6 +316,7 @@ button:hover {
 .footer-contact a:hover {
   text-decoration: underline;
 }
+
 
 @media (max-width: 768px) {
   .footer-container {

@@ -1,27 +1,3 @@
-/* experts_search.css */
-
-/* Переменные цветов (светлая тема) */
-:root {
-    --primary-dark: #4a148c;
-    --primary-light: #7b1fa2;
-    --accent: #ffd600;
-    --background: #f3f2ef;
-    --text-color: #2c2c54;
-    --border-color: #e0e0e0;
-    --card-bg: #f9f9f9;
-    --header-bg: #fff;
-}
-
-/* Тёмная тема */
-[data-theme="dark"] {
-    --background: #121212;
-    --text-color: #e0e0e0;
-    --border-color: #333;
-    --card-bg: #1e1e1e;
-    --header-bg: linear-gradient(135deg, #2c2c2c, #1a1a1a);
-}
-
-/* Контейнер страницы поиска */
 .search-container {
     max-width: 1000px;
     margin: 30px auto;
@@ -31,15 +7,13 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Заголовок страницы */
 .search-title {
     text-align: center;
-    color: var(--primary-dark);
+    color: var(--indigo-dark);
     font-size: 2rem;
     margin-bottom: 20px;
 }
 
-/* Форма поиска */
 .search-form {
     display: flex;
     justify-content: center;
@@ -56,8 +30,6 @@
     color: var(--text-color);
     background: var(--background);
 }
-
-/* Кнопка поиска */
 .search-form button {
     padding: 10px 20px;
     background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
@@ -69,26 +41,24 @@
     transition: background 0.3s ease;
 }
 
-.search-form button:hover {
-    background: var(--primary-light);
+.btn-search:hover {
+    background-color: var(--accent);
+    color: var(--primary-dark);
 }
 
-/* Заголовок результатов */
 .results-title {
     text-align: center;
     font-size: 1.5rem;
-    color: var(--primary-dark);
+    color: var(--indigo-dark);
     margin-bottom: 20px;
 }
 
-/* Список экспертов */
 .experts-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
 
-/* Карточка эксперта */
 .expert-card {
     background: var(--card-bg);
     padding: 15px;
@@ -104,8 +74,6 @@
     transform: translateY(-5px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-
-/* Аватар эксперта */
 .expert-avatar img {
     width: 60px;
     height: 60px;
@@ -114,11 +82,10 @@
     border: 2px solid var(--primary-dark);
 }
 
-/* Информация об эксперте */
 .expert-info h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: var(--primary-dark);
+    color: var(--indigo-dark);
 }
 
 .expert-info p {
@@ -139,7 +106,7 @@
 }
 
 #btn-search:hover {
-    background: var(--primary-light);
+    background: var(--accent);
     color: white;
 }
 
@@ -155,14 +122,14 @@
 }
 
 .btn-view:hover {
-    background: var(--primary-light);
+    background: var(--accent);
     color: white;
 }
 
-/* Сообщение, если результатов нет */
 .no-results {
     text-align: center;
     color: var(--text-color);
     font-size: 1rem;
+    padding: 40px;
     margin-top: 20px;
 }

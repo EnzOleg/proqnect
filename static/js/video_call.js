@@ -4,16 +4,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeModalBtn = document.getElementById("close-modal");
     const videoCallContainer = document.getElementById("video-call-container");
 
-    if (!openVideoCallBtn) return;
+    if (!openVideoCallBtn || !videoCallModal || !videoCallContainer || !closeModalBtn) {
+        console.warn("Один из элементов для видеозвонка не найден в DOM.");
+        return;
+    }
 
-    const chatId = openVideoCallBtn.dataset.chatId; 
+    const chatId = openVideoCallBtn.dataset.chatId;
 
     fetch(`/chat/check-call/${chatId}/`)
         .then(response => response.json())
         .then(data => {
             if (data.room_url) {
                 openVideoCallBtn.textContent = "Присоединиться к звонку";
-                openVideoCallBtn.dataset.roomUrl = data.room_url;  
+                openVideoCallBtn.dataset.roomUrl = data.room_url;
             }
         })
         .catch(error => console.error("Ошибка при проверке звонка:", error));
@@ -22,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (openVideoCallBtn.dataset.roomUrl) {
             openVideoCall(openVideoCallBtn.dataset.roomUrl);
         } else {
-            fetch(`/chat/create-or-get-call/${chatId}/`, {  
+            fetch(`/chat/create-or-get-call/${chatId}/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -43,18 +46,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener("click", function () {
-            videoCallModal.classList.remove("show"); 
-            videoCallContainer.innerHTML = "";
+    closeModalBtn.addEventListener("click", function () {
+        fetch(`/chat/delete-call/${chatId}/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCSRFToken()
+            }
+        }).then(response => {
+            if (!response.ok) {
+                console.warn("Не удалось удалить комнату");
+            }
+        }).catch(error => {
+            console.error("Ошибка при удалении комнаты:", error);
         });
-    }
+        videoCallModal.classList.remove("show");
+        videoCallContainer.innerHTML = "";
+    });
     
+
     function openVideoCall(roomUrl) {
         videoCallContainer.innerHTML = `<iframe src="${roomUrl}" width="100%" height="100%" allow="microphone; camera; fullscreen; display-capture"></iframe>`;
-        videoCallModal.classList.add("show"); 
+        videoCallModal.classList.add("show");
     }
-    
+
     function getCSRFToken() {
         let cookieValue = null;
         if (document.cookie && document.cookie !== "") {
@@ -69,4 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return cookieValue;
     }
+
+    
 });

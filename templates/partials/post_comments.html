@@ -1,12 +1,6 @@
 <div class="post-comments">
-    <!-- Кнопка для показа/скрытия всего блока комментариев -->
-    <div class="comments-toggle">
-        <button class="toggle-comments-btn">▼</button>
-    </div>
     
-    <!-- Секция с комментариями (скрыта по умолчанию) -->
     <div class="comments-section" style="display: none;">
-        <!-- Выводим только топ-комментарии -->
         {% for comment in post.top_comments %}
             <div class="comment">
                 <div class="comment-header">
@@ -16,7 +10,6 @@
                 </div>
                 <p class="comment-content">{{ comment.content }}</p>
                 <a href="#" class="reply-btn" data-comment-id="{{ comment.id }}">Ответить</a>
-                <!-- Форма для ответа, скрыта по умолчанию -->
                 <div class="reply-form" style="display: none;">
                     <textarea placeholder="Ваш ответ..." required></textarea>
                     <button class="btn-submit-reply" data-post-id="{{ post.id }}" data-parent-id="{{ comment.id }}">Отправить</button>
@@ -45,8 +38,6 @@
             <p>Комментариев пока нет.</p>
         {% endfor %}
     </div>
-
-    <!-- Форма для добавления нового (топ-уровня) комментария -->
     <div class="add-comment">
         <textarea name="content" placeholder="Напишите комментарий..." required></textarea>
         <button class="btn-submit-comment" data-post-id="{{ post.id }}">Добавить</button>

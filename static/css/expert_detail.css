@@ -1,35 +1,13 @@
-/* Переменные цветов (светлая тема) */
-:root {
-  --primary-dark: #4a148c;
-  --primary-light: #7b1fa2;
-  --accent: #ffd600;
-  --background: #f3f2ef;
-  --text-color: #2c2c54;
-  --border-color: #e0e0e0;
-  --card-bg: #fff;
-  --review-bg: #f9f9f9;
-}
 
-/* Тёмная тема */
-[data-theme="dark"] {
-  --background: #121212;
-  --text-color: #e0e0e0;
-  --border-color: #333;
-  --card-bg: #1e1e1e;
-  --review-bg: #242424;
-}
-
-/* Контейнер профиля эксперта */
 .expert-detail-container {
-  max-width: 800px;  /* уменьшили ширину */
-  margin: 20px auto; /* уменьшили внешние отступы */
+  max-width: 800px; 
+  margin: 20px auto;
   background: var(--card-bg);
-  border-radius: 8px; /* немного меньше скругление */
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* меньшая тень */
-  padding: 15px; /* уменьшили внутренние отступы */
+  border-radius: 8px; 
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); 
+  padding: 15px; 
 }
 
-/* Шапка профиля */
 .expert-header {
   display: flex;
   flex-wrap: wrap;
@@ -39,20 +17,18 @@
   margin-bottom: 15px;
 }
 
-/* Аватар */
 .expert-avatar {
-  flex: 0 0 120px; /* уменьшаем размер */
+  flex: 0 0 120px;
 }
 
 .expert-avatar img {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid var(--primary-light);
+  border: 3px solid var(--primary-dark);
   object-fit: cover;
 }
 
-/* Информация об эксперте */
 .expert-info {
   flex: 1;
   display: flex;
@@ -61,12 +37,14 @@
 }
 
 .expert-info h1 {
-  font-size: 1.6rem; /* немного меньше шрифт */
+  font-size: 1.6rem; 
   color: var(--primary-dark);
   margin: 0;
 }
+.expert-info a:hover {
+  color: var(--accent);
+}
 
-/* Значок верификации */
 .verified-badge {
   display: inline-block;
   background: var(--accent);
@@ -77,7 +55,6 @@
   font-weight: bold;
 }
 
-/* Биография и статистика */
 .expert-bio,
 .expert-stats,
 .expert-field,
@@ -92,7 +69,6 @@
   gap: 10px;
 }
 
-/* Контактный блок */
 .expert-contact {
   margin-top: 5px;
   font-style: italic;
@@ -108,7 +84,6 @@
   text-decoration: underline;
 }
 
-/* Навыки и отзывы */
 .expert-skills, .expert-reviews {
   margin-bottom: 15px;
 }
@@ -131,8 +106,6 @@
 .expert-skills li {
   margin-bottom: 3px;
 }
-
-/* Отзывы */
 .review {
   border: 1px solid var(--border-color);
   border-radius: 6px;
@@ -165,7 +138,6 @@
   text-align: right;
 }
 
-/* Кнопка связи с экспертом */
 .contact-expert {
   text-align: center;
   margin-top: 20px;
@@ -177,15 +149,14 @@
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 16px;
   transition: background 0.3s ease;
 }
 
 .contact-btn:hover {
-  background: var(--primary-light);
+  background: var(--accent);
 }
 
-/* Стрелка назад */
 .back-link-container {
   margin-bottom: 15px;
 }
@@ -198,10 +169,9 @@
 }
 
 .back-link:hover {
-  color: var(--primary-light);
+  color: var(--accent);
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
   .expert-header {
     flex-direction: column;
@@ -215,7 +185,6 @@
   }
 }
 
-/* Стили для модального окна */
 .modal {
   display: none;
   position: fixed;
@@ -268,7 +237,6 @@
   color: var(--accent);
 }
 
-/* Модальное окно: заголовок и элементы формы */
 .modal-content h2 {
   font-size: 1.4rem;
   margin-bottom: 15px;
@@ -321,7 +289,7 @@
 }
 
 .form-group .btn:hover {
-  background: var(--primary-light);
+  background: var(--accent);
 }
 
 #bookingForm {
@@ -329,3 +297,7 @@
   flex-direction: column;
   gap: 10px;
 }
+#book-expert .btn{
+  background-color: var(--primary-dark);
+}
+

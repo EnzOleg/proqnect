@@ -53,7 +53,7 @@ def chat_with_user(request, user_id):
     return redirect('chat:chat_room', chat_id=chat.id)
 
 
-API_KEY = "a7721152ea0406e1bc07f7db51bec80c3356f8066350db477500f2258a35da9e"
+API_KEY = "2ffe04b830b8e9b0d2ea9b2fbb4105a3f90c1a4d9b5bafa61de80527ed4bfe4c"
 BASE_URL = "https://api.daily.co/v1/rooms"
 
 @api_view(["POST"])
@@ -89,3 +89,18 @@ def check_active_call(request, chat_id):
     if active_call:
         return Response({"room_url": active_call.room_url})
     return Response({"room_url": None})
+
+@api_view(["POST"])
+def delete_call(request, chat_id):
+    call = Call.objects.filter(chat_id=chat_id, is_active=True).first()
+    if not call:
+        return Response(status=404)
+
+    headers = {"Authorization": f"Bearer {API_KEY}"}
+    room_name = call.room_name
+    requests.delete(f"{BASE_URL}/{room_name}", headers=headers)
+
+    call.is_active = False
+    call.save()
+
+    return Response({"message": "Комната удалена"})

@@ -6,23 +6,45 @@ from .forms import ExpertProfileForm, ExpertSkillFormSet, ReviewForm
 from .models import Expert, Review
 from booking.models import Booking
 
+RUS_TO_ENG = {
+    "разработчик": "developer",
+    "дизайнер": "designer",
+    "маркетинг": "marketing",
+    "финансы": "finance",
+    "киберспорт": "cybersport",
+    "другое": "other"
+}
+
+def find_matching_specialization(query):
+    query = query.lower()
+    for rus_name, eng_code in RUS_TO_ENG.items():
+        if rus_name.startswith(query):
+            return eng_code
+    return None
+
 def experts_search(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get('q', '').strip().lower()
+    specialization_match = find_matching_specialization(query)
+
     if query:
-        experts = Expert.objects.filter(
-            Q(user__first_name__icontains=query) |
-            Q(user__last_name__icontains=query) |
-            Q(specialization__icontains=query) |
-            Q(bio__icontains=query)
-        ).distinct()
+        filters = Q(user__first_name__icontains=query) | \
+                  Q(user__last_name__icontains=query) | \
+                  Q(bio__icontains=query) | \
+                  Q(custom_specialization__icontains=query)
+
+        if specialization_match:
+            filters |= Q(specialization=specialization_match)
+
+        experts = Expert.objects.filter(filters).distinct()
     else:
         experts = Expert.objects.all()
-    
+
     context = {
         'query': query,
         'experts': experts,
     }
     return render(request, "experts/experts_search.html", context)
+
 
 
 @login_required

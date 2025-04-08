@@ -1,26 +1,3 @@
-/* booking_confirm.css */
-
-/* Определяем переменные по умолчанию */
-:root {
-  --card-bg: #fff;
-  --primary-dark: #4a148c;
-  --primary-light: #7b1fa2;
-  --border-color: #e0e0e0;
-  --review-bg: #f9f9f9;
-  --text-color: #2c2c54;
-}
-
-/* Темная тема: переопределяем переменные, если установлен атрибут data-theme="dark" */
-[data-theme="dark"] {
-  --card-bg: #1e1e1e;
-  --primary-dark: #7b1fa2; /* Можно настроить под свой вкус */
-  --primary-light: #9c27b0;
-  --border-color: #444;
-  --review-bg: #2a2a2a;
-  --text-color: #ddd;
-}
-
-/* Контейнер страницы подтверждения записи */
 .confirm-container {
   max-width: 700px;
   margin: 40px auto;
@@ -30,7 +7,6 @@
   padding: 30px;
 }
 
-/* Заголовки */
 .confirm-container h1 {
   text-align: center;
   font-size: 2rem;
@@ -44,7 +20,6 @@
   margin-bottom: 10px;
 }
 
-/* Секция деталей записи */
 .booking-details {
   border: 1px solid var(--border-color);
   padding: 20px;
@@ -59,14 +34,11 @@
   margin: 8px 0;
 }
 
-/* Форма подтверждения записи */
 .confirm-form form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
-/* Кнопки формы */
 .form-buttons {
   display: flex;
   justify-content: space-between;
@@ -86,13 +58,12 @@
 }
 
 .btn-confirm {
-  background-color: var(--primary-dark);
-  color: #fff;
+  background: var(--primary-dark);
+}
+.btn-confirm:hover {
+  background: var(--accent);
 }
 
-.btn-confirm:hover {
-  background-color: var(--primary-light);
-}
 
 .btn-decline {
   background-color: #d32f2f;

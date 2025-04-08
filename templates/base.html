@@ -17,9 +17,8 @@
     <header>
         <div class="logo-container">
             <a href="{% url 'index' %}">
-                <img src="{% static 'images/logo.svg' %}" alt="Логотип">
-            </a>
-  
+                <img id="site-logo" src="{% static 'images/proqfigm.svg' %}" alt="Логотип">
+            </a>                   
             <h1><a href="/">Главная</a></h1>
             <h1><a href="{% url 'feed:feed' %}">Новости</a></h1>
             <h1><a href="{% url 'experts:search_experts' %}">Найти Эксперта</a></h1>
@@ -38,7 +37,7 @@
                         <p class="text-gray-500 text-sm">Нет новых уведомлений</p>
                     </div>  
                 </div>
-        
+
                 <div class="profile-icon" onclick="toggleMenu(event)">
                     <img src="{{ request.user.profile_picture.url }}" alt="Аватарка" class="avatar">
                 </div>
@@ -73,7 +72,7 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-logo">
-                <h2> ProQnect</h2>
+                <h2>ProQnect</h2>
                 <p>Платформа для поиска <br>и консультаций с экспертами</p>
             </div>
     
@@ -83,7 +82,7 @@
                 <a href="#">Условия использования</a>
             </div>
     
-            <p class="footer-contact">Пишите: <a href="mailto:help@proqnect.com">help@proqnect.com</a></p>
+            <p class="footer-contact">Пишите: <a href="mailto:help@proqnect.bizml.ru">help@proqnect.bizml.ru</a></p>
         </div>
     </footer>
     {% endblock %}

@@ -6,7 +6,7 @@ class Post(models.Model):
     content = models.TextField(verbose_name="Содержимое поста")
     image = models.ImageField(upload_to="post_images/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    like_count = models.PositiveIntegerField(default=0)  # Количество лайков (обновляется при лайках)
+    like_count = models.PositiveIntegerField(default=0) 
 
     def update_like_count(self):
         self.like_count = self.likes.count()
@@ -45,7 +45,6 @@ class Comment(models.Model):
     
     @property
     def top_parent(self):
-        """Возвращает верхнего родителя для комментария (сам комментарий, если нет родителя)"""
         if self.parent is None:
             return self
         return self.parent.top_parent

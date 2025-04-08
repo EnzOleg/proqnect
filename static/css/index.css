@@ -1,251 +1,159 @@
-:root {
-    --indigo-dark: #4a148c;      /* Глубокий фиолетовый / индиго */
-    --indigo-light: #7b1fa2;     /* Светлый индиго */
-    --accent: #ffd600;           /* Яркий акцент (например, для активных ссылок) */
-    --background: #f4f5fa;       /* Светлый фон страницы */
-    --text-color: #2c2c54;       /* Тёмный текст */
-    --border-color: #dcdcdc;     /* Цвет границ */
-    --background-card: #ffff;
-    --card-color: rgb(53, 53, 53);
+/* index.css */
+body {
+    margin: 0;
+    font-family: sans-serif;
+    color: var(--text-color);
+    background: var(--background);
 }
 
-[data-theme="dark"] {
-    --background: #121212;
-    --text-color: #e0e0e0;
-    --border-color: #333;
-    --indigo-dark: #2c2c2c;
-    --indigo-light: #1a1a1a;
-    --background-card: #222222;
-    --card-color: rgb(218, 218, 218);
-    --accent: #ffcc00;
-}
-  
-body {
-    color: var(--text-color);
-    background-color: var(--background);
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .home-banner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 0 20px;
-    background: linear-gradient(135deg, var(--indigo-light), var(--indigo-dark));
-    color: var(--accent);
-    height: 85vh;
-    justify-content: center;
-    position: relative;
-    animation: fadeIn 1s ease-in-out;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background: var(--background-gradient);
+  color: var(--text-color);
+  text-align: center;
+  padding: 100px 0;
 }
-
-.home-banner h1 {
-    font-size: 2.8rem;
-    margin-bottom: 20px;
-    font-weight: 700;
+.home-banner .highlight {
+  color: var(--accent);
 }
-
 .home-banner p {
-    font-size: 1.3rem;
-    margin-bottom: 30px;
+  max-width: 600px;
+  margin: 20px auto;
+  color: var(--text-color2);
+  line-height: 1.5;
 }
-
-.home-banner button {
-    background-color: #ffffff;
-    color: var(--indigo-dark);
-    padding: 14px 28px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+.home-banner .btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 14px 32px;
+  background: var(--accent);
+  color: var(--primary-dark);
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.3s;
 }
-
-.home-banner button:hover {
-    background-color: #eaeaff;
-    transform: scale(1.05);
+.home-banner .btn:hover {
+  background: #e6c500;
+  transform: translateY(-2px);
 }
 
 .features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    margin: 40px 20px;
-    justify-items: center;
-    align-items: center;
+  padding: 80px 0;
+  background: var(--background-2);
+}
+.features h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.features .intro {
+  text-align: center;
+  color: var(--text-color2);
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 30px;
+}
+.card {
+  background: var(--card-background);
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow-light);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-dark);
+}
+.card h3 {
+  margin-top: 0;
+  color: var(--accent);
+}
+.card p {
+  color: var(--text-color);
+  line-height: 1.4;
 }
 
-.features-title {
-    text-align: center;
-    font-size: 2rem;
-    color: var(--text-color);
-    margin-bottom: 30px;
+.cta {
+  padding: 80px 0;
+  background: var(--background-gradient);
+  text-align: center;
+}
+.cta h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+.cta p {
+  color: var(--text-color2);
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+.cta .btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 14px 32px;
+  background: var(--accent);
+  color: var(--primary-dark);
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.3s;
+}
+.cta .btn:hover {
+  background: #e6c500;
+  transform: translateY(-2px);
 }
 
-.feature-card {
-    background-color: var(--background-card);
-    color: var(--text-color);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-    transform: rotate(-5deg);
+.stats {
+  padding: 80px 0;
 }
-
-.feature-card:hover {
-    transform: translateY(-8px) rotate(0deg);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-    background-color: var(--background-card);
+.stats h2 {
+  text-align: center;
+  margin-bottom: 40px;
 }
-
-.feature-card h3 {
-    font-size: 1.3rem;
-    color: var(--accent);
-    margin-bottom: 15px;
-}
-
-.feature-card p {
-    font-size: 1rem;
-    color: var(--card-color);
-}
-.call-to-action {
-    background: linear-gradient(135deg, var(--indigo-dark), var(--indigo-light));
-    color: #ffffff;
-    text-align: center;
-    padding: 80px 20px; 
-    margin: 40px auto;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-}
-
-.call-to-action h2 {
-    color: var(--accent);
-    font-size: 2.8rem;
-    margin-bottom: 30px;
-    font-weight: 700;
-}
-
-.call-to-action p {
-    font-size: 1.4rem;
-    margin-bottom: 40px;
-}
-
-.call-to-action a button {
-    background-color: #ffffff;
-    color: var(--accent);
-    padding: 16px 32px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.call-to-action a button:hover {
-    background-color: #eaeaff;
-    transform: scale(1.05);
-}
-
-
-.additional-content {
-    background-color: var(--background);
-    padding: 30px 20px;
-    padding-bottom: 90px;
-    text-align: center;
-}
-
-.additional-content h2 {
-    color: var(--text-color);
-    font-size: 1.75rem;
-    margin-bottom: 20px;
-}
-
-.additional-content p {
-    font-size: 1rem;
-    color: var(--text-color);
-    margin-bottom: 20px;
-}
-
-.additional-content a {
-    font-size: 1rem;
-    color: var(--accent);
-    transition: color 0.3s ease;
-}
-
-.additional-content a:hover {
-    color: var(--text-color);
-}
-
 .stats-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    gap: 30px;
-    margin: 20px 0;
-    flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
-
 .stat-card {
-    background: linear-gradient(135deg, var(--background-card));
-    padding: 25px 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-    min-width: 180px;
-    animation: fadeInUp 0.5s ease-out both;
+  background: var(--card-background);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: var(--box-shadow-light);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-
 .stat-card:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    background-color: var(--background-card);
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-dark);
 }
-
 .stat-card h3 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 10px;
+  margin: 0;
+  font-size: 2rem;
+  color: var(--accent);
 }
-
 .stat-card p {
-    font-size: 1.1rem;
-    color: var(--text-color);
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  margin: 5px 0 0;
+  color: var(--text-color2);
 }
 
 @media (max-width: 768px) {
-    .home-banner h1 {
-        font-size: 1.8rem;
-    }
-    .features {
-        grid-template-columns: 1fr;
-    }
-    .feature-card h3 {
-        font-size: 1rem;
-    }
-    .call-to-action h2 {
-        font-size: 1.25rem;
-    }
-    .features-title {
-        font-size: 1.5rem;
-    }
-    .additional-content h2 {
-        font-size: 1.5rem;
-    }
+  .home-banner { padding: 60px 0; }
+  .features, .cta, .stats { padding: 40px 0; }
+  .home-banner h1 { font-size: 1.8rem; }
+  .cta h2, .features h2 { font-size: 1.6rem; }
 }
+  

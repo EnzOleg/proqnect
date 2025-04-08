@@ -12,6 +12,7 @@ class Expert(models.Model):
         ("designer", "Дизайнер"),
         ("marketing", "Маркетинг"),
         ("finance", "Финансы"),
+        ("cybersport", "Киберспорт"),
         ("other", "Другое"), 
     ]
 

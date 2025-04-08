@@ -1,24 +1,3 @@
-:root {
-  --card-bg: #fff;
-  --background: #f9f9f9;
-  --border-color: #e0e0e0;
-  --text-color: #2c2c54;
-  --primary-dark: #4a148c;
-  --primary-light: #7b1fa2;
-  --review-bg: #f3f2ef;
-  --accent: #ffd600;
-}
-
-[data-theme="dark"] {
-  --card-bg: #1e1e1e;
-  --background: #121212;
-  --border-color: #333;
-  --text-color: #ddd;
-  --primary-dark: #7b1fa2;
-  --primary-light: #9c27b0;
-  --review-bg: #2a2a2a;
-}
-
 html, body {
   height: 100%;
   margin: 0;
@@ -26,7 +5,6 @@ html, body {
   flex-direction: column;
 }
 
-/* --- Контейнер страницы --- */
 .my-bookings-container {
   max-width: 1200px;
   margin: 30px auto;
@@ -40,11 +18,10 @@ html, body {
 .my-bookings-container h1 {
   text-align: center;
   font-size: 2rem;
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
   margin-bottom: 20px;
 }
 
-/* --- Фильтр-бар --- */
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -62,6 +39,9 @@ html, body {
   background: var(--background);
   color: var(--text-color);
   outline: none;
+}
+.filter-bar select option:checked {
+  background-color: var(--accent); 
 }
 
 .filter-bar input[type="text"]::placeholder {
@@ -82,7 +62,7 @@ html, body {
   transition: background 0.3s;
 }
 .tab-btn.active {
-  background: var(--primary-light);
+  background: var(--accent);
   color: white;
   border: 2px solid var(--accent);
 }
@@ -93,7 +73,6 @@ html, body {
   display: block;
 }
 
-/* --- Кнопка экспорта --- */
 .btn-export {
   background: var(--primary-dark);
   color: #fff;
@@ -106,19 +85,14 @@ html, body {
 }
 
 .btn-export:hover {
-  background: var(--primary-light);
+  color: var(--primary-light);
 }
-
-/* --- Сетка карточек --- */
-/* Для вкладок "входящие" и "исходящие" */
 #bookingsCards-incoming,
 #bookingsCards-outgoing {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
-
-/* --- Карточка бронирования --- */
 .booking-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -126,20 +100,16 @@ html, body {
   padding: 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
 .booking-card h3 {
   margin: 0 0 10px;
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
   font-size: 1.2rem;
 }
-
 .booking-card p {
   margin: 5px 0;
   color: var(--text-color);
   font-size: 0.95rem;
 }
-
-/* --- Блок действий --- */
 .booking-card .actions {
   display: flex;
   flex-wrap: wrap;
@@ -160,7 +130,7 @@ html, body {
   background: var(--primary-dark);
 }
 .btn-confirm:hover {
-  background: var(--primary-light);
+  background: var(--accent);
 }
 
 .btn-decline {

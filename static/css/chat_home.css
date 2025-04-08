@@ -1,16 +1,15 @@
-/* chat_home.css */
 .chat-home-container {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: #f9f9f9;
+    background: var(--background-card);
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow-light);
 }
 
 .chat-home-container h1 {
     font-size: 2rem;
-    color: #4a148c;
+    color: var(--primary-dark);
     margin-bottom: 20px;
     text-align: center;
     font-weight: bold;
@@ -26,14 +25,14 @@
     align-items: center;
     padding: 12px;
     border-radius: 8px;
-    background: #fff;
+    background: var(--card-bg);
     margin-bottom: 8px;
     transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow-sm);
 }
 
 .chat-item:hover {
-    background-color: #f1f1f1;
+    background-color: var(--hover-bg);
     transform: scale(1.02);
 }
 
@@ -42,7 +41,7 @@
     align-items: center;
     text-decoration: none;
     flex-grow: 1;
-    color: #333;
+    color: var(--text-color);
     font-weight: 500;
 }
 
@@ -52,13 +51,11 @@
     border-radius: 50%;
     object-fit: cover;
     margin-right: 12px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--border-color);
 }
 
 .chat-updated {
     margin-left: auto;
     font-size: 0.85rem;
-    color: #888;
+    color: var(--text-muted);
 }
-
-  

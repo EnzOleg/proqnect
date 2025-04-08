@@ -82,11 +82,9 @@
             }
 
             switchButton.addEventListener('click', () => {
-                // Очищаем содержимое блоков с ошибками
                 const errorElements = document.querySelectorAll('.form-errors');
                 errorElements.forEach(el => el.innerHTML = '');
         
-                // Переключаем видимость форм
                 const showRegister = registerForm.classList.contains('hidden');
                 loginForm.classList.toggle('hidden', showRegister);
                 registerForm.classList.toggle('hidden', !showRegister);

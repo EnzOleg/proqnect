@@ -1,152 +1,131 @@
+// comments.js
+
 document.addEventListener("DOMContentLoaded", function () {
-    // Переключатель для показа/свертывания всего блока комментариев для поста
+    // Кнопка «Комментарии» в шапке поста
     document.querySelectorAll(".toggle-comments-btn").forEach(btn => {
-        btn.addEventListener("click", function (event) {
-            event.preventDefault();
-            let commentsSection = this.closest(".post-comments").querySelector(".comments-section");
-            if (commentsSection.style.display === "none" || commentsSection.style.display === "") {
-                commentsSection.style.display = "block";
-                this.textContent = "▲";
-            } else {
-                commentsSection.style.display = "none";
-                this.textContent = "▼";
-            }
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const card = this.closest(".post-card");
+            const commentsContainer = card.querySelector(".comments-container");
+            commentsContainer.classList.toggle("open");
         });
     });
 
-    // Обработчик для кнопки "Ответить" – показывает/скрывает форму ответа
-    document.querySelectorAll(".reply-btn").forEach(link => {
-        link.addEventListener("click", function (event) {
-            event.preventDefault();
-            let replyForm = this.closest(".comment").querySelector(".reply-form");
-            if (replyForm.style.display === "none" || replyForm.style.display === "") {
-                replyForm.style.display = "flex";
-                this.textContent = "Свернуть ответ";
-            } else {
-                replyForm.style.display = "none";
-                this.textContent = "Ответить";
-            }
-        });
+    // Открытие/закрытие формы ответа
+    document.addEventListener("click", function (e) {
+        if (!e.target.classList.contains("reply-btn")) return;
+        e.preventDefault();
+        const link = e.target;
+        const replyForm = link.closest(".comment").querySelector(".reply-form");
+        if (!replyForm) return;
+        const isOpen = replyForm.style.display === "flex";
+        replyForm.style.display = isOpen ? "none" : "flex";
+        link.textContent = isOpen ? "Ответить" : "Свернуть ответ";
     });
 
-    // Отправка нового (топ-уровня) комментария
+    // Отправка нового комментария
     document.querySelectorAll(".btn-submit-comment").forEach(button => {
-        button.addEventListener("click", function (event) {
-            event.preventDefault();
-            let postId = this.dataset.postId;
-            let textarea = this.closest(".add-comment").querySelector("textarea");
-            let content = textarea.value.trim();
-            if (!content) {
-                alert("Комментарий не может быть пустым");
-                return;
-            }
-            let commentUrl = `/feed/post/${postId}/`;
-            let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const postId = this.dataset.postId;
+            const textarea = this.closest(".add-comment").querySelector("textarea");
+            const content = textarea.value.trim();
+            if (!content) return alert("Комментарий не может быть пустым");
 
-            fetch(commentUrl, {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            fetch(`/feed/post/${postId}/`, {
                 method: "POST",
                 headers: {
                     "X-CSRFToken": csrfToken,
-                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: new URLSearchParams({
-                    "content": content
-                })
+                body: new URLSearchParams({ content })
             })
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                if (data.success) {
-                    textarea.value = "";
-                    let commentsSection = this.closest(".post-comments").querySelector(".comments-section");
-                    if (commentsSection.style.display === "none" || commentsSection.style.display === "") {
-                        commentsSection.style.display = "block";
-                        let toggleBtn = this.closest(".post-comments").querySelector(".toggle-comments-btn");
-                        if (toggleBtn) toggleBtn.textContent = "▲";
-                    }
-                    let newComment = document.createElement("div");
-                    newComment.className = "comment";
-                    newComment.innerHTML = `
+                if (!data.success) return alert(data.message);
+
+                // Очищаем форму и показываем контейнер
+                textarea.value = "";
+                const card = button.closest(".post-card");
+                const commentsContainer = card.querySelector(".comments-container");
+                commentsContainer.classList.add("open");
+
+                // Добавляем новый комментарий в конец
+                const newComment = document.createElement("div");
+                newComment.className = "comment";
+                newComment.innerHTML = `
+                    <img src="${data.avatar_url}" alt="Аватар" class="comment-avatar">
+                    <div class="comment-body">
                         <div class="comment-header">
-                            <img src="${data.avatar_url}" alt="Аватар" class="comment-avatar">
                             <span class="comment-author">${data.first_name} ${data.last_name}</span>
                             <span class="comment-date">${data.created_at}</span>
                         </div>
                         <p class="comment-content">${content}</p>
                         <a href="#" class="reply-btn" data-comment-id="${data.comment_id}">Ответить</a>
-                        <div class="reply-form" style="display: none;">
+                        <div class="reply-form">
                             <textarea placeholder="Ваш ответ..." required></textarea>
                             <button class="btn-submit-reply" data-post-id="${postId}" data-parent-id="${data.comment_id}">Отправить</button>
                         </div>
-                    `;
-                    commentsSection.appendChild(newComment);
-                } else {
-                    alert(data.message);
-                }
+                    </div>
+                `;
+                commentsContainer.appendChild(newComment);
             })
-            .catch(error => console.error("Ошибка при добавлении комментария:", error));
+            .catch(err => console.error("Ошибка при добавлении комментария:", err));
         });
     });
 
-    // Отправка ответа на комментарий (делегирование события для динамически добавляемых элементов)
-    document.addEventListener("click", function (event) {
-        if (event.target && event.target.classList.contains("btn-submit-reply")) {
-            event.preventDefault();
-            let button = event.target;
-            let postId = button.dataset.postId;
-            let parentId = button.dataset.parentId;
-            let textarea = button.closest(".reply-form").querySelector("textarea");
-            let content = textarea.value.trim();
-            if (!content) {
-                alert("Ответ не может быть пустым");
-                return;
-            }
-            let commentUrl = `/feed/post/${postId}/`;
-            let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // Отправка ответа на комментарий
+    document.addEventListener("click", function (e) {
+        if (!e.target.classList.contains("btn-submit-reply")) return;
+        e.preventDefault();
+        const button = e.target;
+        const postId = button.dataset.postId;
+        const parentId = button.dataset.parentId;
+        const textarea = button.closest(".reply-form").querySelector("textarea");
+        const content = textarea.value.trim();
+        if (!content) return alert("Ответ не может быть пустым");
 
-            fetch(commentUrl, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": csrfToken,
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: new URLSearchParams({
-                    "content": content,
-                    "parent_id": parentId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    textarea.value = "";
-                    // Находим контейнер для ответов внутри родительского комментария
-                    let parentComment = button.closest(".comment");
-                    let nestedReplies = parentComment.querySelector(".nested-replies");
-                    if (!nestedReplies) {
-                        nestedReplies = document.createElement("div");
-                        nestedReplies.className = "nested-replies";
-                        parentComment.appendChild(nestedReplies);
-                    }
-                    let newReply = document.createElement("div");
-                    newReply.className = "comment reply";
-                    newReply.innerHTML = `
-                        <div class="comment-header">
-                            <img src="${data.avatar_url}" alt="Аватар" class="comment-avatar">
-                            <span class="comment-author">${data.first_name} ${data.last_name}</span>
-                            <span class="comment-date">${data.created_at}</span>
-                        </div>
-                        <p class="comment-content">${content}</p>
-                        <a href="#" class="reply-btn" data-comment-id="${data.comment_id}">Ответить</a>
-                        <div class="reply-form" style="display: none;">
-                            <textarea placeholder="Ваш ответ..." required></textarea>
-                            <button class="btn-submit-reply" data-post-id="${postId}" data-parent-id="${data.comment_id}">Отправить</button>
-                        </div>
-                    `;
-                    nestedReplies.appendChild(newReply);
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error("Ошибка при добавлении ответа:", error));
-        }
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        fetch(`/feed/post/${postId}/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken,
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({ content, parent_id: parentId })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) return alert(data.message);
+
+            textarea.value = "";
+            const parentComment = button.closest(".comment");
+            let nested = parentComment.querySelector(".nested-replies");
+            if (!nested) {
+                nested = document.createElement("div");
+                nested.className = "nested-replies";
+                parentComment.appendChild(nested);
+            }
+            const newReply = document.createElement("div");
+            newReply.className = "comment reply";
+            newReply.innerHTML = `
+                <img src="${data.avatar_url}" alt="Аватар" class="comment-avatar">
+                <div class="comment-body">
+                    <div class="comment-header">
+                        <span class="comment-author">${data.first_name} ${data.last_name}</span>
+                        <span class="comment-date">${data.created_at}</span>
+                    </div>
+                    <p class="comment-content">${content}</p>
+                    <a href="#" class="reply-btn" data-comment-id="${data.comment_id}">Ответить</a>
+                    <div class="reply-form">
+                        <textarea placeholder="Ваш ответ..." required></textarea>
+                        <button class="btn-submit-reply" data-post-id="${postId}" data-parent-id="${data.comment_id}">Отправить</button>
+                    </div>
+                </div>
+            `;
+            nested.appendChild(newReply);
+        })
+        .catch(err => console.error("Ошибка при добавлении ответа:", err));
     });
 });
