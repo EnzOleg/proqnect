@@ -44,13 +44,25 @@
                 <div class="chat-message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
                     <img src="{% if message.sender.profile_picture %}{{ message.sender.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}"
                          class="message-avatar" alt="Avatar">
-                    <div class="message-content">
-                        <span class="message-sender">
-                            {{ message.sender.first_name }} {{ message.sender.last_name }}
-                        </span>
-                        <span class="message-text">{{ message.text }}</span>
-                        <span class="message-time">{{ message.timestamp|date:"H:i" }}</span>
-                    </div>
+                         <div class="message-content">
+                            <span class="message-sender">
+                                {{ message.sender.first_name }} {{ message.sender.last_name }}
+                                {% if message.sender == user %}
+                                <div class="message-options">
+                                    <button class="message-options-btn">⋮</button>
+                                    <div class="message-options-menu">
+                                        <a href="{% url 'chat:edit_message' message.id %}">Редактировать</a>
+                                        <a href="{% url 'chat:delete_message' message.id %}" onclick="return confirm('Вы уверены, что хотите удалить это сообщение?')">Удалить</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            </span>
+                            <div class="message-text-container">
+                                <span class="message-text">{{ message.text }}</span>
+                                <span class="message-time">{{ message.timestamp|date:"H:i" }}</span>
+                            </div>
+                        </div>
+                        
                 </div>
                 {% endfor %}
             </div>

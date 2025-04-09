@@ -4,6 +4,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from .models import Post, Like, Comment
 
+
 @login_required
 def feed(request):
     posts = Post.objects.all().order_by("?")
@@ -23,12 +24,9 @@ def feed(request):
     
     return render(request, "feed/feed.html", {"posts": posts, "liked_posts": liked_posts})
 
-
-
 @login_required
 @require_POST
 def like_post(request, post_id):
-    """Лайкает или убирает лайк с поста."""
     post = get_object_or_404(Post, id=post_id)
     like, created = Like.objects.get_or_create(user=request.user, post=post)
 
@@ -53,7 +51,6 @@ def comment_post(request, post_id):
     
     if parent_id:
         parent = get_object_or_404(Comment, id=parent_id)
-        # Если parent уже имеет родителя, используем верхнего родителя
         if parent.parent:
             effective_parent = parent.top_parent
         else:
@@ -64,7 +61,7 @@ def comment_post(request, post_id):
     else:
         comment = Comment.objects.create(user=request.user, post=post, content=content)
         parent_author = ""
-        effective_parent_id = comment.id  # для топ-комментария, он сам является эффективным родителем
+        effective_parent_id = comment.id  
     
     return JsonResponse({
         "success": True,

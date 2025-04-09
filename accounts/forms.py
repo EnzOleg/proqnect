@@ -1,19 +1,11 @@
 from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
-from .models import CustomUser
+from .models import CustomUser, Post
 
 class CustomUserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(
-        widget=forms.PasswordInput,
-        strip=False,
-        help_text=password_validation.password_validators_help_text_html(),
-    )
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput,
-        label="Подтвердите пароль",
-        strip=False
-    )
+    password = forms.CharField(widget=forms.PasswordInput, strip=False, help_text=password_validation.password_validators_help_text_html())
+    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Подтвердите пароль", strip=False)
 
     class Meta:
         model = CustomUser
@@ -31,7 +23,6 @@ class CustomUserRegistrationForm(forms.ModelForm):
         confirm_password = cleaned_data.get("confirm_password")
         if password and confirm_password and password != confirm_password:
             self.add_error("confirm_password", "Пароли не совпадают.")
-        # Проверяем пароль с помощью стандартных валидаторов
         if password:
             try:
                 password_validation.validate_password(password, self.instance)
@@ -45,3 +36,8 @@ class CustomUserRegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class PostEditForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['content', 'image']

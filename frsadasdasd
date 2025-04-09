@@ -1,0 +1,53 @@
+[33mcommit 3bf7455b24c6d2c9b52280f3844b35860a4d3dcb[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Tue Apr 8 20:56:50 2025 +0500
+
+    Redisign over.
+
+[33mcommit dcf3dd2b86f93f6f782d0f2f80ae4fcd75c45d58[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Mon Apr 7 08:40:26 2025 +0500
+
+    Фикс багов, добавил отзывы экспертам, необходимы доработки.
+
+[33mcommit 38060a9d9d46c234fae8730cad6e3e2acde03abe[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Mon Mar 31 21:33:04 2025 +0500
+
+    Исправление багов v_0.1
+
+[33mcommit 45c5694303dbf371cfd01e41266c74004344f285[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Wed Mar 19 21:09:47 2025 +0500
+
+    Небольшие косметические изменения
+
+[33mcommit 4a4d880c295bdc8b96673b45d7655163e2b7a5e4[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Wed Mar 12 20:32:03 2025 +0500
+
+    Небольшие корректировки в бэке
+
+[33mcommit f7fb9bef665cf127d6a64e0af01a1f2f2203089e[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Tue Mar 11 10:13:51 2025 +0500
+
+    Update: new app friends. Begin
+
+[33mcommit 229de5fa9a4b562c2dd61cb09f13643e43963ac4[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Thu Mar 6 13:47:24 2025 +0500
+
+    Добавил уведомления, требуется доработка
+
+[33mcommit 0f5611bafeb81053fd1d2ef2c0e80dd92c323371[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Wed Mar 5 22:10:28 2025 +0500
+
+    Продвинул авторизацию: добавил сообщения об ошибках.
+
+[33mcommit 2c466d99fedeeb9e6b7ab60f694e977ca0d83bad[m[33m ([m[1;32mmaster[m[33m)[m
+Author: EnzOleg <olegmamontov911@gmail.com>
+Date:   Wed Mar 5 19:04:04 2025 +0500
+
+    proqnect_v1

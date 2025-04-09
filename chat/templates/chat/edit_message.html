@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Редактировать сообщение</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="text">Текст сообщения</label>
+                <textarea id="text" name="text" class="form-control" rows="5">{{ message.text }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        </form>
+    </div>
+{% endblock %}

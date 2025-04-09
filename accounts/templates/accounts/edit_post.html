@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/edit_post.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/like.js' %}"></script>
+    <script src="{% static 'js/comments.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
+
+{% block title %}Редактировать пост{% endblock %}
+
+{% block main_content %}
+<div class="edit-post-container">
+    <h1>Редактирование поста</h1>
+    
+    <form action="{% url 'accounts:edit_post' post.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="content">Контент</label>
+            <textarea name="content" id="content" required>{{ post.content }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="postFile">Изменить файл</label>
+            <input type="file" id="postFile" name="image" accept="image/*,video/*,audio/*">
+            {% if post.image %}
+                <div class="current-image">
+                    <img src="{{ post.image.url }}" alt="Текущее изображение">
+                    <span>Текущее изображение</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <button type="submit">Сохранить изменения</button>
+    </form>
+    
+    <a href="{% url 'accounts:profile' post.user.id %}">Вернуться в профиль</a>
+</div>
+{% endblock %}

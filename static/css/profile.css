@@ -8,6 +8,49 @@ body {
 html {
   scroll-behavior: smooth;
 }
+/* Кнопка с тремя точками */
+.post-options {
+  position: relative;
+  display: inline-block;
+}
+
+.post-options-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  color: #333;
+}
+
+.post-options-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 10;
+  min-width: 120px;
+}
+
+.post-options-menu a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+}
+
+.post-options-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+.post-options:hover .post-options-menu {
+  display: block;
+}
+
 .profile-container {
   max-width: 1100px;
   margin: 20px auto;
@@ -40,7 +83,7 @@ html {
   position: absolute;
   inset: 0;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.25);
   z-index: 0;
 }
 
@@ -246,8 +289,11 @@ li img {
   transition: background 0.3s ease-in-out;
 }
 .file-label:hover {
-  background: var(--indigo-dark);
-  color: black;
+  background: var(--background);
+  color: var(--indigo-dark);
+}
+button:hover {
+  color: var(--accent);
 }
 .file-icon {
   width: 20px;
@@ -265,7 +311,8 @@ li img {
   transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 .new-post button:hover {
-  background: var(--indigo-light);
+  background: var(--indigo-dark);
+  color: var(--accent);
   transform: translateY(-2px);
 }
 .post {
@@ -363,4 +410,40 @@ li img {
 }
 input[type="file"] {
   display: none;
+}
+
+/* Стиль для модального окна */
+.modal {
+  display: none; /* Скрыто по умолчанию */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* Черный фон с прозрачностью */
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Размер модального окна */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }

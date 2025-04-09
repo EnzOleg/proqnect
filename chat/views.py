@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from .models import Call, Chat
+from .models import Call, Chat, Message
+from django.contrib import messages
 from django.utils.timezone import now
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -104,3 +105,41 @@ def delete_call(request, chat_id):
     call.save()
 
     return Response({"message": "Комната удалена"})
+
+
+@login_required
+def edit_message(request, message_id):
+    message = get_object_or_404(Message, id=message_id)
+    if message.sender != request.user:
+        messages.error(request, "У вас нет прав редактировать это сообщение.")
+        return redirect('chat:chat_room', chat_id=message.chat.id)
+
+    if request.method == "POST":
+        new_text = request.POST.get("text")
+
+        if new_text:
+            message.text = new_text
+            message.save()
+            messages.success(request, "Сообщение обновлено.")
+            return redirect('chat:chat_room', chat_id=message.chat.id)
+        else:
+            messages.error(request, "Сообщение не может быть пустым.")
+    
+    return render(request, "chat/edit_message.html", {
+        'message': message
+    })
+
+
+@login_required
+def delete_message(request, message_id):
+    message = get_object_or_404(Message, id=message_id)
+
+    if message.sender != request.user:
+        messages.error(request, "У вас нет прав удалить это сообщение.")
+        return redirect('chat:chat_room', chat_id=message.chat.id)
+
+    chat_id = message.chat.id
+    message.delete()
+    messages.success(request, "Сообщение удалено.")
+    
+    return redirect('chat:chat_room', chat_id=chat_id)

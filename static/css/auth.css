@@ -4,6 +4,7 @@
   --dark-bg: #111;
   --error-color: #d93025;
   --success-color: #188038;
+  --accent: #ffd600;
 }
 
 body {
@@ -36,7 +37,7 @@ body::before {
 }
 
 .form-container {
-  background: var(--secondary-color);
+  background: var(--accent);
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   overflow: hidden;
@@ -176,7 +177,7 @@ body::before {
 
 .switch-link a:hover {
   text-decoration: underline;
-  color: #555;
+  color: var(--accent);
 }
 
 .form-errors {

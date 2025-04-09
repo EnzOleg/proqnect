@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .forms import CustomUserRegistrationForm
+from .forms import CustomUserRegistrationForm, PostEditForm
 from .models import CustomUser, Post
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseForbidden
 from friends.models import Friendship
@@ -115,15 +115,30 @@ def add_post(request):
 
     return redirect("accounts:profile", user_id=request.user.id)
 
-@login_required
+
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if post.user != request.user:
-        return HttpResponseForbidden("Вы не можете удалить этот пост.")
-
+    user_id = post.user.id  
     post.delete()
-    messages.success(request, "Пост удалён!")
-    return redirect("accounts:profile")
+    return redirect('accounts:profile', user_id=user_id) 
+
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if post.user != request.user:
+        return HttpResponseForbidden("Вы не можете редактировать этот пост.")
+
+    if request.method == "POST":
+        form = PostEditForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Пост успешно обновлён!")
+            return redirect("accounts:profile", user_id=request.user.id)
+    else:
+        form = PostEditForm(instance=post)
+
+    return render(request, "accounts/edit_post.html", {"form": form, "post": post})
 
 def set_theme(request):
     theme = request.GET.get("theme", "light")

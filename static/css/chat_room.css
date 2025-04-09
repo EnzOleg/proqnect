@@ -333,6 +333,53 @@ h1, h2, h3 {
   color: var(--accent);
 }
 
+.message-options {
+  position: relative;
+  display: inline-block;
+}
+
+.message-options-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  color: var(--background);
+}
+
+.message-options-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 10;
+  min-width: 120px;
+}
+
+.message-options-menu a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+}
+
+.message-options-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+.message-options:hover .message-options-menu {
+  display: block;
+}
+
+.message-options-menu a:first-child {
+  border-top: none;
+}
+
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }

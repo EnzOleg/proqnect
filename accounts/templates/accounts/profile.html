@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/comments.css' %}">
@@ -93,6 +94,15 @@
                         <p>{{ post.user.first_name }} {{ post.user.last_name }}</p>
                         <span class="post-date">{{ post.created_at|date:"d M Y H:i" }}</span>
                     </div>
+                    {% if post.user == request.user %}
+                        <div class="post-options">
+                            <button class="post-options-btn">⋮</button>
+                            <div class="post-options-menu">
+                                <a href="{% url 'accounts:edit_post' post.id %}">Редактировать</a>
+                                <a href="{% url 'accounts:delete_post' post.id %}" onclick="return confirm('Вы уверены, что хотите удалить этот пост?')">Удалить</a>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
                 <p>{{ post.content }}</p>
                 {% if post.image %}
@@ -105,12 +115,12 @@
                         {% else %}
                             🤍 {{ post.likes.count }}
                         {% endif %}
-                    </button>                                   
+                    </button>
                 </div>
-                {% include 'partials/post_comments.html' with post=post %}
             </div>
             {% endfor %}
         </div>
     </div>
 </div>
+
 {% endblock %}

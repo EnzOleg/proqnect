@@ -1,7 +1,6 @@
 // comments.js
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Кнопка «Комментарии» в шапке поста
     document.querySelectorAll(".toggle-comments-btn").forEach(btn => {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
@@ -44,14 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return alert(data.message);
-
-                // Очищаем форму и показываем контейнер
                 textarea.value = "";
                 const card = button.closest(".post-card");
                 const commentsContainer = card.querySelector(".comments-container");
                 commentsContainer.classList.add("open");
 
-                // Добавляем новый комментарий в конец
+                // Добавление нового комментария в конец
                 const newComment = document.createElement("div");
                 newComment.className = "comment";
                 newComment.innerHTML = `
