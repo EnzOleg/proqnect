@@ -27,6 +27,7 @@ class Message(models.Model):
     text = models.TextField(verbose_name="Сообщение")
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Время отправки")
     read = models.BooleanField(default=False, verbose_name="Прочитано")
+    updated = models.BooleanField(default=False, verbose_name="Отредактировано")
 
     def __str__(self):
         return f"Сообщение от {self.sender} в чате #{self.chat.id}: {self.text[:30]}..."

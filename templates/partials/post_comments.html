@@ -1,45 +1,54 @@
 <div class="post-comments">
-    
-    <div class="comments-section" style="display: none;">
-        {% for comment in post.top_comments %}
-            <div class="comment">
-                <div class="comment-header">
-                    <img src="{{ comment.user.profile_picture.url }}" alt="Аватар" class="comment-avatar">
-                    <span class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</span>
-                    <span class="comment-date">{{ comment.created_at|date:"d M Y H:i" }}</span>
-                </div>
-                <p class="comment-content">{{ comment.content }}</p>
-                <a href="#" class="reply-btn" data-comment-id="{{ comment.id }}">Ответить</a>
-                <div class="reply-form" style="display: none;">
-                    <textarea placeholder="Ваш ответ..." required></textarea>
-                    <button class="btn-submit-reply" data-post-id="{{ post.id }}" data-parent-id="{{ comment.id }}">Отправить</button>
-                </div>
-                {% if comment.branch_replies %}
-                    <div class="nested-replies">
-                        {% for reply in comment.branch_replies %}
-                            <div class="comment reply">
-                                <div class="comment-header">
-                                    <img src="{{ reply.user.profile_picture.url }}" alt="Аватар" class="comment-avatar">
-                                    <span class="comment-author">{{ reply.user.first_name }} {{ reply.user.last_name }}</span>
-                                    <span class="comment-date">{{ reply.created_at|date:"d M Y H:i" }}</span>
-                                </div>
-                                <p class="comment-content">{{ reply.content }}</p>
-                                <a href="#" class="reply-btn" data-comment-id="{{ reply.id }}">Ответить</a>
-                                <div class="reply-form" style="display: none;">
-                                    <textarea placeholder="Ваш ответ..." required></textarea>
-                                    <button class="btn-submit-reply" data-post-id="{{ post.id }}" data-parent-id="{{ reply.id }}">Отправить</button>
-                                </div>
-                            </div>
-                        {% endfor %}
+    <div class="comments-container">
+        {% if post.top_comments %}
+            {% for comment in post.top_comments %}
+                <div class="comment" data-comment-id="{{ comment.id }}">
+                    <div class="comment-header">
+                        <img src="{{ comment.user.profile_picture.url }}" alt="Аватар" class="avatar">
+                        <div class="author-info">
+                            <span class="author">{{ comment.user.first_name }} {{ comment.user.last_name }}</span>
+                            <span class="date">{{ comment.created_at|date:"d M Y H:i" }}</span>
+                        </div>
                     </div>
-                {% endif %}
-            </div>
-        {% empty %}
+                    <div class="comment-body">
+                        <p>{{ comment.content }}</p>
+                    </div>
+                    <button class="reply-btn" data-comment-id="{{ comment.id }}">Ответить</button>
+                    <div class="reply-form" style="display: none;">
+                        <textarea placeholder="Ваш ответ..." required></textarea>
+                        <button class="submit-reply-btn" data-post-id="{{ post.id }}" data-parent-id="{{ comment.id }}">Отправить</button>
+                    </div>
+                    {% if comment.branch_replies %}
+                        <div class="replies">
+                            {% for reply in comment.branch_replies %}
+                                <div class="comment reply" data-comment-id="{{ reply.id }}">
+                                    <div class="comment-header">
+                                        <img src="{{ reply.user.profile_picture.url }}" alt="Аватар" class="avatar">
+                                        <div class="author-info">
+                                            <span class="author">{{ reply.user.first_name }} {{ reply.user.last_name }}</span>
+                                            <span class="date">{{ reply.created_at|date:"d M Y H:i" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="comment-body">
+                                        <p>{{ reply.content }}</p>
+                                    </div>
+                                    <button class="reply-btn" data-comment-id="{{ reply.id }}">Ответить</button>
+                                    <div class="reply-form" style="display: none;">
+                                        <textarea placeholder="Ваш ответ..." required></textarea>
+                                        <button class="submit-reply-btn" data-post-id="{{ post.id }}" data-parent-id="{{ reply.id }}">Отправить</button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
             <p>Комментариев пока нет.</p>
-        {% endfor %}
+        {% endif %}
     </div>
     <div class="add-comment">
         <textarea name="content" placeholder="Напишите комментарий..." required></textarea>
-        <button class="btn-submit-comment" data-post-id="{{ post.id }}">Добавить</button>
+        <button class="submit-comment-btn" data-post-id="{{ post.id }}">Добавить</button>
     </div>
 </div>

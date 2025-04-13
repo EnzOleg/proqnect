@@ -1,5 +1,5 @@
 :root {
-  --accent: #ffd600;
+  --accent: #edc813;
   --background: #ffffff;
   --background-2: #ffffff;
   --background-card: #ffffff;
@@ -50,8 +50,8 @@
   --card-color: var(--text-color);
   --chat-bg: #1a1a1a;
   --dark-g: var(--indigo-dark);
-  --footer: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
-  --header: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+  --header: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+  --footer: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
   --header-bg: var(--header);
   --hover-shadow: rgba(255, 255, 255, 0.1);
   --indigo-dark: white;
@@ -73,8 +73,6 @@ html {
   opacity: 0;
   transition: opacity 0.3s ease;
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 
@@ -85,6 +83,9 @@ body {
   background-color: var(--background);
   color: var(--text-color);
   line-height: 1.6;
+  
+  display: flex;
+  flex-direction: column;
 }
 
 main {  
@@ -376,4 +377,10 @@ header {
     justify-content: center;
 }
 }
-  
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 15px; 
+  }
+}

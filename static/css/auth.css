@@ -73,6 +73,7 @@ body::before {
 }
 
 .form-switcher h2 {
+  color: var(--accent);
   margin: 0 0 10px;
   font-size: 1.75rem;
 }

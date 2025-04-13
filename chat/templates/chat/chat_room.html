@@ -60,6 +60,9 @@
                             <div class="message-text-container">
                                 <span class="message-text">{{ message.text }}</span>
                                 <span class="message-time">{{ message.timestamp|date:"H:i" }}</span>
+                                {% if message.updated == True %}
+                                    <span class="message-time">Отредактировано</span>
+                                {% endif %}
                             </div>
                         </div>
                         

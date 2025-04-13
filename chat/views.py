@@ -119,6 +119,7 @@ def edit_message(request, message_id):
 
         if new_text:
             message.text = new_text
+            message.updated = True
             message.save()
             messages.success(request, "Сообщение обновлено.")
             return redirect('chat:chat_room', chat_id=message.chat.id)

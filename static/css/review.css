@@ -2,7 +2,7 @@
     max-width: 600px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: var(--background);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
@@ -27,7 +27,7 @@
 
 .form-group label {
   font-size: 16px;
-  color: #555;
+  color: var(--text-color);
   margin-bottom: 8px;
   display: block;
 }
@@ -40,14 +40,14 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
-  color: #333;
+  color: var(--text-color);
   transition: border-color 0.3s ease;
 }
 
 .form-group select:focus,
 .form-group textarea:focus,
 .form-group input[type="text"]:focus {
-  border-color: #007bff;
+  border-color: var(--accent);
   outline: none;
 }
 
@@ -71,17 +71,18 @@
 }
 
 .review-container .form-actions .btn-primary {
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--indigo-light);
+  border: 1px #ddd solid;
+  color: var(--text-color);
 }
 
 .review-container .form-actions .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: var(--accent);
 }
 
 .review-container .form-actions .btn-secondary {
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: var(--background);
+  color: var(--indigo-dark);
   border: 1px solid #ddd;
 }
 

@@ -8,12 +8,42 @@ User = get_user_model()
 
 class Expert(models.Model):
     SPECIALIZATIONS = [
-        ("developer", "Разработчик"),
-        ("designer", "Дизайнер"),
-        ("marketing", "Маркетинг"),
-        ("finance", "Финансы"),
-        ("cybersport", "Киберспорт"),
-        ("other", "Другое"), 
+    ("developer", "Разработчик"),
+    ("designer", "Дизайнер"),
+    ("marketing", "Маркетинг"),
+    ("finance", "Финансы"),
+    ("cybersport", "Киберспорт"),
+    ("analyst", "Аналитик"),
+    ("manager", "Менеджер"),
+    ("programmer", "Программист"),
+    ("architect", "Архитектор"),
+    ("copywriter", "Копирайтер"),
+    ("psychologist", "Психолог"),
+    ("journalist", "Журналист"),
+    ("translator", "Переводчик"),
+    ("teacher", "Педагог"),
+    ("photographer", "Фотограф"),
+    ("web_developer", "Веб-разработчик"),
+    ("mobile_developer", "Мобильный разработчик"),
+    ("sys_admin", "Системный администратор"),
+    ("tester", "Тестировщик"),
+    ("db_admin", "Администратор базы данных"),
+    ("network_engineer", "Сетевой инженер"),
+    ("seo_specialist", "SEO-специалист"),
+    ("ui_ux_designer", "UI/UX дизайнер"),
+    ("devops_engineer", "DevOps-инженер"),
+    ("strategy_consultant", "Стратегический консультант"),
+    ("lawyer", "Юрист"),
+    ("doctor", "Врач"),
+    ("coach", "Тренер"),
+    ("personal_trainer", "Персональный тренер"),
+    ("financial_advisor", "Финансовый консультант"),
+    ("pr_manager", "PR-менеджер"),
+    ("social_worker", "Социальный работник"),
+    ("sales_specialist", "Специалист по продажам"),
+    ("content_manager", "Контент-менеджер"),
+    ("recruiter", "Рекрутер"),
+    ("other", "Другое"),
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="expert_profile")
@@ -21,6 +51,7 @@ class Expert(models.Model):
     custom_specialization = models.CharField(max_length=255, verbose_name="Своя специализация", blank=True)
     bio = models.TextField(verbose_name="О себе", blank=True)
     experience = models.IntegerField(verbose_name="Опыт (лет)", default=0)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, default=0)
     price_per_hour = models.DecimalField(verbose_name="Цена за час", max_digits=10, decimal_places=2, default=0)
     is_verified = models.BooleanField(default=False, verbose_name="Верифицирован")
 

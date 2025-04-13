@@ -50,8 +50,9 @@
             <h2>Информация</h2>
             <p>{{ user.bio|default_if_none:'Нет информации' }}</p>
             <br>
-            <p>Дата регистрации: {{ user.date_joined|date:"d M Y" }}</p>
+            <p id="friends">Дата регистрации: {{ user.date_joined|date:"d M Y" }}</p>
             <h2>Друзья</h2>
+            <p><a href="{% url 'friends:friend_requests' %}">Запросы в друзья</a></p>
             <ul>
                 {% for friend in friends %}
                     <li>
@@ -87,38 +88,89 @@
             </div>
             
             {% for post in posts %}
-            <div class="post">
-                <div class="post-header">
-                    <img src="{{ post.user.profile_picture.url }}" alt="Аватар" class="post-avatar">
-                    <div>
-                        <p>{{ post.user.first_name }} {{ post.user.last_name }}</p>
-                        <span class="post-date">{{ post.created_at|date:"d M Y H:i" }}</span>
+                <div class="post-card">
+                    <div class="post">
+                        <div class="post-header">
+                            <img src="{{ post.user.profile_picture.url }}" alt="Аватар" class="post-avatar">
+                            <div>
+                                <p>{{ post.user.first_name }} {{ post.user.last_name }}</p>
+                                <span class="post-date">{{ post.created_at|date:"d M Y H:i" }}</span>
+                            </div>
+                            {% if post.user == request.user %}
+                                <div class="post-options">
+                                    <button class="post-options-btn">⋮</button>
+                                    <div class="post-options-menu">
+                                        <a href="{% url 'accounts:edit_post' post.id %}">Редактировать</a>
+                                        <a href="{% url 'accounts:delete_post' post.id %}" onclick="return confirm('Вы уверены, что хотите удалить этот пост?')">Удалить</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <p>{{ post.content }}</p>
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" class="post-image" alt="Изображение">
+                        {% endif %}
+                        <div class="post-actions">
+                            <button class="like-btn" data-post-id="{{ post.id }}">
+                                {% if post.is_liked %}
+                                    ❤️ {{ post.likes.count }}
+                                {% else %}
+                                    🤍 {{ post.likes.count }}
+                                {% endif %}
+                            </button>
+                            <button class="toggle-comments-btn">💬 Комментарии ({{ post.comments.count }})</button>
+                        </div>
                     </div>
-                    {% if post.user == request.user %}
-                        <div class="post-options">
-                            <button class="post-options-btn">⋮</button>
-                            <div class="post-options-menu">
-                                <a href="{% url 'accounts:edit_post' post.id %}">Редактировать</a>
-                                <a href="{% url 'accounts:delete_post' post.id %}" onclick="return confirm('Вы уверены, что хотите удалить этот пост?')">Удалить</a>
+                
+                    <div class="comments-container">
+                        <div class="post-comments">
+                            <div class="comments-section">
+                                {% for comment in post.top_comments %}
+                                    <div class="comment">
+                                        <div class="comment-header">
+                                            <img src="{{ comment.user.profile_picture.url }}" alt="Аватар" class="comment-avatar">
+                                            <span class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</span>
+                                            <span class="comment-date">{{ comment.created_at|date:"d M Y H:i" }}</span>
+                                        </div>
+                                        <p class="comment-content">{{ comment.content }}</p>
+                                        <a href="#" class="reply-btn" data-comment-id="{{ comment.id }}">Ответить</a>
+                                        <div class="reply-form" style="display: none;">
+                                            <textarea placeholder="Ваш ответ..." required></textarea>
+                                            <button class="btn-submit-reply" data-post-id="{{ post.id }}" data-parent-id="{{ comment.id }}">Отправить</button>
+                                        </div>
+                                        {% if comment.branch_replies %}
+                                            <div class="nested-replies">
+                                                {% for reply in comment.branch_replies %}
+                                                    <div class="comment reply">
+                                                        <div class="comment-header">
+                                                            <img src="{{ reply.user.profile_picture.url }}" alt="Аватар" class="comment-avatar">
+                                                            <span class="comment-author">{{ reply.user.first_name }} {{ reply.user.last_name }}</span>
+                                                            <span class="comment-date">{{ reply.created_at|date:"d M Y H:i" }}</span>
+                                                        </div>
+                                                        <p class="comment-content">{{ reply.content }}</p>
+                                                        <a href="#" class="reply-btn" data-comment-id="{{ reply.id }}">Ответить</a>
+                                                        <div class="reply-form" style="display: none;">
+                                                            <textarea placeholder="Ваш ответ..." required></textarea>
+                                                            <button class="btn-submit-reply" data-post-id="{{ post.id }}" data-parent-id="{{ reply.id }}">Отправить</button>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% empty %}
+                                    <p>Комментариев пока нет.</p>
+                                {% endfor %}
+                            </div>
+                            <div class="add-comment">
+                                <textarea name="content" placeholder="Напишите комментарий..." required></textarea>
+                                <button class="btn-submit-comment" data-post-id="{{ post.id }}">Добавить</button>
                             </div>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
-                <p>{{ post.content }}</p>
-                {% if post.image %}
-                    <img src="{{ post.image.url }}" class="post-image" alt="Изображение">
-                {% endif %}
-                <div class="post-actions">
-                    <button class="like-btn" data-post-id="{{ post.id }}">
-                        {% if post.is_liked %}
-                            ❤️ {{ post.likes.count }}
-                        {% else %}
-                            🤍 {{ post.likes.count }}
-                        {% endif %}
-                    </button>
-                </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+
         </div>
     </div>
 </div>

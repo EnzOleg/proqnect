@@ -6,6 +6,9 @@ body {
     background: var(--background);
 }
 
+h2 {
+  font-size: 24px !important;
+}
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,26 +16,34 @@ body {
 }
 
 .home-banner {
+  height: 90vh;
   background: var(--background-gradient);
   color: var(--text-color);
   text-align: center;
-  padding: 100px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
+  font-size: 24px;
+  padding: 0px 0px 0px;
 }
+
 .home-banner .highlight {
   color: var(--accent);
 }
 .home-banner p {
+  font-size: 16px;
   max-width: 600px;
   margin: 20px auto;
   color: var(--text-color2);
-  line-height: 1.5;
 }
 .home-banner .btn {
   display: inline-block;
-  margin-top: 30px;
-  padding: 14px 32px;
+  margin-top: 15px;
+  padding: 14px 24px;
   background: var(--accent);
-  color: var(--primary-dark);
+  color: var(--indigo-light);
   border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
@@ -49,7 +60,7 @@ body {
 }
 .features h2 {
   text-align: center;
-  font-size: 2rem;
+  font-size: 24px;
   margin-bottom: 10px;
 }
 .features .intro {
@@ -82,38 +93,73 @@ body {
   color: var(--text-color);
   line-height: 1.4;
 }
-
-.cta {
-  padding: 80px 0;
+.top-experts {
+  padding: 60px 0;
   background: var(--background-gradient);
-  text-align: center;
-}
-.cta h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
   color: var(--text-color);
 }
-.cta p {
-  color: var(--text-color2);
-  max-width: 600px;
-  margin: 0 auto 30px;
-}
-.cta .btn {
-  display: inline-block;
-  margin-top: 30px;
-  padding: 14px 32px;
-  background: var(--accent);
-  color: var(--primary-dark);
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.3s, transform 0.3s;
-}
-.cta .btn:hover {
-  background: #e6c500;
-  transform: translateY(-2px);
+
+.top-experts h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
 }
 
+.experts-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; 
+  justify-content: center;
+}
+
+.experts-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.expert-card {
+  flex: 0 0 auto;
+  background: var(--indigo-light);
+  color: var(--text-color);
+  border-radius: 12px;
+  padding: 15px;
+  min-width: 200px;
+  max-width: 220px;
+  scroll-snap-align: start;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.expert-card:hover {
+  transform: translateY(-5px);
+}
+
+.expert-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.expert-info h3 {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+
+.expert-info p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.rating {
+  margin-top: 5px;
+  font-weight: bold;
+  color: #ffcc00;
+}
 .stats {
   padding: 80px 0;
 }

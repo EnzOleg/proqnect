@@ -38,7 +38,7 @@
 
 .expert-info h1 {
   font-size: 1.6rem; 
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
   margin: 0;
 }
 .expert-info a:hover {
@@ -48,7 +48,7 @@
 .verified-badge {
   display: inline-block;
   background: var(--accent);
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
   padding: 2px 4px;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -75,7 +75,7 @@
 }
 
 .expert-contact a {
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
   text-decoration: none;
   font-weight: bold;
 }
@@ -90,7 +90,7 @@
 
 .expert-skills h2, .expert-reviews h2 {
   font-size: 1.3rem;
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 3px;
   margin-bottom: 8px;
@@ -123,7 +123,7 @@
 
 .review-rating {
   font-size: 0.8rem;
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
 }
 
 .review-text {
@@ -164,7 +164,7 @@
 .back-link {
   text-decoration: none;
   font-size: 0.9rem;
-  color: var(--primary-dark);
+  color: var(--indigo-dark);
   transition: color 0.3s ease;
 }
 
@@ -221,6 +221,9 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
+.modal-content h2 {
+  color: var(--accent) !important;
+}
 .modal .close {
   color: var(--text-color);
   position: absolute;
@@ -243,8 +246,14 @@
   color: var(--primary-dark);
 }
 
+#bookingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .form-group label {
@@ -277,7 +286,8 @@
   border-color: var(--primary-light);
 }
 
-.form-group .btn {
+.form-group .btn,
+#ai-help-btn {
   background: var(--primary-dark);
   color: #fff;
   border: none;
@@ -286,18 +296,15 @@
   cursor: pointer;
   transition: background 0.3s ease;
   font-size: 0.9rem;
+  margin-top: 8px;
+  width: 100%;
 }
 
-.form-group .btn:hover {
+.form-group .btn:hover,
+#ai-help-btn:hover {
   background: var(--accent);
 }
 
-#bookingForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-#book-expert .btn{
+#book-expert .btn {
   background-color: var(--primary-dark);
 }
-

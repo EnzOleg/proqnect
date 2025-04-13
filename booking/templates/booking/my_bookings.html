@@ -47,7 +47,8 @@
                data-status="{{ booking.status }}"
                data-client="{{ booking.user.email|lower }}"
                data-problem="{{ booking.problem_description|default:''|lower }}">
-            <h3>{{ booking.user.email }}</h3>
+            <h3>{{ booking.user.first_name }} {{ booking.user.last_name }}</h3>
+            <p><strong>{{ booking.expert.email }}</strong></p>
             <p><strong>Описание проблемы:</strong> {{ booking.problem_description|default:"—" }}</p>
             <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times|default:"—" }}</p>
             <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>
@@ -104,7 +105,8 @@
                data-status="{{ booking.status }}"
                data-client="{{ booking.expert.email|lower }}"
                data-problem="{{ booking.problem_description|default:''|lower }}">
-            <h3>{{ booking.expert.email }}</h3>
+            <h3>{{ booking.expert.first_name }} {{ booking.expert.last_name }}</h3>
+            <p><strong>{{ booking.expert.email }}</strong></p>
             <p><strong>Описание проблемы:</strong> {{ booking.problem_description|default:"—" }}</p>
             <p><strong>Предпочтительные интервалы:</strong> {{ booking.available_times|default:"—" }}</p>
             <p><strong>Дата создания:</strong> {{ booking.created_at|date:"d M Y H:i" }}</p>

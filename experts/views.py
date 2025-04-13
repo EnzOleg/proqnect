@@ -12,8 +12,39 @@ RUS_TO_ENG = {
     "маркетинг": "marketing",
     "финансы": "finance",
     "киберспорт": "cybersport",
-    "другое": "other"
+    "аналитик": "analyst",
+    "менеджер": "manager",
+    "программист": "programmer",
+    "архитектор": "architect",
+    "копирайтер": "copywriter",
+    "психолог": "psychologist",
+    "журналист": "journalist",
+    "переводчик": "translator",
+    "педагог": "teacher",
+    "фотограф": "photographer",
+    "веб-разработчик": "web_developer",
+    "мобильный разработчик": "mobile_developer",
+    "системный администратор": "sys_admin",
+    "тестировщик": "tester",
+    "администратор базы данных": "db_admin",
+    "сетевой инженер": "network_engineer",
+    "SEO-специалист": "seo_specialist",
+    "UI/UX дизайнер": "ui_ux_designer",
+    "devops-инженер": "devops_engineer",
+    "стратегический консультант": "strategy_consultant",
+    "юрист": "lawyer",
+    "врач": "doctor",
+    "тренер": "coach",
+    "персональный тренер": "personal_trainer",
+    "финансовый консультант": "financial_advisor",
+    "PR-менеджер": "pr_manager",
+    "социальный работник": "social_worker",
+    "специалист по продажам": "sales_specialist",
+    "контент-менеджер": "content_manager",
+    "рекрутер": "recruiter",
+    "другое": "other",
 }
+
 
 def find_matching_specialization(query):
     query = query.lower()
@@ -37,7 +68,7 @@ def experts_search(request):
 
         experts = Expert.objects.filter(filters).distinct()
     else:
-        experts = Expert.objects.all()
+        experts = Expert.objects.all()[:6]
 
     context = {
         'query': query,
@@ -75,7 +106,7 @@ def become_expert(request):
 
     return render(request, 'experts/become_expert.html', {
         'form': form,
-        'formset': formset
+        'skill_formset': formset
     })
 
 def expert_detail(request, pk):

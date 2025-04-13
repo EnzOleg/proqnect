@@ -16,7 +16,7 @@
       Это современная платформа для связи между обычными пользователями и экспертами из разных областей.
       Здесь вы можете легко найти профессионалов, получить качественную консультацию и принять верные решения.
     </p>
-
+    <a href="{% url 'experts:search_experts' %}" class="btn">Найти эксперта!</a>
   </div>
 </section>
 
@@ -48,19 +48,27 @@
   </div>
 </section>
 
-<section class="cta">
+<section class="top-experts">
   <div class="container">
-    <h2>Начните с нами уже сегодня!</h2>
-    <p>Присоединяйтесь к тысячам пользователей, которые уже воспользовались Proqnect для решения своих задач.</p>
-    {% if not user.is_authenticated %}
-      <a href="{% url 'accounts:register' %}" class="btn">Зарегистрироваться</a>
-    {% endif %}
+    <h2>Топовые эксперты</h2>
+    <div class="experts-carousel">
+      {% for expert in top_experts %}
+        <div class="expert-card">
+          <img src="{% if expert.user.profile_picture %}{{ expert.user.profile_picture.url }}{% else %}{% static 'avatars/ava.svg' %}{% endif %}" alt="Аватар">
+          <div class="expert-info">
+            <h3>{{ expert.user.first_name }} {{ expert.user.last_name }}</h3> 
+            <p>{{ expert.get_specialization_display }}</p>
+            <div class="rating">⭐ {{ expert.average_rating|default:"Нет рейтинга" }}</div> 
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 <section class="stats">
   <div class="container">
-    <h2>Что нового на платформе?</h2>
+    <h2>Что на платформе?</h2>
     <div class="stats-container">
       <div class="stat-card">
         <h3>{{ post_count }}</h3>

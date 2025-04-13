@@ -1,0 +1,44 @@
+/* Подключи этот CSS в base.html или как отдельный файл */
+body {
+    background-color: var(--primary-light);
+    color: var(--indigo-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--indigo-light);
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--indigo-dark);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--indigo-dark);
+    font-weight: 500;
+}
+
+textarea.form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--hover-shadow);
+    background-color: var(--indigo-dark);
+    color: var(--indigo-light);
+    resize: vertical;
+    transition: border
+}

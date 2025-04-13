@@ -9,10 +9,10 @@ function fetchNotifications() {
             const bellImg = document.getElementById("notification-bell-img");
             const dropdown = document.getElementById("notification-dropdown");
             if (data.length > 0) {
-                bellImg.src = "/static/images/notifications_.png"; 
+                bellImg.src = "/static/images/notificationsHave.svg"; 
                 renderNotifications(data);
             } else {
-                bellImg.src = "/static/images/notifications.png"; 
+                bellImg.src = "/static/images/notifications.svg"; 
                 dropdown.innerHTML = `<p class="text-gray-500 text-sm">Нет новых уведомлений</p>`;
             }
         })
@@ -59,7 +59,7 @@ function markNotificationsAsRead() {
             "Content-Type": "application/json"
         }
     }).then(() => {
-        document.getElementById("notification-bell-img").src = "/static/images/notifications.png";
+        document.getElementById("notification-bell-img").src = "/static/images/notifications.svg";
         fetchNotifications(); 
     }).catch(error => console.error("Ошибка при отметке уведомлений:", error));
 }
@@ -90,3 +90,51 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const openChatBtn = document.getElementById("open-ai-chat");
+    const chatModal = document.getElementById("ai-chat-box");
+    const chatModalContent = document.querySelector("#ai-chat-box .chat-modal-content");
+    const chatClose = document.getElementById("chat-close");
+
+    openChatBtn.addEventListener("click", function() {
+        chatModal.style.display = "flex"; 
+        openChatBtn.style.display = "none";
+    });
+
+    chatClose.addEventListener("click", function() {
+        chatModal.style.display = "none";
+        openChatBtn.style.display = "block"; 
+    });
+
+    window.addEventListener("click", function(event) {
+        if (!chatModalContent.contains(event.target) && event.target !== openChatBtn) {
+            chatModal.style.display = "none";
+            openChatBtn.style.display = "block";
+        }
+    });
+
+    document.getElementById("chat-send").addEventListener("click", function () {
+        const input = document.getElementById("chat-input");
+        const message = input.value;
+        if (!message.trim()) return;
+
+        addToChat("Вы", message);
+
+        fetch('/assistant/chat-api/?prompt=' + encodeURIComponent(message))
+            .then(res => res.json())
+            .then(data => {
+                addToChat("AI", data.response);
+                input.value = "";
+            });
+    });
+
+    function addToChat(sender, text) {
+        const container = document.getElementById("chat-history");
+        const message = document.createElement("div");
+        message.className = "chat-message";
+        message.innerHTML = `<strong>${sender}:</strong> ${text}`;
+        container.appendChild(message);
+        container.scrollTop = container.scrollHeight;
+    }
+});

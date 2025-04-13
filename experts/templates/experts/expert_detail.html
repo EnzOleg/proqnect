@@ -46,7 +46,7 @@
     </div>
   </div>
   
-  <!-- <div class="expert-skills">
+  <div class="expert-skills">
     <h2>Навыки</h2>
     {% if expert.skills.all %}
       <ul>
@@ -57,7 +57,7 @@
     {% else %}
       <p>Нет информации о навыках.</p>
     {% endif %}
-  </div> -->
+  </div>
   
   <div class="expert-reviews">
     <h3>Отзывы</h3>
@@ -90,7 +90,10 @@
       <div class="form-group">
         <label for="id_problem_description">Описание проблемы</label>
         <textarea id="id_problem_description" name="problem_description" rows="4" placeholder="Опишите вашу проблему" class="form-control"></textarea>
+        <button type="button" id="ai-help-btn" class="btn">Переформуллировать запрос</button>
       </div>
+      <div id="ai-suggestion" style="display: none; margin: 10px 0; padding: 5px; border: 1px solid #ccc;"></div>
+      
       <div class="form-group">
         <label for="id_available_times">Предпочтительные временные интервалы</label>
         <input type="text" id="id_available_times" name="available_times" placeholder="Например: 2025-03-10 14:00, 2025-03-11 10:00" class="form-control">
@@ -101,24 +104,41 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("bookingModal");
     const bookButton = document.getElementById("book-expert");
     const closeSpan = modal.querySelector(".close");
 
-    bookButton.addEventListener("click", function() {
+    bookButton.addEventListener("click", function () {
         modal.style.display = "block";
     });
 
-    closeSpan.addEventListener("click", function() {
+    closeSpan.addEventListener("click", function () {
         modal.style.display = "none";
     });
 
-    window.addEventListener("click", function(event) {
+    window.addEventListener("click", function (event) {
         if (event.target === modal) {
             modal.style.display = "none";
         }
     });
+
+    const aiHelpBtn = document.getElementById("ai-help-btn");
+    aiHelpBtn.addEventListener("click", function () {
+        const queryField = document.getElementById("id_problem_description");
+        const currentText = queryField.value;
+
+        fetch('/assistant/api/?prompt=' + encodeURIComponent(currentText))
+            .then(response => response.json())
+            .then(data => {
+                queryField.value = data.response; 
+            })
+            .catch(error => {
+                console.error('Ошибка при обращении к ИИ:', error);
+            });
+    });
 });
+
 </script>
+
 {% endblock %}

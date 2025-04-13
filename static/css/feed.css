@@ -112,7 +112,20 @@
     color: var(--indigo-dark);
     transform: scale(1.1);
 }
-
+.comments-container {
+    display: none;
+}
+.comment-author {
+    color: var(--indigo-dark) !important;
+}
+.btn-submit-comment {
+    background-color: var(--primary-dark) !important;
+    color: var(--accent) !important;
+}
+.btn-submit-comment:hover {
+    background-color: var(--accent) !important;
+    color: var(--primary-dark) !important;
+}
 .like-btn {
     background: none;
     border: none;
@@ -140,22 +153,4 @@
 
 .unliked {
     color: grey;
-}
-
-.comments-container {
-    display: none;
-    padding: 1rem;
-    background: var(--card-background);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border-radius: 0 0 8px 8px;
-    margin-top: -1px;
-}
-
-.comments-container.open {
-    display: block;
-}
-
-.comments-container hr {
-    display: none;
-    margin: 0;
 }

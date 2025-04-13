@@ -8,22 +8,22 @@
 {% endblock %}
 
 {% block main_content %}
-    <h1>Friend Requests</h1>
+    <h1>Запросы в друзья</h1>
     <ul>
         {% for request in requests %}
             <li>
                 {{ request.from_user.first_name }} {{ request.from_user.last_name }} 
                 <form action="{% url 'friends:accept_friend' request.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit">Accept</button>
+                    <button type="submit">Принять</button>
                 </form>
                 <form action="{% url 'friends:remove_friend' request.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit">Decline</button>
+                    <button type="submit">Отклонить</button>
                 </form>
             </li>
         {% empty %}
-            <li>No friend requests</li>
+            <li>Нет запросов в друзья</li>
         {% endfor %}
     </ul>
 {% endblock %}  

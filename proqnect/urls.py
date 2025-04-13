@@ -7,7 +7,9 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     
+    path('', index, name='index'),
     path('accounts/', include('accounts.urls')),
+    path('assistant/', include('assistant.urls')),
     path('friends/', include('friends.urls')),
     path('booking/', include('booking.urls')),
     path('chat/', include('chat.urls')),
@@ -15,7 +17,6 @@ urlpatterns = [
     path('payments/', include('payments.urls')),
     path('feed/', include('feed.urls')),
     path('notifications/', include('notifications.urls')),
-    path('', index, name='index'),
     path('about/', about, name='about')
 ]
 
