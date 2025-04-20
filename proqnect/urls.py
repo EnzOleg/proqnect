@@ -17,6 +17,7 @@ urlpatterns = [
     path('payments/', include('payments.urls')),
     path('feed/', include('feed.urls')),
     path('notifications/', include('notifications.urls')),
+    path('moderation/', include('moderation.urls')),
     path('about/', about, name='about')
 ]
 

@@ -92,6 +92,8 @@ function getCookie(name) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    fetchNotifications();
+
     const openChatBtn = document.getElementById("open-ai-chat");
     const chatModal = document.getElementById("ai-chat-box");
     const chatModalContent = document.querySelector("#ai-chat-box .chat-modal-content");
@@ -114,8 +116,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    document.getElementById("chat-send").addEventListener("click", function () {
-        const input = document.getElementById("chat-input");
+    const input = document.getElementById("chat-input");
+    const sendBtn = document.getElementById("chat-send");
+
+    sendBtn.addEventListener("click", function () {
         const message = input.value;
         if (!message.trim()) return;
 
@@ -127,6 +131,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 addToChat("AI", data.response);
                 input.value = "";
             });
+    });
+
+    input.addEventListener("keydown", function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendBtn.click();
+        }
     });
 
     function addToChat(sender, text) {
