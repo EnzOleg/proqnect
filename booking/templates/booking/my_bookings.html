@@ -79,7 +79,6 @@
     {% endif %}
   </div>
 
-  <!-- Исходящие записи (если ты клиент: записи, созданные тобой) -->
   <div id="outgoing" class="tab-content">
     <div class="filter-bar">
       <input 
@@ -127,5 +126,5 @@
     {% endif %}
   </div>
 </div>
-
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
 {% endblock %}

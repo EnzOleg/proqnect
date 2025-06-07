@@ -62,8 +62,8 @@ footer {
 
 .settings-nav .nav-item.active,
 .settings-nav .nav-item:hover {
-  background: grey;
-  color: var(--accent);
+  background: var(--footer);
+  color: var(--indigo-dark);
 }
 
 .settings-content {

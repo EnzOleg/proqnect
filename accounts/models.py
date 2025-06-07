@@ -62,6 +62,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    class Meta:
+        verbose_name = "Пользователи"
+        verbose_name_plural = "Пользователи" 
 
 def user_profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
 from .models import Booking
 from .forms import BookingRequestForm, ConfirmBookingForm
+from django.db.models import Q
 from experts.models import Expert
 from chat.models import Chat
 
@@ -31,9 +32,6 @@ def request_booking(request, expert_id):
         form = BookingRequestForm()
     return render(request, "booking/request_booking.html", {"form": form, "expert": expert})
 
-
-
-
 @login_required
 def confirm_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, expert=request.user)
@@ -48,10 +46,7 @@ def confirm_booking(request, booking_id):
             user = booking.user
             expert = booking.expert
             chat = (
-                Chat.objects
-                    .filter(participants=user)
-                    .filter(participants=expert)
-                    .first()
+                Chat.objects.filter(participants=user).filter(participants=expert).first()
             )
             if not chat:
                 chat = Chat.objects.create()
@@ -64,7 +59,8 @@ def confirm_booking(request, booking_id):
 
 @login_required
 def handle_booking(request, booking_id, action):
-    booking = get_object_or_404(Booking, id=booking_id, expert=request.user)
+    booking = get_object_or_404(
+    Booking.objects.filter(Q(expert=request.user) | Q(user=request.user)),id=booking_id)
     
     if request.method == "POST":
         if action == "decline":

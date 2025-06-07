@@ -51,7 +51,7 @@
 <section class="top-experts">
   <div class="container">
     <h2>Топовые эксперты</h2>
-    <div class="experts-carousel">
+    <div class="experts-carousel" id="experts-carousel">
       {% for expert in top_experts %}
         <div class="expert-card">
           <img src="{% if expert.user.profile_picture %}{{ expert.user.profile_picture.url }}{% else %}{% static 'avatars/ava.svg' %}{% endif %}" alt="Аватар">
@@ -85,5 +85,36 @@
     </div>
   </div>
 </section>
+<script>
+  const slider = document.getElementById('experts-carousel');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.5; // Ускорение прокрутки
+    slider.scrollLeft = scrollLeft - walk;
+  });
+</script>
 
 {% endblock %}

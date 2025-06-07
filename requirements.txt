@@ -1,0 +1,11 @@
+Django>=5.1.4
+djangorestframework
+daphne
+channels
+channels_redis
+Pillow
+requests
+python-dotenv
+psycopg2-binary
+openai
+pytz

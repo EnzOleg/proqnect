@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # "jazzmin",
     "daphne",
     'channels',
     'rest_framework',
@@ -53,6 +54,27 @@ INSTALLED_APPS = [
     'notifications',
     'friends',
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Администрирование",
+    "site_header": "Админ Панель",
+    "site_brand": "Админ Панель",
+    "index_title": "Главная панель",
+    "welcome_sign": "Добро пожаловать!",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+
+    "custom_links": {},
+
+    "icons": {
+        "booking.Booking": "fas fa-calendar-check",
+    },
+
+    "order_with_respect_to": ["booking", "chat", "experts"],
+
+    "related_modal_active": True,
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -112,7 +134,7 @@ DATABASES = {
         'NAME': 'proqnect',
         'USER': 'postgres',
         'PASSWORD': 'super',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

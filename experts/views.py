@@ -53,6 +53,7 @@ def find_matching_specialization(query):
             return eng_code
     return None
 
+@login_required
 def experts_search(request):
     query = request.GET.get('q', '').strip().lower()
     specialization_match = find_matching_specialization(query)
@@ -68,7 +69,7 @@ def experts_search(request):
 
         experts = Expert.objects.filter(filters).distinct()
     else:
-        experts = Expert.objects.all()[:6]
+        experts = Expert.objects.all()[:9]
 
     context = {
         'query': query,

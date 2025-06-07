@@ -19,16 +19,20 @@
         <div class="logo-container">
             <a href="{% url 'index' %}">
                 <img id="site-logo" src="{% static 'images/proqfigm.svg' %}" alt="Логотип">
-            </a>               
-            <h1><a href="/">Главная</a></h1>
-            <h1><a href="{% url 'feed:feed' %}">Лента</a></h1>
-            <h1><a href="{% url 'experts:search_experts' %}">Найти Эксперта</a></h1>
-            {% if not request.user.expert_profile %}
-            <h1><a href="{% url 'experts:become_expert' %}" class="profile-btn btn-secondary">Вы эксперт</a></h1>
-            {% endif %}
-            <h1><a href="{% url 'booking:my_bookings' %}">Мои записи</a></h1>
-            <h1><a href="/about">О проекте</a></h1>
-     
+            </a>
+            <button class="burger" id="burger-toggle" aria-label="Открыть меню">
+                ☰
+            </button>
+            <div class="nav-links" id="nav-links">               
+                <h1><a href="/">Главная</a></h1>
+                <h1><a href="{% url 'feed:feed' %}">Лента</a></h1>
+                <h1><a href="{% url 'experts:search_experts' %}">Найти Эксперта</a></h1>
+                {% if not request.user.expert_profile %}
+                <h1><a href="{% url 'experts:become_expert' %}" class="profile-btn btn-secondary">Вы эксперт</a></h1>
+                {% endif %}
+                <h1><a href="{% url 'booking:my_bookings' %}">Мои записи</a></h1>
+                <h1><a href="/about">О проекте</a></h1>
+            </div>
         </div>
 
         <div class="button-container">

@@ -149,3 +149,13 @@ document.addEventListener("DOMContentLoaded", function() {
         container.scrollTop = container.scrollHeight;
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const burger = document.getElementById("burger-toggle");
+    const nav = document.getElementById("nav-links");
+
+    burger.addEventListener("click", function () {
+        nav.classList.toggle("active");
+    });
+});

@@ -23,6 +23,7 @@
   --light-g: var(--indigo-light);
   --message-text: #000000;
   --primary-dark: #000000;
+  --forbtn: #3e3e3e;
   --primary-light: #ffffff;
   --received-bg: #cccccc;
   --review-bg: #f9f9f9;
@@ -58,6 +59,7 @@
   --indigo-light: #2c2c2c;
   --input-bg: #242424;
   --light-g: var(--indigo-light);
+  --forbtn: #3e3e3e;
   --message-text: #ffffff;
   --primary-dark: #1a1a1a;
   --primary-light: #2c2c2c;
@@ -72,9 +74,9 @@ html {
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s ease;
+  overflow-y: scroll;
   height: 100%;
 }
-
 
 body {
   font-family: 'Inter', Arial, sans-serif;
@@ -384,3 +386,39 @@ header {
     padding: 10px 15px; 
   }
 }
+
+.burger {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .burger {
+      display: flex;
+      align-items: center;
+  }
+
+  .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      background-color: var(--header-bg);
+      padding: 1rem;
+  }
+
+  .nav-links.active {
+      display: flex;
+  }
+}
+

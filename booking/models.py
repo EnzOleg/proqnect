@@ -26,3 +26,5 @@ class Booking(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+        verbose_name = "Записи"
+        verbose_name_plural = "Записи"

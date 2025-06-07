@@ -18,6 +18,9 @@ class Post(models.Model):
     def __str__(self):
         return f"Пост {self.user.email} от {self.created_at:%d.%m.%Y %H:%M}"
 
+    class Meta:
+        verbose_name = "Посты"
+        verbose_name_plural = "Посты"
 
 class Like(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -31,6 +34,10 @@ class Like(models.Model):
 
     def __str__(self):
         return f"{self.user.email} лайкнул пост {self.post.id}"
+    
+    class Meta:
+        verbose_name = "Лайки"
+        verbose_name_plural = "Лайки"
 
 
 class Comment(models.Model):
@@ -48,3 +55,7 @@ class Comment(models.Model):
         if self.parent is None:
             return self
         return self.parent.top_parent
+
+    class Meta:
+        verbose_name = 'Комментарии'
+        verbose_name_plural = 'Комментарии'

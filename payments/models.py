@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from decimal import Decimal
 User = get_user_model()
 
 class Payment(models.Model):
@@ -16,3 +16,11 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Платеж пользователя {self.user.email} на сумму {self.amount} от {self.created_at:%d.%m.%Y %H:%M} со статусом {self.status}"
+
+
+class Balance(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    balance = models.DecimalField(max_digits=12, decimal_places=2)
+
+    def __str__(self):
+        return f"Баланс пользователься {self.user.email} составляет {self.balance}"

@@ -73,18 +73,7 @@
                 <button type="submit">&#9658;</button>
             </form>
         </div>
-
-        <div class="chat-right-sidebar">
-            <div class="user-profile">
-                <img src="{% if chat_partner.profile_picture %}{{ chat_partner.profile_picture.url }}{% else %}{% static 'avatars/def_icon.png' %}{% endif %}"
-                     class="profile-avatar" alt="Avatar">
-                <h2><a href="{% url 'accounts:profile' chat_partner.id %}">{{ chat_partner.first_name }} {{ chat_partner.last_name }}</a></h2>
-                <p>{{ chat_partner.bio }}</p> 
-            </div>
-            <div class="user-actions">
-                <!-- <button id="open-video-call" data-chat-id="{{ chat.id }}">Начать видеозвонок</button> -->
-            </div>
-        </div>
+        <!-- <button id="open-video-call" data-chat-id="{{ chat.id }}">Начать видеозвонок</button> -->
 
         <div id="video-call-modal" class="modal">
             <div class="modal-content">

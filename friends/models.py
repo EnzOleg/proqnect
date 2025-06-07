@@ -9,6 +9,8 @@ class Friendship(models.Model):
 
     class Meta:
         unique_together = ["user", "friend"]
+        verbose_name = "Дружба"
+        verbose_name_plural = "Дружба"
 
     def __str__(self):
         return f"self.user.first_name дружит с self.friend.first_name"
@@ -20,6 +22,8 @@ class FriendRequest(models.Model):
 
     class Meta:
         unique_together = ('from_user', 'to_user')
+        verbose_name = "Запросы в друзья"
+        verbose_name_plural = "Запросы в друзья"
 
     def __str__(self):
         return f"{self.from_user} -> {self.to_user}"

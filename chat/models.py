@@ -19,6 +19,8 @@ class Chat(models.Model):
 
     class Meta:
         ordering = ['-updated_at']
+        verbose_name = "Чаты"
+        verbose_name_plural = "Чаты"
 
 
 class Message(models.Model):
@@ -34,6 +36,8 @@ class Message(models.Model):
 
     class Meta:
         ordering = ['timestamp']
+        verbose_name = "Сообщения"
+        verbose_name_plural = "Сообщения"
 
 
 class Call(models.Model):

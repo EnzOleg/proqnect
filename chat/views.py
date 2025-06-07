@@ -53,60 +53,6 @@ def chat_with_user(request, user_id):
     
     return redirect('chat:chat_room', chat_id=chat.id)
 
-
-API_KEY = "2ffe04b830b8e9b0d2ea9b2fbb4105a3f90c1a4d9b5bafa61de80527ed4bfe4c"
-BASE_URL = "https://api.daily.co/v1/rooms"
-
-@api_view(["POST"])
-def create_or_get_call(request, chat_id):
-    chat = get_object_or_404(Chat, id=chat_id)
-
-    call = Call.objects.filter(chat=chat, is_active=True).first()
-    if call:
-        return Response({"room_url": call.room_url}) 
-
-    headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
-    data = {
-        "name": f"chat-call-{int(now().timestamp())}",
-        "privacy": "public",
-        "properties": {
-            "enable_chat": True,
-            "enable_knocking": False,
-            "exp": int(now().timestamp()) + 7200  
-        }
-    }
-    response = requests.post(BASE_URL, json=data, headers=headers)
-    room_url = response.json().get("url")
-
-    if room_url:
-        Call.objects.create(chat=chat, room_url=room_url, is_active=True)
-        return Response({"room_url": room_url})
-
-    return Response({"error": "Не удалось создать комнату"}, status=500)
-
-@api_view(["GET"])
-def check_active_call(request, chat_id):
-    active_call = Call.objects.filter(chat_id=chat_id, is_active=True).first()
-    if active_call:
-        return Response({"room_url": active_call.room_url})
-    return Response({"room_url": None})
-
-@api_view(["POST"])
-def delete_call(request, chat_id):
-    call = Call.objects.filter(chat_id=chat_id, is_active=True).first()
-    if not call:
-        return Response(status=404)
-
-    headers = {"Authorization": f"Bearer {API_KEY}"}
-    room_name = call.room_name
-    requests.delete(f"{BASE_URL}/{room_name}", headers=headers)
-
-    call.is_active = False
-    call.save()
-
-    return Response({"message": "Комната удалена"})
-
-
 @login_required
 def edit_message(request, message_id):
     message = get_object_or_404(Message, id=message_id)

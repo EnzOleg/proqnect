@@ -117,6 +117,7 @@
 
 .open-chat-btn:hover {
     background-color: var(--accent);
+    color: black;
 }
 .ai-logo {
     width: 40px;

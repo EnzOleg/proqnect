@@ -69,13 +69,21 @@ class Expert(models.Model):
 
     def __str__(self):
         return f"Эксперт {self.user.email}"
+    
+    class Meta:
+        verbose_name = "Эксперты"
+        verbose_name_plural = "Эксперты"
 
 class ExpertSkill(models.Model):
     expert = models.ForeignKey(Expert, on_delete=models.CASCADE, related_name="skills")
     name = models.CharField(max_length=100, verbose_name="Навык")
 
     def __str__(self):
-        return f"{self.expert.user.username}: {self.name}"
+        return f"{self.expert.user.first_name} {self.expert.user.last_name}: {self.expert.user.email}"
+    
+    class Meta:
+        verbose_name = "Навыки"
+        verbose_name_plural = "Навыки"
 
 class Review(models.Model):
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -86,4 +94,6 @@ class Review(models.Model):
 
     class Meta:
         unique_together = ("reviewer", "expert" )
+        verbose_name = "Отзывы"
+        verbose_name_plural = "Отзывы"
 
